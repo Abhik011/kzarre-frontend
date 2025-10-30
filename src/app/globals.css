@@ -1,0 +1,183 @@
+/* Google Fonts must come first */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap');
+
+/* Hide scrollbar for all browsers but still allow scrolling */
+.lsp-3{
+    letter-spacing: 3%;
+}
+html,
+body {
+    height: 100%;
+    overflow: auto;
+    /* allow scrolling */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+/* Chrome, Safari, Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    height: 69px;
+    font-family: 'Lora', serif;
+    background-color: #0C2B19;
+    position: fixed;
+    /* stay on top */
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 20px;
+    height: 100%;
+}
+
+/* Left Navigation */
+.nav-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.nav-left a {
+    margin-left: 40px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: 'Lora', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-left a:hover {
+    color: #D2BD50;
+}
+
+/* Right Navigation */
+.nav-right {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+.nav-right a {
+    margin-right: 40px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Lora', sans-serif;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-right a:hover {
+    color: #D2BD50;
+}
+
+/* Center Logo */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Icons */
+.icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-link img,
+.icon-link svg {
+    display: block;
+    width: 20px;
+    /* icon width */
+    height: 20px;
+    /* icon height */
+}
+
+/* Optional: Add spacing between icons */
+.nav-right .icon-link {
+    margin-left: 10px;
+}
+
+.div1 { 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+
+    margin-top: 50px;
+
+}
+
+.div2 { 
+    width: 95%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; 
+
+}
+
+.bone { 
+    width: 100%;
+    margin-top: 0px;
+    height: 100%;
+    align-items: self-center;
+    object-fit: cover;
+}
+
+
+.div2 h3 {
+
+    font-family: 'Lora';
+    font-size: 20pt;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #0C2B19;
+    margin-top: 50px;
+    cursor:default;
+}
+
+.div2 p {
+    font-family: 'Open Sans';
+    font-size: 13pt;
+    font-weight: 500;
+
+    color: #000000;
+    margin-top: 5px;
+    cursor: pointer;
+}
