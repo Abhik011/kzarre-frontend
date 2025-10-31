@@ -4,7 +4,9 @@ import { useState } from 'react';
 
 import WomensBannerCard from './WomensBannerCard';
 import MensBannerCard from './MensBannerCard';
-import Bannergrid from './Bannergrid'
+import Bannergridwomens from './Bannergridwomens';
+import Bannergridmens from './Bannergridmens';
+
 const BannerToggle = () => {
     const [selected, setSelected] = useState<'women' | 'men'>('women');
 
@@ -41,11 +43,14 @@ const BannerToggle = () => {
                 {selected === 'women' ? (
                     <>
                     <WomensBannerCard /> 
-                    <Bannergrid/>
+                    <Bannergridwomens/>
                     </>
                 
                 ) : (
+                    <>
                     <MensBannerCard />
+                    <Bannergridmens/>
+                    </>
                 )}
             </div>
         </div>

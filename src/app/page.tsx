@@ -1,46 +1,99 @@
+'use client';
+
 import React from 'react';
-import Header from './components/Header';
-import Image from 'next/image';
-import Bone from './Assest/B1.jpg';
+import Bannerone from './components/Bannerone';
+import BannerToggle from './components/BannerToggle';
+import Bannertwo from './components/Bannertwo';
+import Stories from './components/Stories';
+import { WiDayCloudy } from 'react-icons/wi';
+
 
 export default function Home() {
   return (
     <>
-      <Header />
-
-      {/* Hero Video */}
-      <main style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden', paddingTop: '69px' }}>
+      {/* Hero Section */}
+      <section style={styles.heroSection}>
         <video
           autoPlay
           loop
           muted
           playsInline
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            zIndex: -1, // behind header
-          }}
+          style={styles.video}
         >
           <source src="/v1.mp4" type="video/mp4" />
-          Your browser does not support the video tag.s
+          Your browser does not support the video tag.
         </video>
-      </main>
-      <div className='div1'>
-        <div className='div2'>
-            <Image src={Bone} alt="banner 1 " className='bone'/>
- 
-               <h3 className='lsp-3'>Rugs</h3>
-           
-            <p className='lsp-3'>View More</p>
-            </div>
-           
-           
-      </div>
-     
+
+        {/* Optional overlay content */}
+        <div style={styles.overlayText}>
+          {/* <h1 style={styles.heading}>Welcome to Our Collection</h1> */}
+        </div>
+      </section>
+
+      {/* Spacer */}
+      <div style={{ height: '80px' }}></div>
+
+      {/* Banners Section */}
+      <section style={styles.bannerSection}>
+        <div style={styles.bannerContainer}>
+          <Bannerone />
+        </div>
+        <div style={styles.bannerContainer}>
+          <BannerToggle />
+        </div>
+            <div style={styles.bannerContainer}>
+          <Bannertwo />
+        </div>
+      </section>
+      
+              <div style={styles.storyies}>
+          <Stories />
+        </div>
     </>
   );
 }
+
+// ✅ Inline Styles
+const styles = {
+  heroSection: {
+    position: 'relative',
+    width: '100%',
+    height: '100vh',
+    overflow: 'hidden',
+    paddingTop: '69px',
+  },
+  video: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    position: 'absolute' as const,
+    top: 0,
+    left: 0,
+    zIndex: -1,
+  },
+  overlayText: {
+    position: 'absolute' as const,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    textAlign: 'center' as const,
+    color: '#fff',
+  },
+  heading: {
+    fontSize: '48px',
+    fontWeight: 700,
+    fontFamily: 'Lora, serif',
+  },
+  bannerSection: {
+    maxWidth: '1440px',
+    margin: '0 auto',
+    padding: '0 40px',
+   
+  },
+  bannerContainer: {
+    marginBottom: '80px',
+  },
+  storyies: {
+   width: '100vw'
+  },
+};

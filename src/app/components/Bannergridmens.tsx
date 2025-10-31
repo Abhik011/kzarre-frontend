@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import './Banner.css';
+import './fivegridBanner.css';
 import gimg1 from '../Assest/g-img-1.png';
 import gimg2 from '../Assest/g-img-2.png';
 import gimg3 from '../Assest/g-img-3.png';
