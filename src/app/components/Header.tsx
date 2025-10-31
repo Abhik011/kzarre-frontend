@@ -15,7 +15,7 @@ const Header: React.FC = () => {
           <Link href="/search">
             <Image src={searchIcon} alt="Search" width={24} height={24} />
           </Link>
-          <Link href="/" >HERITAGE</Link>
+          <Link href="/heritage" >HERITAGE</Link>
           <Link href="/shopping">WOMEN</Link>
           <Link href="/shopping">MEN</Link>
           <Link href="/shopping">ACCESSORIES</Link>
