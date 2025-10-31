@@ -1,7 +1,7 @@
 .footer {
   background-color: #082415;
-  width: 100vw; 
- 
+  width: 100vw;
+
   height: max-content;
   color: #ffffff;
   font-family: "Open Sans", sans-serif;
@@ -24,7 +24,7 @@
 .footer-content {
   display: flex;
   justify-content: space-between;
-  padding: 40px 80px;
+  padding: 60px 80px;
   flex-wrap: wrap;
   gap: 20px;
   width: 100vw;
@@ -36,10 +36,9 @@
 }
 .footer-column {
   flex: 1;
-  min-width: fit-content; 
+  min-width: fit-content;
   text-align: center;
 }
-
 
 .footer-column h3 {
   font-size: 0.9rem;
@@ -55,7 +54,7 @@
 }
 
 .footer-column li {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin-bottom: 6px;
   cursor: pointer;
 }
@@ -65,7 +64,7 @@
   background: transparent;
   border: none;
   border-bottom: 1px solid #d4af37;
-  color: #ffffff; 
+  color: #ffffff;
   padding: 8px 0;
   outline: none;
 }
@@ -83,8 +82,8 @@
 }
 
 .footer-bottom {
-
-  width: 100vwhs;
+  padding-top: 20px;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,36 +93,34 @@
   gap: 0px;
 }
 
-
-.footer-bottom-center{
-  flex: 1; 
-  padding: 0%;
+.footer-bottom-center {
+  flex: 1;
   text-align: center;
-  border: 1px white solid; 
+  border: 1px rgb(221, 221, 221) solid;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.footer-bottom-left{
+.footer-bottom-left {
   padding-left: 20px;
   padding-right: 20px;
 
-   width: fit-content;
-   border-left: 1px white solid;
-   border-top: 1px white solid;
-   border-bottom: 1px white solid;
-text-align: center;
+  width: fit-content;
+  /* border-left:  1px white solid; */
+  border-top: 1px rgb(221, 221, 221) solid;
+  border-bottom: 1px rgb(221, 221, 221) solid;
+  text-align: center;
 
-     padding-top: 20px;
+  padding-top: 20px;
   padding-bottom: 20px;
 }
-.footer-bottom-right{
- padding-left: 20px;
+.footer-bottom-right {
+  padding-left: 20px;
   padding-right: 20px;
-   width: fit-content;
-   border-right: 1px white solid;
-   border-top: 1px white solid;
-   border-bottom: 1px white solid;
-     padding-top: 20px;
+  width: fit-content;
+  /* border-right: 1px white solid; */
+  border-top: 1px rgb(221, 221, 221) solid;
+  border-bottom: 1px rgb(221, 221, 221) solid;
+  padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;
 }

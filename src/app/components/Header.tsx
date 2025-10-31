@@ -16,14 +16,14 @@ const Header: React.FC = () => {
             <Image src={searchIcon} alt="Search" width={24} height={24} />
           </Link>
           <Link href="/heritage" >HERITAGE</Link>
-          <Link href="/shopping">WOMEN</Link>
-          <Link href="/shopping">MEN</Link>
-          <Link href="/shopping">ACCESSORIES</Link>
+          <Link href="/women">WOMEN</Link>
+          <Link href="/men">MEN</Link>
+          <Link href="/accessories">ACCESSORIES</Link>
         </div>
 
         {/* Center: Logo */}
         <div className="logo">
-          <Link href="/">
+          <Link href="/home">
             <Image
               src={logo}
               alt="KZARRÈ Logo"

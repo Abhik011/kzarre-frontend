@@ -3,18 +3,18 @@ import React from "react";
 import "./Styles.css";
 
 const images = [
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
-  "/Assest/H-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
+  "/Assest/A-img.png",
 ];
 
 const HeritagePage = () => {

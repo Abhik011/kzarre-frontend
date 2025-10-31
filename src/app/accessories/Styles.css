@@ -36,7 +36,7 @@
 .heritage-video {
   width: 100vw;
   height: 100vh;
-  border-radius: 8px;
+  border-radius: 0px;
   object-fit: cover;
 }
 

@@ -1,13 +1,26 @@
 "use client";
 import React from "react";
 import "./Footer.css";
+import Image from "next/image";
+import Link from "next/link"
+import logo from "../Assest/logo.png";
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer-top">
+      {/* <div className="footer-top">
         <h1 className="footer-logo">KZARRÈ</h1>
-      </div>
+      </div> */}
+      <div className="logo">
+          <Link href="/home">
+            <Image
+              src={logo}
+              alt="KZARRÈ Logo"
+              width={167}
+              height={26}
+            />
+          </Link>
+        </div>
 
       <div className="footer-content">
         {/* Subscribe Section */}
