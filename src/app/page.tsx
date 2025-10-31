@@ -1,12 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import Bannerone from './components/Bannerone';
 import BannerToggle from './components/BannerToggle';
 import Bannertwo from './components/Bannertwo';
 import Stories from './components/Stories';
-import { WiDayCloudy } from 'react-icons/wi';
-
 
 export default function Home() {
   return (
@@ -53,8 +51,9 @@ export default function Home() {
   );
 }
 
-// ✅ Inline Styles
-const styles = {
+
+
+const styles: Record<string, CSSProperties> = {
   heroSection: {
     position: 'relative',
     width: '100%',
@@ -66,17 +65,17 @@ const styles = {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    position: 'absolute' as const,
+    position: 'absolute',
     top: 0,
     left: 0,
     zIndex: -1,
   },
   overlayText: {
-    position: 'absolute' as const,
+    position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    textAlign: 'center' as const,
+    textAlign: 'center',
     color: '#fff',
   },
   heading: {
@@ -88,12 +87,12 @@ const styles = {
     maxWidth: '1440px',
     margin: '0 auto',
     padding: '0 40px',
-   
   },
   bannerContainer: {
     marginBottom: '80px',
   },
   storyies: {
-   width: '100vw'
+    width: '100vw',
   },
 };
+
