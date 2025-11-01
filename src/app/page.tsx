@@ -1,6 +1,8 @@
 "use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -9,5 +11,9 @@ export default function HomePage() {
     router.push("/home");
   }, [router]);
 
-  return null; // Nothing to render since we’re redirecting
+  return (
+    <>
+      <Analytics />
+    </>
+  );
 }
