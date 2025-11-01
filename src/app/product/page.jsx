@@ -24,7 +24,7 @@ const thumbnails = [
 const similar = [
   {
     id: 1,
-    src: "/Assest/w-img.png",
+    src: "/Assest/W-img.png",
     title: "La Zoire",
     price: "₹879",
     old: "₹1599",
