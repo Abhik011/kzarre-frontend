@@ -7,6 +7,7 @@ import BannerToggle from '../components/BannerToggle';
 import Bannertwo from '../components/Bannertwo';
 import Stories from '../components/Stories';
 
+
 export default function Home() {
   return (
     <>
