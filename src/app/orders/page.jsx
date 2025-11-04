@@ -18,7 +18,7 @@ export default function OrdersPage() {
       desc: "Women Navy Blue Printed Top | Printed black & white jacket",
       moreItems: 2,
       total: 600,
-      img: "/Assest/products/Men.png",
+      img: "/Assest/Men.png",
     },
     {
       id: "ABC-6457326",
@@ -27,7 +27,7 @@ export default function OrdersPage() {
       title: "Womens Jacket",
       desc: "Women Navy Blue Printed Top",
       total: 200,
-      img: "/Assest/products/Men.png",
+      img: "/Assest/G-img-1.png",
     },
     {
       id: "ABC-6457327",
@@ -36,7 +36,7 @@ export default function OrdersPage() {
       title: "Womens Jacket",
       desc: "Women Navy Blue Printed Top",
       total: 200,
-      img: "/Assest/products/Men.png",
+      img: "/Assest/g-img5.png",
     },
   ];
 
@@ -57,10 +57,10 @@ export default function OrdersPage() {
             <a href="/orders" className={`${styles.navItem} ${styles.active}`}>
               <Package size={18} /> Orders
             </a>
-            <a href="#" className={styles.navItem}>
+            <a href="/settings" className={styles.navItem}>
               <Settings size={18} /> Settings
             </a>
-            <a href="#" className={styles.navItem}>
+            <a href="/home" className={styles.navItem}>
               <ShoppingCart size={18} /> Shop
             </a>
           </nav>
@@ -121,14 +121,27 @@ export default function OrdersPage() {
                           alt={order.title}
                           width={80}
                           height={80}
+                          className={styles.imgs}
                         />
                       </div>
-                      <div className={styles.orderInfo}>
+
+                      <div
+                        className={styles.orderInfo}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <p className={styles.orderId}>
                           Order ID: <span>{order.id}</span>
                         </p>
-                        <h4 className={styles.title}>{order.title}</h4>
-                        <p className={styles.desc}>
+                        <h4
+                          className={styles.title}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {order.title}
+                        </h4>
+                        <p
+                          className={styles.desc}
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           {order.desc}{" "}
                           {order.moreItems && (
                             <span className={styles.moreItems}>
@@ -136,9 +149,15 @@ export default function OrdersPage() {
                             </span>
                           )}
                         </p>
-                        <p className={styles.price}>${order.total}</p>
+                        <p
+                          className={styles.price}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          ${order.total}
+                        </p>
                       </div>
                     </div>
+
                     <div className={styles.arrow}>›</div>
                   </Link>
                 ))}

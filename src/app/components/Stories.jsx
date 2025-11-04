@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Stories.css"; // your CSS
+import "./Stories.css";
 
 const DEBUG_IMAGES = [
   "/Assest/g-img-1.png",
   "/Assest/g-img-2.png",
   "/Assest/g-img-3.png",
   "/Assest/g-img-4.png",
+  "/Assest/g-img5.png",
   "/Assest/g-img5.png",
 ];
 
@@ -17,6 +18,7 @@ export default function StoriesSectionDebug() {
   const startX = useRef(0);
   const startScroll = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+
   const stories = DEBUG_IMAGES.map((img, i) => ({
     id: i + 1,
     title: `Story ${i + 1}`,
@@ -24,7 +26,7 @@ export default function StoriesSectionDebug() {
     image: img,
   }));
 
-  // Basic center detection (for visual scaling)
+  /** Detect center card */
   const detectCenter = () => {
     const container = containerRef.current;
     if (!container) return;
@@ -43,7 +45,7 @@ export default function StoriesSectionDebug() {
     setActiveIndex(best);
   };
 
-  // Pointer drag handlers (mouse + touch)
+  /** Pointer drag — unified for mouse/touch */
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -51,65 +53,57 @@ export default function StoriesSectionDebug() {
     const onPointerDown = (e) => {
       isPointerDown.current = true;
       isInteracting.current = true;
-      startX.current = (e.clientX ?? (e.touches && e.touches[0].clientX)) || 0;
+      startX.current = e.clientX || (e.touches && e.touches[0].clientX) || 0;
       startScroll.current = container.scrollLeft;
       container.style.cursor = "grabbing";
     };
+
     const onPointerMove = (e) => {
       if (!isPointerDown.current) return;
-      const clientX = (e.clientX ?? (e.touches && e.touches[0].clientX)) || 0;
+      const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
       const walk = (clientX - startX.current) * 1.2;
       container.scrollLeft = startScroll.current - walk;
       detectCenter();
     };
+
     const onPointerUp = () => {
       isPointerDown.current = false;
       container.style.cursor = "grab";
       // resume auto-scroll after short delay
-      setTimeout(() => (isInteracting.current = false), 700);
+      setTimeout(() => (isInteracting.current = false), 500);
     };
 
-    container.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointerup", onPointerUp);
-    container.addEventListener("pointermove", onPointerMove);
+    container.addEventListener("mousedown", onPointerDown);
+    container.addEventListener("mousemove", onPointerMove);
+    window.addEventListener("mouseup", onPointerUp);
 
-    // touch fallbacks
     container.addEventListener("touchstart", onPointerDown, { passive: true });
     container.addEventListener("touchmove", onPointerMove, { passive: false });
     window.addEventListener("touchend", onPointerUp);
 
     return () => {
-      container.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointerup", onPointerUp);
-      container.removeEventListener("pointermove", onPointerMove);
+      container.removeEventListener("mousedown", onPointerDown);
+      container.removeEventListener("mousemove", onPointerMove);
+      window.removeEventListener("mouseup", onPointerUp);
       container.removeEventListener("touchstart", onPointerDown);
       container.removeEventListener("touchmove", onPointerMove);
       window.removeEventListener("touchend", onPointerUp);
     };
   }, []);
 
-  // Auto-scroll loop (simple back-and-forth). Logs sizes for debugging.
+  /** Smooth auto-scroll loop — fixed for desktop */
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
+
     let direction = 1;
     const speed = 0.6; // px per frame
 
-    // Debug log once at start
-    console.log("[ScrollDebug] container width:", container.clientWidth, " content width:", container.scrollWidth);
-
     const step = () => {
-      // If content not overflowing, nothing to scroll — log and stop
-      if (container.scrollWidth <= container.clientWidth + 1) {
-        // helpful debug
-        // console.warn("[ScrollDebug] content fits container; auto-scroll disabled");
-        cancelAnimationFrame(rafRef.current);
-        return;
-      }
-
+      // Only auto-scroll if user is not dragging or hovering
       if (!isInteracting.current) {
         container.scrollLeft += speed * direction;
-        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 1) {
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 2) {
           direction = -1;
         } else if (container.scrollLeft <= 0) {
           direction = 1;
@@ -123,12 +117,18 @@ export default function StoriesSectionDebug() {
     return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
-  // Pause auto-scroll when hovering to allow user to interact
+  /** Desktop hover behavior — pause only while mouse is inside */
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const onEnter = () => (isInteracting.current = true);
-    const onLeave = () => setTimeout(() => (isInteracting.current = false), 500);
+
+    const onEnter = () => {
+      isInteracting.current = true;
+    };
+    const onLeave = () => {
+      isInteracting.current = false;
+    };
+
     container.addEventListener("mouseenter", onEnter);
     container.addEventListener("mouseleave", onLeave);
     return () => {
@@ -139,7 +139,7 @@ export default function StoriesSectionDebug() {
 
   return (
     <section className="stories-section">
-      <h2>Our Stories</h2>
+      <h2 className="stories-title">Our Stories</h2>
 
       <div
         ref={containerRef}
@@ -148,14 +148,15 @@ export default function StoriesSectionDebug() {
       >
         <div className="stories-grid">
           {stories.map((s, idx) => (
-            <div key={s.id} className={`story-card ${idx === activeIndex ? "active" : ""}`}>
+            <div
+              key={s.id}
+              className={`story-card ${idx === activeIndex ? "active" : ""}`}
+            >
               <img
                 className="story-img"
                 src={s.image}
                 alt={s.title}
-                onLoad={() =>
-                  console.log(`[ScrollDebug] image loaded idx:${idx} naturalWidth:${event?.target?.naturalWidth}`)
-                }
+                draggable="false"
               />
               <h3>{s.title}</h3>
               <p>{s.subtitle}</p>

@@ -70,10 +70,10 @@ export default function OrderDetailsPage() {
             <a href="/orders" className={`${styles.navItem} ${styles.active}`}>
               <Package size={18} /> Orders
             </a>
-            <a href="#" className={styles.navItem}>
+            <a href="/settings" className={styles.navItem}>
               <Settings size={18} /> Settings
             </a>
-            <a href="#" className={styles.navItem}>
+            <a href="/home" className={styles.navItem}>
               <ShoppingCart size={18} /> Shop
             </a>
           </nav>
@@ -125,9 +125,6 @@ export default function OrderDetailsPage() {
                   <p className={styles.label}>{step.label}</p>
                   <p className={styles.date}>{step.date}</p>
                   <p className={styles.time}>{step.time}</p>
-                  {idx < trackingSteps.length - 1 && (
-                    <div className={styles.line}></div>
-                  )}
                 </div>
               ))}
             </div>
@@ -147,7 +144,8 @@ export default function OrderDetailsPage() {
                     src={order.product.img}
                     alt={order.product.title}
                     width={100}
-                    height={100}
+                    height={100} 
+                    className={styles.imgs}
                   />
                   <div>
                     <h4>{order.product.title}</h4>
