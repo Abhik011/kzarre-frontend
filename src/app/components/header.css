@@ -1,16 +1,3 @@
-
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    
-    scrollbar-width: none;
-    text-decoration: none;
-}
-.body{
-  overflow-x: hidden;
-}
 /* Header */
 .header {
   width: 100%;
@@ -111,15 +98,7 @@
   margin-left: 10px;
 }
 
-.div1 { 
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; 
-  margin-top: 50px;
-}
+
 
 /* Scrollbar */
 ::-webkit-scrollbar {

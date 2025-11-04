@@ -26,7 +26,7 @@ const BannerToggle = () => {
     });
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', width: '100%' }}>
+        <div className="banner-toggle-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', width: '100%' }}>
 
             {/* Buttons */}
             <div style={{ display: 'flex', gap: '0px' }}>

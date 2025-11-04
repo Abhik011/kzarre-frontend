@@ -1,0 +1,347 @@
+:root{
+  --bg: #ffffff;
+  --muted: #9b9b9b;
+  --accent: #0b2b1c; /* deep green-ish */
+  --shadow: 0 12px 30px rgba(10,10,10,0.08);
+  --card-shadow: 0 20px 35px rgba(8,20,20,0.07);
+}
+
+/* PAGE & PROGRESS */
+.pageWrap{ 
+    margin-top: 5%;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 48px 40px;
+  font-family: "Times New Roman", serif;
+  color: #111;
+}
+
+/* top progress placeholder */
+.progress{
+  display:flex;
+  justify-content:center;
+  margin-bottom: 34px;
+}
+.progressInner{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  width: 640px;
+  justify-content: center;
+  align-items: center;
+}
+.progressStepActive, .progressStep{
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+}
+.progressStepActive{
+  background: #d9c169;
+}
+.progressStep{
+  background: #e9e9e9;
+}
+.progressLine, .progressLineActive{
+  flex: 1;
+  height: 6px;
+  border-radius: 6px;
+  background: #e9e9e9;
+}
+.progressLineActive{
+  background: linear-gradient(90deg, #d9c169, #d9c169a8);
+}
+
+/* MAIN CONTAINER */
+.container{
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 36px;
+  align-items: start;
+}
+
+/* LEFT (address) */
+.left .card{
+  background: #fff;
+  padding: 28px;
+  border-radius: 6px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.cardHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom: 18px;
+}
+.cardHeader h2{
+  font-size: 22px;
+  margin:0;
+}
+.addNew{
+  background:transparent;
+  border:none;
+  color:var(--accent);
+  font-weight:600;
+  cursor: pointer;
+}
+
+/* address list */
+.addressList{
+  display:flex;
+  flex-direction:column;
+  gap: 16px;
+}
+.addressCard{
+  border: 1px solid rgba(0,0,0,0.12);
+  padding: 16px;
+  border-radius: 4px;
+  background: #fafafa;
+  transition: box-shadow .18s ease, transform .12s ease;
+  cursor: pointer;
+}
+.addressCard:hover{
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+.addressCardSelected{
+  outline: 3px solid rgba(217,193,105,0.12);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.addressTitleRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:6px;
+}
+.addressTitle{
+  font-weight:700;
+}
+.editBtn{
+  background:transparent;
+  border:1px solid rgba(0,0,0,0.12);
+  padding:6px 8px;
+  border-radius:3px;
+  cursor:pointer;
+  font-size: 0.9rem;
+}
+
+.addressName{
+  font-weight:600;
+  margin-bottom:6px;
+}
+.addressText{
+  color:var(--muted);
+  font-size: 0.95rem;
+  margin-bottom:8px;
+}
+.addressMeta{
+  color:var(--muted);
+  font-size:0.9rem;
+  margin-bottom:10px;
+}
+.etaRow{
+  display:flex;
+  justify-content:flex-end;
+}
+.etaText{
+  background:#f1f1f1;
+  padding:6px 12px;
+  border-radius:3px;
+  font-size:0.9rem;
+  color:#333;
+  border:1px solid rgba(0,0,0,0.04);
+}
+
+/* next btn row */
+.nextRow{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+}
+.nextBtn{
+  background:#000;
+  color:#fff;
+  padding:12px 36px;
+  border-radius:26px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+/* RIGHT (summary) */
+.right .summaryCard{
+  background:#fff;
+  padding:18px;
+  border-radius:6px;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.summaryHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding-bottom:8px;
+  margin-bottom:10px;
+}
+.summaryHeader h3{
+  margin:0;
+  font-size:20px;
+  font-weight:700;
+}
+.itemsCount{
+  color:var(--muted);
+  font-size:0.9rem;
+}
+
+/* summary list */
+.summaryList{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:12px 4px;
+}
+.summaryItem{
+  display:flex;
+  gap:12px;
+  background: #fff;
+  padding:12px;
+  border-radius:6px;
+  box-shadow: 0 8px 22px rgba(15,15,15,0.04);
+  border: 1px solid rgba(0,0,0,0.04);
+  align-items:flex-start;
+}
+.thumb{
+  flex: 0 0 96px;
+  height: 96px;
+  position: relative;
+  border-radius:4px;
+  overflow:hidden;
+  background: #f6f6f6;
+}
+.productImg{
+  object-fit:cover;
+}
+.summaryInfo{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.itemTitleRow{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.itemTitle{
+  font-weight:700;
+  font-size:15px;
+}
+.itemSubtitle{
+  color:var(--muted);
+  font-size:13px;
+}
+.removeBtn{
+  background:transparent;
+  border:none;
+  color:#ff6b6b;
+  font-size:0.9rem;
+  cursor:pointer;
+}
+
+/* price row */
+.priceRow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.priceLarge{
+  font-weight:700;
+}
+.priceOld{
+  text-decoration: line-through;
+  color:var(--muted);
+  font-size:0.9rem;
+}
+.discountSmall{
+  color:#8f8f8f;
+  font-size:0.85rem;
+}
+
+/* small meta row */
+.smallMeta{
+  color:var(--muted);
+  font-size:0.9rem;
+  display:flex;
+  gap: 12px;
+}
+
+/* totals */
+.summaryTotals{
+  margin-top: 12px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  padding-top: 12px;
+}
+.totalLine{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  color:var(--muted);
+}
+.discountLine{
+  color:#d9534f;
+}
+.discountValue{
+  color:#d9534f;
+}
+.grandTotal{
+  display:flex;
+  justify-content:space-between;
+  padding-top:10px;
+  font-size:18px;
+  font-weight:700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px){
+  .container{
+    grid-template-columns: 1fr 380px;
+  }
+}
+@media (max-width: 920px){
+  .container{
+    grid-template-columns: 1fr;
+  }
+  .right{
+    order: 2;
+  }
+  .left{
+    order: 1;
+  }
+
+  .pageWrap{
+    padding: 20px;
+  }
+
+  .progressInner{
+    width: 100%;
+    gap: 8px;
+  }
+  .progressStepActive, .progressStep{
+    width:44px;
+    height:44px;
+  }
+  .summaryCard{
+    margin-top: 20px;
+  }
+}

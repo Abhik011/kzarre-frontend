@@ -16,8 +16,7 @@ const Footer = () => {
             <Image
               src={logo}
               alt="KZARRÈ Logo"
-              width={167}
-              height={26}
+             
             />
           </Link>
         </div>

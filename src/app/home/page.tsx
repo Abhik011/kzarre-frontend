@@ -38,7 +38,7 @@ export default function Home() {
         <div style={styles.bannerContainer}>
           <Bannerone />
         </div>
-        <div style={styles.bannerContainer}>
+        <div style={styles.bannerContainert}>
           <BannerToggle />
         </div>
             <div style={styles.bannerContainer}>
