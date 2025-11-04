@@ -1,0 +1,173 @@
+:root {
+  --green: #082415;
+  --gold: #d9c169;
+  --muted: #777;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* PAGE WRAP */
+.pageWrap {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #fff;
+  font-family: "Times New Roman", serif; /* Base text uses Times */
+}
+
+/* TOP BAR */
+.topBar {
+  background: var(--green);
+  color: var(--gold);
+  padding: 18px 40px;
+  text-align: center;
+  font-family: "Lora", serif; /* Heading uses Lora */
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+}
+
+/* LAYOUT */
+.container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 60px);
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: #fafafa;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 40px 20px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+  text-decoration: none;
+  font-family: "Times New Roman", serif;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.navItem:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.active {
+  color: var(--green);
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* MAIN CONTENT */
+.content {
+  padding: 40px 50px;
+  background: #fff;
+}
+
+.sectionTitle {
+  font-family: "Lora", serif; /* Lora for section titles */
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: var(--green);
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.cardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.label {
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Lora", serif; /* Headings in cards */
+}
+
+.value {
+  color: var(--muted);
+  font-family: "Times New Roman", serif; /* Subtext / value text */
+}
+
+/* ADDRESS CARD */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.addBtn {
+  background: none;
+  border: none;
+  color: var(--green);
+  cursor: pointer;
+  font-weight: 600;
+  font-family: "Times New Roman", serif;
+}
+
+.subLabel {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 4px;
+  font-family: "Lora", serif;
+}
+
+.editBtn {
+  background: none;
+  border: none;
+  color: #555;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+.addressText {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.4rem;
+  font-family: "Times New Roman", serif;
+}
+
+.addressText p {
+  margin: 2px 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}

@@ -1,0 +1,153 @@
+.register-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: #fff;
+  width: 100%; 
+
+}
+
+/* ---- Left side (Form) ---- */
+.register-left { 
+
+  width: 50%; 
+  padding-left: 5%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+
+}
+
+.register-box {
+  max-width: 400px;
+  align-items: center; 
+  justify-content: center;
+  text-align: center; 
+} 
+
+.register-box h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.register-box h2 span {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.register-box p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #444;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  outline: none;
+  color: #000;
+  background: transparent; 
+  
+}
+
+.input-group input::placeholder {
+  color: #888;
+}
+
+.form-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  color: #333; 
+  ;
+}
+
+.form-links a {
+  color: #000;
+  text-decoration: none;
+}
+
+.form-links a strong,
+.form-links a span {
+  color: #000;
+  font-weight: 600;
+}
+
+.register-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  width: 260px;
+  height: 42px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-top: 0px;
+  transition: all 0.3s ease; 
+ 
+}
+
+.register-btn:hover {
+  background-color: #d4af37;
+  color: #000;
+}
+
+/* ---- Right side (Image) ---- */
+.register-right {
+   width: 50%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.register-image {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  /* Elegant grayscale with smooth drop shadow */
+  filter: grayscale(100%) contrast(110%) brightness(98%) 
+          drop-shadow(0px 8px 25px rgba(0, 0, 0, 0.25));
+
+  transition: filter 0.5s ease, transform 0.4s ease;
+  
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 992px) {
+  .register-container {
+    flex-direction: column-reverse;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .register-left {
+    padding: 0;
+  }
+
+  .register-right {
+    margin-bottom: 30px;
+  }
+
+  .register-image {
+    max-width: 70%;
+  }
+
+  .register-box {
+    margin: 0 auto;
+  }
+}

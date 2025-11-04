@@ -1,0 +1,104 @@
+.four-image-grid-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
+  justify-content: center;
+  align-items: flex-start;
+  width: 90%;
+  margin: 60px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Each banner card */
+.grid-item {
+  margin-top: 60px;
+  flex: 1 1 22%;
+  max-width: 326px;
+  min-width: 250px;
+  border-radius: 0px;
+  overflow: hidden;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  background-color: #fff;
+  box-shadow: 0 0 0 transparent;
+}
+
+.grid-ima:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Image styling */
+.grid-image {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.grid-item:hover .grid-image {
+  transform: scale(1.05);
+}
+
+/* Text styling */
+.grid-text {
+  padding: 15px 10px;
+}
+
+.grid-text h3 {
+  font-family: 'Lora', serif;
+  text-transform: uppercase;
+  font-size: 18px;
+  margin: 8px 0 4px;
+  letter-spacing: 0.8px;
+  color: #222;
+}
+
+.grid-text p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  margin: 0;
+  color: #D2BD50; /* gold accent */
+  font-weight: 500;
+}
+
+/* 🔹 Responsive adjustments */
+@media (max-width: 1200px) {
+  .grid-item {
+    flex: 1 1 28%;
+    max-width: 28%;
+  }
+}
+
+@media (max-width: 992px) {
+  .grid-item {
+    flex: 1 1 45%;
+    max-width: 45%;
+  }
+  .grid-image {
+    height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .four-image-grid-wrapper {
+    gap: 25px;
+  }
+  .grid-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-top: 30px;
+  }
+  .grid-image {
+    height: 360px;
+  }
+  .grid-text h3 {
+    font-size: 16px;
+  }
+  .grid-text p {
+    font-size: 13px;
+  }
+}
