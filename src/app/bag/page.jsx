@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import styles from "./bagsection.module.css";
-import productImg from "../assest/men.png"; // replace with actual image
+import productImg from "../Assest/men.png"; // replace with actual image
 import Link from "next/link";
 
 export default function BagSection() {
