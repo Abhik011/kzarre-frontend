@@ -130,6 +130,23 @@
   background-color: #d4af37;
   color: #000;
 }
+.error-text {
+  color: #e63946;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.success-text {
+  color: #2ecc71;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.login-box input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1024px) {

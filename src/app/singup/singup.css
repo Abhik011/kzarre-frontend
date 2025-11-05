@@ -126,6 +126,63 @@
   transition: filter 0.5s ease, transform 0.4s ease;
   
 }
+.resend-btn {
+  background-color: #555;
+}
+/* OTP Input Styling */
+.otp-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.otp-input {
+  width: 45px;
+  height: 55px;
+  text-align: center;
+  font-size: 1.4rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.otp-input:focus {
+  border-color: #d9c169;
+  box-shadow: 0 0 6px rgba(217, 193, 105, 0.5);
+}
+
+/* Buttons and messages */
+.edit-email-btn {
+  background: none;
+  border: none;
+  color: #d9c169;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 5px;
+}
+
+.edit-email-btn:hover {
+  text-decoration: underline;
+}
+
+.success-text {
+  color: #2a9d8f;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.error-text {
+  color: #e63946;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.resend-btn {
+  background-color: #555;
+}
+
 
 /* ---- Responsive ---- */
 @media (max-width: 992px) {
