@@ -39,7 +39,10 @@ const SingupPage = () => {
     if (value && index < 5) otpRefs.current[index + 1]?.focus();
   };
 
-  const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+  const handleBackspace = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       otpRefs.current[index - 1]?.focus();
     }
@@ -58,15 +61,18 @@ const SingupPage = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -95,14 +101,17 @@ const SingupPage = () => {
     const otpCode = otp.join("");
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-otp`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          otp: otpCode,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: formData.email,
+            otp: otpCode,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -214,7 +223,9 @@ const SingupPage = () => {
                 {otp.map((digit, index) => (
                   <input
                     key={index}
-                    ref={(el) => (otpRefs.current[index] = el!)}
+                    ref={(el) => {
+                      otpRefs.current[index] = el as HTMLInputElement;
+                    }}
                     type="text"
                     maxLength={1}
                     value={digit}
