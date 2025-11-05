@@ -71,7 +71,7 @@ const LoginPage = () => {
       }
 
       setSuccess("Login successful! Redirecting...");
-      setTimeout(() => router.push("/"), 1500);
+      setTimeout(() => router.push("/home"), 1500);
     } catch (err) {
       console.error(err);
       setError("Something went wrong. Please try again later.");
