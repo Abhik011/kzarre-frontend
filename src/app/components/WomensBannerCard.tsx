@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-
+import './FourImageGrid.css'
 // Import local images
 import Women1 from '../Assest/womens.png';
 import Women2 from '../Assest/womens.png';

@@ -8,11 +8,12 @@
   margin: 60px auto;
   padding: 0 20px;
   box-sizing: border-box;
+  
 }
 
 /* Each banner card */
 .grid-item {
-  margin-top: 60px;
+  margin-top: 15px;
   flex: 1 1 22%;
   max-width: 326px;
   min-width: 250px;

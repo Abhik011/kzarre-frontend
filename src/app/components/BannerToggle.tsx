@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
+import '../Toggle.css'
 import WomensBannerCard from './WomensBannerCard';
 import MensBannerCard from './MensBannerCard';
 import Bannergridwomens from './Bannergridwomens';
@@ -12,7 +12,7 @@ const BannerToggle = () => {
 
     const btnStyle = (isSelected: boolean) => ({
         width: '170px',
-        padding: '15px 0',
+        padding: '10px 0',
         border: '2px solid #D2BD50',
         cursor: 'pointer',
         fontFamily: 'Lora',
@@ -41,7 +41,7 @@ const BannerToggle = () => {
             {/* Banner Section */}
             <div>
                 {selected === 'women' ? (
-                    <div >
+                    <div className="banner_sections" >
                     <WomensBannerCard /> 
                     <Bannergridwomens/>
                     </div>
