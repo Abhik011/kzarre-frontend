@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./singup.css";
 import RegisterImg from "../Assest/Singup.png";
 import Image from "next/image";
@@ -23,19 +23,75 @@ const SingupPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  // handle input changes
+  // Password strength state
+  const [strengthBars, setStrengthBars] = useState([
+    { active: false, color: "" },
+    { active: false, color: "" },
+    { active: false, color: "" },
+    { active: false, color: "" },
+  ]);
+  const [strengthLabel, setStrengthLabel] = useState("");
+
+  // Resend OTP timer state
+  const [resendTimer, setResendTimer] = useState(0);
+  const [isResendDisabled, setIsResendDisabled] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (resendTimer > 0) {
+      timer = setInterval(() => setResendTimer((t) => t - 1), 1000);
+    } else if (resendTimer === 0) {
+      setIsResendDisabled(false);
+    }
+    return () => clearInterval(timer);
+  }, [resendTimer]);
+
+  // Format timer mm:ss
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // handle OTP input changes
+  // Password strength logic
+  const handlePasswordStrength = (password: string) => {
+    let strength = 0;
+    if (password.length > 5) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+    const newBars = strengthBars.map((_, i) => ({
+      active: i < strength,
+      color:
+        strength <= 1
+          ? "weak"
+          : strength === 2
+          ? "medium"
+          : strength === 3
+          ? "good"
+          : "strong",
+    }));
+
+    setStrengthBars(newBars);
+    const labels = ["Weak", "Medium", "Good", "Strong"];
+    setStrengthLabel(strength ? labels[strength - 1] : "");
+  };
+
+  // OTP input handling
   const handleOtpChange = (value: string, index: number) => {
     const newOtp = [...otp];
-    newOtp[index] = value.slice(-1); // only 1 char
+    newOtp[index] = value.slice(-1);
     setOtp(newOtp);
-
-    // Move focus to next box automatically
     if (value && index < 5) otpRefs.current[index + 1]?.focus();
   };
 
@@ -82,6 +138,8 @@ const SingupPage = () => {
         setSuccess("OTP sent to your email. Please check your inbox.");
         setShowOtpStep(true);
         setEditEmail(false);
+        setIsResendDisabled(true);
+        setResendTimer(120); // 2 minutes = 120 seconds
       }
     } catch (err) {
       console.error(err);
@@ -138,7 +196,6 @@ const SingupPage = () => {
           </h2>
           <p>Enter your details below</p>
 
-          {/* STEP 1 — REGISTRATION FORM */}
           {!showOtpStep ? (
             <form onSubmit={handleSendOtp}>
               <div className="input-group">
@@ -163,15 +220,45 @@ const SingupPage = () => {
                 />
               </div>
 
-              <div className="input-group">
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
+              {/* Password Input + Strength Meter */}
+              <div className="input-group password-wrapper">
+                <div className="password-field">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={(e) => {
+                      handleChange(e);
+                      handlePasswordStrength(e.target.value);
+                    }}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="toggle-password-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+
+                <div className="password-strength">
+                  {strengthBars.map((bar, index) => (
+                    <div
+                      key={index}
+                      className={`strength-bar ${
+                        bar.active ? bar.color : "inactive"
+                      }`}
+                    ></div>
+                  ))}
+                </div>
+
+                {strengthLabel && (
+                  <p className={`strength-text ${strengthLabel.toLowerCase()}`}>
+                    {strengthLabel} password
+                  </p>
+                )}
               </div>
 
               <div className="input-group">
@@ -191,9 +278,16 @@ const SingupPage = () => {
               <button type="submit" className="register-btn" disabled={loading}>
                 {loading ? "Sending OTP..." : "Send OTP"}
               </button>
+
+              <button
+                type="button"
+                className="register-btn login-btn"
+                onClick={() => router.push("/login")}
+              >
+                Already have an account? Login
+              </button>
             </form>
           ) : (
-            /* STEP 2 — OTP VERIFICATION */
             <form onSubmit={handleVerifyOtp}>
               {!editEmail ? (
                 <p>
@@ -247,10 +341,20 @@ const SingupPage = () => {
                 type="button"
                 className="register-btn resend-btn"
                 onClick={handleSendOtp}
-                disabled={loading}
+                disabled={isResendDisabled || loading}
                 style={{ marginTop: "10px" }}
               >
-                Resend OTP
+                {isResendDisabled
+                  ? `Resend OTP in ${formatTime(resendTimer)}`
+                  : "Resend OTP"}
+              </button>
+
+              <button
+                type="button"
+                className="register-btn login-btn"
+                onClick={() => router.push("/login")}
+              >
+                Go to Login
               </button>
             </form>
           )}
