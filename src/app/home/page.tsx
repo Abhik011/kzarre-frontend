@@ -75,7 +75,7 @@ const styles: Record<string, CSSProperties> = {
   overlayText: {
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: '0%',
     transform: 'translate(-50%, -50%)',
     textAlign: 'center',
     color: '#fff',
@@ -88,10 +88,10 @@ const styles: Record<string, CSSProperties> = {
   bannerSection: {
     maxWidth: '1440px',
     margin: '0 auto',
-    padding: '0 40px',
+    // padding: '0 40px',
   },
   bannerContainer: {
-    marginBottom: '80px',
+    margin: '0px',
   },
   storyies: {
     width: '100vw',

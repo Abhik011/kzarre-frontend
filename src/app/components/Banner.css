@@ -1,26 +1,23 @@
 
 .div2 { 
     width: 100%;
-    height: 60%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; 
-
 }
 
 .bone { 
     width: 100%;
     margin-top: 0px;
-    height: 470px;
+    height: 100vh;
     align-items: self-center;
     object-fit: cover;
 }
 
 
 .div2 h3 {
-
     font-family: 'Lora';
     font-size: 20pt;
     font-weight: 500;
