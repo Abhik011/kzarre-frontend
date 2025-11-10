@@ -41,7 +41,7 @@ export default function Home() {
         <div style={styles.bannerContainer}>
           <BannerToggle />
         </div>
-            <div style={styles.bannerContainer}>
+            <div style={styles.bannerContainer1}>
           <Bannertwo />
         </div>
       </section>
@@ -90,10 +90,11 @@ const styles: Record<string, CSSProperties> = {
     margin: '0 auto',
     // padding: '0 40px',
   },
-  bannerContainer: {
-    margin: '0px',
+  bannerContainer1: {
+    marginTop: '110px',
   },
   storyies: {
+    marginTop: '100px',
     width: '100vw',
   },
 };
