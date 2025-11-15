@@ -46,10 +46,10 @@ const BannerToggle = () => {
                     <Bannergridwomens/>
                     </div>
                 ) : (
-                    <>
+                    <div className="banner_sections">
                     <MensBannerCard />
                     <Bannergridmens/>
-                    </>
+                    </div>
                 )}
             </div>
         </div>

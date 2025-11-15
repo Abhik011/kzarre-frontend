@@ -128,15 +128,17 @@ const styles: Record<string, CSSProperties> = {
     textShadow: '0px 2px 10px rgba(0, 0, 0, 0.6)',
   },
   bannerSection: {
-    maxWidth: '1440px',
-    margin: '0 auto', 
-    marginTop: "80px",
+    // maxWidth: '1440px',
+    width: '100vw',
+    marginTop: "90px",
   },
   bannerContainer: {
     marginBottom: '60px',
+    paddingLeft: '0px',
+    
   },
   bannerContainer1: {
-    marginTop: '110px',
+    marginTop: '90px',
   },
   storyies: {
     marginTop: '100px',

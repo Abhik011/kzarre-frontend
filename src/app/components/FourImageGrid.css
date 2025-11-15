@@ -4,25 +4,26 @@
   gap: 35px;
   justify-content: center;
   align-items: flex-start;
-  width: 90%;
+  width: 100%;
   margin: 60px auto;
   padding: 0 20px;
-  box-sizing: border-box;
-  
+  box-sizing: border-box; 
+
+  background-color: #f0f0f0;
 }
 
 /* Each banner card */
 .grid-item {
-  margin-top: 15px;
+  margin-top: 60px;
+  margin-bottom: 20px;
   flex: 1 1 22%;
-  max-width: 326px;
-  min-width: 250px;
+  max-width: 310px;
+  min-width: 230px;
   border-radius: 0px;
   overflow: hidden;
   text-align: center;
   cursor: pointer;
   transition: transform 0.35s ease, box-shadow 0.35s ease;
-  background-color: #fff;
   box-shadow: 0 0 0 transparent;
 }
 

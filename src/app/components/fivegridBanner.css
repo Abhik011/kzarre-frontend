@@ -1,20 +1,25 @@
 .banner-container {
   margin-top: 100px;
-  width: 100%;
+  width: 100vw;
   height: auto;
   display: flex;
   justify-content: center;
+  margin: 0%;
+  padding: 0%; 
 
 }
 
 .banner-wrapper {
-  width: 100%;
+
+  width: 100vw;
   height: auto;
   display: grid;
+  padding: 0%;
+  margin: 0%;
   grid-template-areas:
     "left-top center right-top"
     "left-bottom center right-bottom";
-  grid-template-columns: 529px 298px 529px;
+  grid-template-columns: 548px 298px 548px;
   grid-template-rows: 217px 217px;
   gap: 38px;
   justify-content: center;
@@ -22,7 +27,7 @@
 
 }
 
-.banner-item {
+.banner-item { 
   position: relative;
   overflow: hidden;
   cursor: pointer;
