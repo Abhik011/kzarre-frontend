@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+:root{
+  --bg: #ffffff;
+  --muted: #9b9b9b;
+  --accent: #0b2b1c;
+  --gold: #d9c169;
+  --card-shadow: 0 20px 35px rgba(8,20,20,0.07);
+  --soft-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.pageWrap{ 
+  margin-top: 5%;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 48px 40px;
+  font-family: 'Lora';
+  color:#000000;
+}
+
+/* container */
+.container{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px; 
+ 
+  text-align: center;
+}
+
+/* BUTTON COLUMN */
+.paymentButtonsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 26px; 
+  width: 100%;
+  justify-content: center;
+ align-items: center;
+ background-color: #fff;
+ margin-top:5%;
+  
+}
+
+.payButtonBase {
+  width: 20%;
+  padding: 14px 24px;
+  border-radius: 26px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'open sans';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  transition: all 0.15s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+}
+
+.payButtonBase:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.18);
+}
+
+.stripeBtn {
+  background: #000000;
+  color: #fff;
+}
+.appleBtn {
+  background: #000;
+  color: #fff;
+}
+.paypalBtn {
+  background: #000000;
+  color: #ffffff;
+}
+.codBtn {
+  background: black;
+  color: #fff;
+}
+
+/* POPUP */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 120px;
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popupBox {
+  background: white;
+  padding: 25px 30px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  border-left: 6px solid var(--gold);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.20);
+  animation: slideDown 0.35s ease-out;
+  position: relative;
+  width: 340px;
+}
+
+.success { border-left-color: var(--accent); }
+.error { border-left-color: #d9534f; }
+
+.closePopup {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; } 
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-22px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

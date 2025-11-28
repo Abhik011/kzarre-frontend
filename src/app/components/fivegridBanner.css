@@ -1,0 +1,118 @@
+/* Container */
+.banner-containergrid {
+  width: 100%;
+  height: 83vh;
+  display: flex;
+  justify-content: center;
+  /* padding: 5px 0; */
+
+
+}
+
+/* Wrapper */
+.banner-wrapper {
+  width: 100%;
+  height: fit-content;
+  display: grid;
+  gap: 30px;
+
+  grid-template-areas:
+    "left-top center right-top"
+    "left-bottom center right-bottom";
+
+  grid-template-columns: 1fr 0.7fr 1fr;   /* Responsive — no fixed px */
+  grid-template-rows: 360px 360px;       /* Equal height rows */
+}
+
+/* Item base */
+.banner-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.banner-item:hover {
+  filter: brightness(1.1);
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Grid placement (same as now) */
+.banner-left-top    { grid-area: left-top; }
+.banner-left-bottom { grid-area: left-bottom; }
+.banner-right-top   { grid-area: right-top; }
+.banner-right-bottom{ grid-area: right-bottom; }
+.banner-center      { 
+  grid-area: center; 
+  height: 100%;
+  width: 100%;
+}
+  
+/* Responsive — Mobile */
+@media (max-width: 1024px) {
+  .banner-wrapper {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "left-top right-top"
+      "center center"
+      "left-bottom right-bottom";
+    grid-template-rows: 250px 450px 250px;
+  }
+}
+
+/* Prevent collapse on mobile */
+@media (max-width: 768px) {
+  .banner-container {
+    height: auto;        /* allow full height */
+    padding-bottom: 20px; 
+    align-items: center;
+   
+  }
+
+  .banner-wrapper {
+    height: auto;        /* grid expands naturally */
+  }
+}
+
+
+/* Mobile phones */
+@media (max-width: 600px) {
+  .banner-wrapper {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "left-top"
+      "center"
+      "right-top"
+      "left-bottom"
+      "right-bottom";
+    grid-template-rows: repeat(5, 240px);
+  }
+  .grid{
+    height: 450vh;
+  
+  }
+}
+@media (max-width: 1366px) {
+  .grid {
+    height: auto !important;
+  
+  }
+  .banner-container{
+    
+  }
+   .banner-wrapper {
+    height: auto;        /* grid expands naturally */
+    
+   }
+}
+@media (max-width: 480px) {
+ .grid {
+    height: auto !important;
+    
+  }
+}

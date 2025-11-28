@@ -1,0 +1,96 @@
+"use client";
+
+import React from "react";
+import {
+  User,
+  Package,
+  Settings,
+  ShoppingCart,
+  Lock
+} from "lucide-react";
+import styles from "./Settings.module.css";
+
+export default function SettingsPage() {
+  /* ============================================================
+      LOGOUT FUNCTION
+    ============================================================ */
+  function handleLogout() {
+    // Remove token from localStorage
+    localStorage.removeItem("kzarre_token");
+
+    // Remove ALL cookies
+    document.cookie.split(";").forEach((c) => {
+      document.cookie =
+        c.trim().split("=")[0] +
+        "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    });
+
+    // Redirect user (you can change to "/home")
+    window.location.href = "/login";
+  }
+
+  return (
+    <div className={styles.pageWrap}>
+      <div className={styles.container}>
+        
+        {/* ============================================================
+            SIDEBAR
+          ============================================================ */}
+        <aside className={styles.sidebar}>
+          <nav className={styles.nav}>
+            <a href="/profile" className={styles.navItem}>
+              <User size={18} /> My Profile
+            </a>
+
+            <a href="/orders" className={styles.navItem}>
+              <Package size={18} /> Orders
+            </a>
+
+            <a
+              href="/settings"
+              className={`${styles.navItem} ${styles.active}`}
+            >
+              <Settings size={18} /> Settings
+            </a>
+
+            <a href="/home" className={styles.navItem}>
+              <ShoppingCart size={18} /> Shop
+            </a>
+          </nav>
+        </aside>
+
+        {/* ============================================================
+            MAIN CONTENT
+          ============================================================ */}
+        <main className={styles.content}>
+          <h2 className={styles.sectionTitle}>Settings</h2>
+
+          <div className={styles.card}>
+            {/* LEFT SIDE */}
+            <div className={styles.cardLeft}>
+              <Lock size={20} className={styles.icon} />
+              <div>
+                <h4 className={styles.cardTitle}>Sign out everywhere</h4>
+                <p className={styles.cardText}>
+                  If you’ve lost a device or have security concerns, log out
+                  everywhere to ensure your account security.
+                </p>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE */}
+            <div className={styles.cardRight}>
+              <button className={styles.signOutBtn} onClick={handleLogout}>
+                Sign out
+              </button>
+              <p className={styles.note}>
+                You’ll also be signed out on this device
+              </p>
+            </div>
+          </div>
+        </main>
+
+      </div>
+    </div>
+  );
+}

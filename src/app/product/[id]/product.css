@@ -1,0 +1,517 @@
+/* ====== Product page styles (pixel-lean) ====== */
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
+:root {
+  --green: #082415;
+  --gold: #d4af37;
+  --muted: #888;
+  --max-width: 1200px;
+}
+
+/* =====================================
+   PAGE CONTAINER
+===================================== */
+.product-page {
+  padding: 60px 0px;
+  width: 100vw;
+  margin: 0 auto;
+  color: #111;
+  height: max-content;
+}
+
+/* =====================================
+   TOP GRID
+===================================== */
+.product-top {
+  display: grid;
+  grid-template-columns: 1fr 660px;
+  gap: 0px;
+  align-items: center;
+  width: 100vw;
+  height: fit-content;
+  background-color: #f7f7f7;
+}
+
+/* =====================================
+   LEFT GALLERY COLUMN
+===================================== */
+.gallery-col {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  text-align: left;
+}
+
+/* =====================================
+   ✅ LUXURY IMAGE SCROLL SYSTEM
+===================================== */
+.luxury-scroll {
+  position: relative;
+  width: 100%;
+  height: 95vh;
+  overflow: hidden;
+  cursor: pointer;
+  background: #f5f5f5;
+  scroll-behavior: smooth;
+}
+
+/* ✅ UPDATED: SMALL → MAX ANIMATION */
+.luxury-img {
+  width: 95%;
+
+  height: 100%;
+  object-fit: cover;
+  animation: cinematicFade 0.85s cubic-bezier(0, 1.06, 1, -0.01) forwards;
+  will-change: opacity, transform;
+}
+
+/* ✅ UPDATED: SMALL → NORMAL (NOT BIG → NORMAL) */
+@keyframes cinematicFade {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.92); /* ✅ START SMALL */
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1); /* ✅ END AT FULL */
+    filter: blur(0px);
+  }
+}
+
+/* LUXURY HOVER ZOOM */
+.luxury-scroll:hover .luxury-img {
+  transform: scale(1.03);
+  transition: transform 1s ease-in-out;
+}
+
+/* =====================================
+   ✅ LUXURY GOLD PROGRESS LINE (MOVED RIGHT)
+===================================== */
+.luxury-line {
+  position: absolute;
+  bottom: 52%;
+  right: 22px; /* ✅ MOVED TO RIGHT */
+  left: auto; /* ✅ REMOVED CENTER ALIGN */
+  transform: translateY(-50%); /* ✅ RESET TRANSFORM */
+  width: 3px;
+  height: 40px;
+  background: rgb(255, 255, 255);
+  overflow: hidden;
+}
+
+.luxury-line-fill {
+  height: 100%;
+  background: linear-gradient(180deg, #000000, #000000);
+  transition: height 0.6s ease;
+}
+
+/* =====================================
+   RIGHT INFO COLUMN
+===================================== */
+.info-col {
+  width: 100vw;
+  height: fit-content;
+  overflow-y: hidden;
+}
+
+.product-title {
+  margin-top: 0%;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: "Lora";
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  font-family: "Open Sans";
+}
+
+/* =====================================
+   PRICE
+===================================== */
+.price-current {
+  margin-top: 2.5%;
+  font-size: 25px;
+  font-weight: 400;
+  font-family: "Lora";
+}
+
+.price-old {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.price-save {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* =====================================
+   COLORS & SIZES
+===================================== */
+.color-box-list {
+  margin-top: 2%;
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.color-box {
+  width: 23px;
+  height: 23px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.color-box.active {
+  border-color: var(--gold);
+}
+
+.color-fill {
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+}
+
+.sizes {
+  display: flex;
+  gap: 12px;
+  margin-top: 2%;
+  margin-bottom: 20px;
+}
+
+.size-btn {
+  border: 1px solid #ddd;
+  padding: 8px 13px;
+  background: #fff;
+  cursor: pointer; 
+  text-transform: uppercase;
+  color: #111;
+}
+
+.size-btn.selected {
+  border-color: var(--green);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* =====================================
+   ACTION BUTTONS
+===================================== */
+.actions {
+  display: block;
+  gap: 2px;
+}
+
+.btn {
+  padding: 10px 24px;
+  cursor: pointer;
+  margin-top: 2%;
+  
+}
+
+.btn.primary {
+  background: black;
+  padding: 10px 60px;
+  color: white;
+  font-weight: 700;
+}
+
+.btn.outline {
+  border: 1px solid #ddd;
+  background: #fff; 
+  margin-left: 2%;
+  color: black;
+}
+
+/* =====================================
+   ACCORDION
+===================================== */
+.accordion {
+  margin-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.acc-toggle {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.acc-body {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* =====================================
+   SIMILAR PRODUCTS
+===================================== */
+.similar-section {
+  margin-top: 0px;
+  width: 100vw;
+  background-color: #ffffff;
+}
+.similar-section h2 {
+  margin-top: 2%;
+  margin-left: 3%;
+  margin-bottom: 2%;
+  font-family: "lora";
+  font-size: 1.3rem;
+  letter-spacing: 0.2em;
+  font-weight: 550;
+  text-transform: uppercase;
+}
+.similar-grid {
+  width: 95vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 45px;
+  margin-left: 2.5%;
+}
+
+.card {
+  width: 100%;
+  height: 500px;
+}
+
+.card-image img {
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+}
+.card-title {
+  margin-top: 2px;
+  font-size: 0.95rem;
+  font-family: "open sans";
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-align: center;
+  color: #000000;
+}
+.card-price {
+  margin-top: 3px;
+  font-size: 1.1rem;
+  font-family: "Lora";
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.1em;
+  color: #000000;
+}
+
+@media (max-width: 1024px) {
+  .product-top {
+    grid-template-columns: 1fr 1fr; /* Balanced luxury split */
+  }
+
+  .luxury-scroll {
+    height: 75vh;
+  }
+
+  .luxury-img {
+    width: 100%;
+  }
+
+  .info-col {
+    padding: 50px 40px;
+  }
+
+  .product-title {
+    font-size: 1.1rem;
+  }
+
+  .price-current {
+    font-size: 22px;
+  }
+
+  .btn.primary {
+    padding: 10px 45px;
+  }
+
+  /* ✅ Similar Products Tablet */
+  .similar-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+  }
+
+  .card {
+    height: auto;
+  }
+
+  .card-image img {
+    height: 360px;
+  }
+}
+
+/* ===============================
+   ✅ MOBILE LUXURY STACK (≤768px)
+================================ */
+@media (max-width: 768px) {
+  .product-page {
+    padding: 30px 0px;
+  }
+
+  .product-top {
+    grid-template-columns: 1fr; /* ✅ Full vertical luxury stack */
+  }
+
+  .gallery-col {
+    justify-content: center;
+  }
+
+  .luxury-scroll {
+    height: 65vh;
+  }
+
+  .luxury-img {
+    width: 100%;
+  }
+
+  .luxury-line {
+    display: none; /* ✅ Clean mobile appearance */
+  }
+
+  .info-col {
+    width: 100%;
+    padding: 35px 25px;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .price-current {
+    font-size: 20px;
+  }
+
+  .color-box {
+    width: 20px;
+    height: 20px;
+  }
+
+  .size-btn {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+  }
+
+  .btn.primary {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+  }
+
+  .btn.outline {
+    width: 100%;
+  }
+
+  .accordion {
+    margin-top: 20px;
+  }
+
+  /* ✅ Similar Products Mobile */
+  .similar-section h2 {
+    font-size: 1.1rem;
+    margin-left: 5%;
+  }
+
+  .similar-grid {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    width: 100vw;
+    padding: 3%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .card-image img {
+    height: 340px;
+  }
+
+  .card-title {
+    font-size: 0.85rem;
+  }
+
+  .card-price {
+    font-size: 1rem;
+  }
+}
+
+/* ===============================
+   ✅ EXTRA SMALL PHONES (≤480px)
+================================ */
+@media (max-width: 480px) {
+  .luxury-scroll {
+    width: 90vw;
+    height: 93vh;
+    margin-top: 30px;
+  }
+
+  .luxury-img {
+    width: 100%;
+  }
+
+  .info-col {
+    padding: 28px 28px;
+    
+  }
+
+  .product-title {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+  } 
+
+
+  .btn.outline {
+    margin-left: 0%;
+    margin-top: 13px;
+  }
+
+  .price-current {
+    font-size: 19px;
+  }
+
+  .sizes {
+    flex-wrap: wrap;
+    gap: 10px; 
+    color: black;
+  }
+
+  .btn.primary {
+    font-size: 0.9rem;
+  }
+ .similar-section h2 {
+    font-size: 1rem;
+    
+    margin-top: 4%;
+    margin-bottom: 2%;
+    text-align: center;
+  }
+  .similar-grid {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    width: 100vw;
+    padding: 3%;
+    gap: 25px;
+  }
+
+  .card-image img {
+    object-fit: cover;
+    height: 300px;
+  }
+}

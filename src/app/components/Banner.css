@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+/* .img { 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+.div2{
+width: 100%; 
+height: 92vh;
+justify-content: center;
+align-items: center;  
+/* border: 1px solid #000; */
+}
+
+/* .bone { 
+    width: 100%;
+    margin-top: 0px;
+    height: 100%;
+    align-items: self-center;
+    object-fit: cover;
+    justify-content: center;
+    border: 1px solid #000;
+    text-align: center;
+} */
+
+.bone { 
+    width: 100%;
+    height: 92%;
+    margin-left: 0%;
+    margin-top: 0px;
+    align-items: self-center;
+    object-fit: cover;
+    justify-content: center;
+    text-align: center;
+}
+
+.div2 h3 {
+    font-family: 'Lora';
+    font-size: 20pt;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #0C2B19;
+    margin-top: 5px;
+    cursor:pointer;
+    text-align: center;
+}
+
+.div2 p {
+    font-family: 'Open Sans';
+    font-size: 13pt;
+    font-weight: 500;
+    text-align: center;
+    color: #D2BD50;
+    margin-top: 2px;
+    cursor: pointer;
+    text-transform: capitalize;
+    margin-bottom: 0px;
+}
+.lsp-3{
+    font-family: "lora";
+}
+
+@media (max-width: 768px) {
+    .bone {
+        width: 100%;
+        padding: 5%;
+        height: 90%;
+    }
+    .div2 h3 {
+        font-size: 16pt;
+    }
+
+    .div2 p {
+        font-size: 11pt;
+    }
+}
+@media (max-width: 480px) {
+    .div2{
+        width: 100%; 
+        height: 100%;
+        justify-content: center;
+        align-items: center;  
+        
+    }
+    .div2 h3 {
+        font-size: 14pt;
+    }
+
+    .div2 p {
+        font-size: 10pt;
+    }
+}

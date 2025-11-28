@@ -1,0 +1,147 @@
+
+/* Reset */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-width: none;
+    text-decoration: none;
+}
+.body{
+  overflow-x: hidden;
+}
+/* Header */
+.header {
+  width: 100%;
+  height: 69px;
+  font-family: 'Lora', serif;
+  background-color: #0C2B19;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 20px;
+  height: 100%;
+}
+
+/* Left Navigation */
+.nav-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.nav-left a {
+  margin-left: 40px;
+  text-decoration: none;
+  color: #ffffff;
+  font-family: 'Lora', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-left a:hover {
+  color: #D2BD50;
+}
+
+/* Right Navigation */
+.nav-right {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-right a {
+  margin-right: 40px;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-family: 'Lora', sans-serif;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-right a:hover {
+  color: #D2BD50;
+}
+
+/* Center Logo */
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  text-align: center;
+  flex-shrink: 0; 
+  /* width: 167px;
+  height: 26px; */
+}
+
+
+/* Icons */
+.icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-link img,
+.icon-link svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* Optional: Add spacing between icons */
+.nav-right .icon-link {
+  margin-left: 10px;
+}
+
+.div1 { 
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  margin-top: 50px;
+}
+
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+  visibility: hidden;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ---------------- MOBILE MENU ---------------- */
+/* ---------------- FIXED MOBILE MENU ---------------- */

@@ -1,0 +1,327 @@
+/* ============================
+        HEADER BASE
+============================ */
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #0C2B19;
+  font-family: 'Lora', serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 20px;
+  height: 100%;
+}
+
+/* ============================
+      NAVIGATION DESKTOP
+============================ */
+.nav-left,
+.nav-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.nav-left a,
+.nav-right a {
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-decoration: none;
+  font-family: 'Lora', serif;
+  transition: color 0.3s;
+}
+
+.nav-left a:hover,
+.nav-right a:hover {
+  color: #D2BD50;
+}
+
+.nav-left a { margin-left: 40px; }
+.nav-right a { margin-right: 40px; }
+
+/* ============================
+           LOGO
+============================ */
+.logo {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ============================
+     MOBILE EXCLUSIVE BUTTONS
+============================ */
+.mobile-search {
+  display: none;
+}
+
+.mobile-menu-btn {
+  display: none;
+  cursor: pointer;
+}
+
+/* ============================
+       MOBILE BREAKPOINT
+============================ */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .mobile-search {
+    display: block !important;
+  }
+
+  .mobile-menu-btn {
+    display: block;
+    margin-left: 12px;
+  }
+
+  .nav-left a,
+  .nav-right a {
+    margin: 0;
+  }
+}
+
+/* ============================
+       MOBILE MENU OVERLAY
+============================ */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: calc(100dvh - 60px);
+  background-color: #2f4b3b;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  padding-top: 40px;
+  z-index: 999;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-nav-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+  margin-top: 10px;
+}
+
+.mobile-nav-items a {
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-family: 'Lora';
+}
+
+.mobile-lower-links {
+  margin-top: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px; 
+  align-items: center;
+}
+
+.mobile-lower-links a {
+  color: white;
+  font-size: 0.85rem;
+}
+
+/* ============================
+      MOBILE SEARCH OVERLAY
+============================ */
+.search-overlay {
+  position: fixed;
+  top: 60px;
+  width: 70%;
+  left: 15%;
+  height: calc(40vh - 60px);
+  background: #0c2b19;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s ease;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.search-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-box {
+  width: 70%;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 0px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  font-family: "Lora", serif;
+}
+
+.search-close {
+  background: #fff;
+  border: none;
+  width: 80px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px;
+  cursor: pointer; 
+  margin-left: 0%;
+}
+
+
+.search-close:hover svg {
+  color: #0C2B19;
+}
+
+
+.search-submit {
+  margin-top: 20px;
+  padding: 12px 100px;
+  background: #D2BD50;
+  color: #0C2B19;
+  font-weight: 500;
+  font-family:"Open Sans", sans-serif;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  align-items: center;
+}
+
+
+.desktop-search-overlay {
+  position: fixed;
+  top: -140px;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: rgba(12, 43, 25, 0.97);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transition: top 0.35s ease;
+  z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.desktop-search-overlay.open {
+  top: 60px;
+  opacity: 1;
+  visibility: visible;
+}
+
+.desktop-search-box {
+  width: 50%;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  background: #123522;
+  border: 1px solid #D2BD50;
+  border-radius: 6px;
+  padding: 10px 15px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+.desktop-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 12px 10px;
+  font-size: 1rem;
+  color: white;
+  font-family: "Lora", serif;
+}
+
+.desktop-search-close {
+  background: #D2BD50;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #0C2B19;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.desktop-search-close:hover {
+  background: #b99f44;
+}
+
+@media (max-width: 1024px) {
+
+  /* ✅ Force mobile-style header on ALL tablets */
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .mobile-search {
+    display: block !important;
+  }
+
+  .mobile-menu-btn {
+    display: block !important;
+    margin-left: 12px;
+  }
+
+  .nav-left a,
+  .nav-right a {
+    margin: 0;
+  }
+
+  /* ✅ Disable desktop search safely */
+  .desktop-search-overlay {
+    display: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-overlay {
+    width: 100vw;
+    height: 100vh;     
+  
+    margin: 0;
+    left: 0;
+    
+  }
+  .search-box {
+    width: 90%;
+  }
+  .search-close {
+  
+    margin-left: 0;
+  }
+}
