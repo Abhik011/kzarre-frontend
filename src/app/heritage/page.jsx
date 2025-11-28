@@ -5,6 +5,7 @@ import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
 
+
 export default function HeritagePage() {
 
   function formatPrice(num) {
@@ -56,7 +57,7 @@ export default function HeritagePage() {
       try {
         const parsed = JSON.parse(cached);
         setProducts(parsed);
-      } catch {}
+      } catch { }
     }
 
     async function refresh() {
@@ -137,7 +138,7 @@ export default function HeritagePage() {
   const ProductCard = ({ p }) => {
     const url = pickImage(p);
     const [loaded, setLoaded] = useState(false);
-
+  
     return (
       <div
         className="gallery-item"
@@ -157,10 +158,14 @@ export default function HeritagePage() {
 
           <p className="gallery-title">{p.name}</p>
           <p className="gallery-price">$ {formatPrice(p.price)}</p>
+
+          {/* ✅ ADD TO CART BUTTON */}
+        
         </Link>
       </div>
     );
   };
+
 
   /* ================= ✅ FINAL DATA ================= */
   const firstFour = products.slice(0, 4);

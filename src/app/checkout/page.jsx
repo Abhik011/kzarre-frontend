@@ -370,7 +370,7 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  <div className={styles.priceLarge}>₹{product.price}</div>
+                  <div className={styles.priceLarge}>${product.price}</div>
                 </div>
               </div>
             </div>
@@ -378,17 +378,17 @@ export default function CheckoutPage() {
             <div className={styles.summaryTotals}>
               <div>
                 <span>Subtotal</span>
-                <span>₹{subtotal}</span>
+                <span>${subtotal}</span>
               </div>
 
               <div>
                 <span>Delivery</span>
-                <span>₹{deliveryFee}</span>
+                <span>${deliveryFee}</span>
               </div>
 
               <div className={styles.grandTotal}>
                 <strong>Total</strong>
-                <strong>₹{total}</strong>
+                <strong>${total}</strong>
               </div>
             </div>
           </div>

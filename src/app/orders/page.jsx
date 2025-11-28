@@ -154,7 +154,7 @@ useEffect(() => {
             </p>
 
             <p className={styles.price}>
-              ₹{order.amount}
+              ${order.amount}
             </p>
           </div>
         </div>

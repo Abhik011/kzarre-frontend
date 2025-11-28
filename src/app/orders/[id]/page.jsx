@@ -215,7 +215,7 @@ export default function OrderDetailsPage() {
                   <div className={styles.qty}>{item.qty}</div>
 
                   <div className={styles.price}>
-                    ₹{item.price * item.qty}
+                    ${item.price * item.qty}
                     <span>including of Tax</span>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export default function OrderDetailsPage() {
 
               {/* ✅ TOTAL */}
               <div className={styles.totalBox}>
-                <strong>Total Amount:</strong> ₹{order.amount}
+                <strong>Total Amount:</strong> ${order.amount}
               </div>
 
               {/* ✅ SHIPPING ADDRESS */}

@@ -9,7 +9,7 @@ import React, {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import "./product.css";
-
+import { addToCart } from "../../utils/addToCart";
 /* ==================== HELPERS ==================== */
 function formatPrice(num) {
   return Number(num).toLocaleString("en-US");
@@ -80,6 +80,35 @@ export default function ProductPage() {
       scrollLock.current = false;
     }, 700);
   };
+
+  const [adding, setAdding] = useState(false);
+
+const handleAddToCart = async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (!selectedSize)
+    return alert("Please select a size");
+  if (!selectedColor)
+    return alert("Please select a color");
+
+  setAdding(true);
+
+  const cartProduct = {
+    _id: product._id,
+    name: product.name,
+    price: product.discountPrice || product.price,
+    image: product.imageUrl || product.gallery?.[0],
+    size: selectedSize,
+    color: selectedColor,
+    qty: 1,
+  };
+
+  await addToCart(cartProduct);
+
+  setAdding(false);
+};
+
 
   const handleBuyNow = () => {
     if (!selectedSize)
@@ -328,7 +357,9 @@ export default function ProductPage() {
             >
               Buy Now
             </button>
-            <button className="btn outline">
+            <button className="btn outline"  
+            onClick={handleAddToCart}
+            disabled={adding}>
               Cart
             </button>
           </div>

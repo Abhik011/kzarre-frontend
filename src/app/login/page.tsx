@@ -33,52 +33,61 @@ const LoginPage = () => {
   };
 
   // Submit login
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+// Submit login (✅ COOKIE + LOCALSTORAGE HYBRID)
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setError("");
+  setSuccess("");
 
-    if (!formData.emailOrPhone || !formData.password) {
-      setError("Please fill in all fields.");
+  if (!formData.emailOrPhone || !formData.password) {
+    setError("Please fill in all fields.");
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+
+        // ✅ THIS IS REQUIRED FOR COOKIE TO BE SAVED
+        credentials: "include",
+
+        body: JSON.stringify({
+          email: formData.emailOrPhone,
+          password: formData.password,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data.message || "Login failed.");
+      setLoading(false);
       return;
     }
 
-    setLoading(true);
+    // ✅ ✅ ✅ KEEP LOCALSTORAGE FOR FRONTEND UI (SAFE)
+    localStorage.setItem("kzarre_user", JSON.stringify(data.user));
+    localStorage.setItem("kzarre_user_id", data.user.id);
 
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: formData.emailOrPhone,
-            password: formData.password,
-          }),
-        }
-      );
+    // ✅ ❌ STOP RELYING ON TOKEN IN LOCALSTORAGE (COOKIE IS PRIMARY NOW)
+    // localStorage.setItem("kzarre_token", data.token || "");
 
-      const data = await res.json();
+    setSuccess("Login successful! Redirecting...");
+    setTimeout(() => router.push("/home"), 1000);
+  } catch (err) {
+    console.error(err);
+    setError("Something went wrong.");
+  } finally {
+    setLoading(false);
+  }
+};
 
-      if (!res.ok) {
-        setError(data.message || "Login failed.");
-        setLoading(false);
-        return;
-      }
-
-      localStorage.setItem("kzarre_token", data.token || "");
-      localStorage.setItem("kzarre_user", JSON.stringify(data.user));
-      localStorage.setItem("kzarre_user_id", data.user.id);
-
-      setSuccess("Login successful! Redirecting...");
-      setTimeout(() => router.push("/home"), 1000);
-    } catch (err) {
-      console.error(err);
-      setError("Something went wrong.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="login-container">

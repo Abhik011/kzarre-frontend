@@ -1,88 +1,170 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./bagsection.module.css";
-import productImg from "../Assest/men.png"; // replace with actual image
 import Link from "next/link";
+import { FiTrash2 } from "react-icons/fi";
+
+const API = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 export default function BagSection() {
-  const [quantity, setQuantity] = useState(1);
-  const price = 779;
-  const discount = 0.2;
-  const delivery = 15;
+  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const subtotal = price * 3;
-  const discountAmount = subtotal * discount;
-  const total = subtotal - discountAmount + delivery;
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
+  // ✅ Fetch cart (COOKIE AUTH)
+  const fetchCart = async () => {
+    try {
+      const res = await fetch(`${API}/api/cart`, {
+        credentials: "include", // ✅ sends cookie automatically
+      });
+
+      if (!res.ok) {
+        console.error("Cart fetch failed");
+        setCart([]);
+        return;
+      }
+
+      const data = await res.json();
+      setCart(data.items || []);
+    } catch (err) {
+      console.error("Failed to load cart", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Update quantity (COOKIE AUTH)
+  const updateQty = async (id, qty) => {
+    if (qty < 1) return;
+
+    try {
+      await fetch(`${API}/api/cart/update`, {
+        method: "PUT",
+        credentials: "include", // ✅ cookie auth
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: id, quantity: qty }),
+      });
+
+      fetchCart();
+    } catch (err) {
+      console.error("Update failed", err);
+    }
+  };
+
+  // ✅ Remove item (COOKIE AUTH)
+  const removeItem = async (id) => {
+    try {
+      await fetch(`${API}/api/cart/remove/${id}`, {
+        method: "DELETE",
+        credentials: "include", // ✅ cookie auth
+      });
+
+      fetchCart();
+    } catch (err) {
+      console.error("Remove failed", err);
+    }
+  };
+
+  // ✅ Calculations
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const total = subtotal;
+
+  if (loading) return <p style={{ padding: 40 }}>Loading cart...</p>;
 
   return (
     <>
       <section className={styles.cartContainer}>
-        {/* Left side - Products */}
+        {/* ✅ Left Section */}
         <div className={styles.left}>
-          {[1, 2, 3].map((item, idx) => (
-            <div className={styles.cartItem} key={idx}>
+          {cart.length === 0 && <p>Your cart is empty</p>}
+
+          {cart.map((item) => (
+            <div
+              className={styles.cartItem}
+              key={`${item.productId}-${item.size || "default"}`}
+            >
               <div className={styles.itemImg}>
-                <Image src={productImg} alt="Product" width={100} height={100} />
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={100}
+                  height={100}
+                />
               </div>
+
               <div className={styles.itemInfo}>
-                <h3>Womens jacket</h3>
-                <p>Women Navy Blue Printed Top</p>
-                <p className={styles.price}>
-                  ${price} <span className={styles.oldPrice}>$1599</span> 45% OFF
-                </p>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+
+                <p className={styles.price}>$ {item.price}</p>
+
                 <div className={styles.details}>
-                  <span>Size: M</span>
+                  <span>Size: {item.size || "M"}</span>
                   <span>
                     Qty:{" "}
                     <input
                       type="number"
                       min="1"
-                      value={quantity}
-                      onChange={(e) => setQuantity(e.target.value)}
+                      value={item.quantity}
+                      onChange={(e) =>
+                        updateQty(item.productId, Number(e.target.value))
+                      }
                     />
                   </span>
                 </div>
-                <span className={styles.returnText}>7-day return available</span>
               </div>
-              <button className={styles.deleteBtn}>🗑️</button>
+
+              <button
+                className={styles.deleteBtn}
+                onClick={() => removeItem(item.productId)}
+                aria-label="Remove item"
+              >
+                <FiTrash2 size={18} />
+              </button>
             </div>
           ))}
         </div>
 
-        {/* Right side - Order Summary */}
+        {/* ✅ Right Section */}
         <div className={styles.right}>
           <div className={styles.summaryBox}>
             <h3>Order Summary</h3>
+
             <div className={styles.row}>
               <span>Subtotal</span>
-              <span>${subtotal}</span>
+              <span>${subtotal.toFixed(0)}</span>
             </div>
-            <div className={`${styles.row} ${styles.discountRow}`}>
-              <span>Discount (-20%)</span>
-              <span>-${discountAmount}</span>
-            </div>
-            <div className={styles.row}>
-              <span>Delivery Fee</span>
-              <span>${delivery}</span>
-            </div>
+
             <div className={`${styles.row} ${styles.totalRow}`}>
               <strong>Total</strong>
-              <strong>${total}</strong>
+              <strong>${total.toFixed(0)}</strong>
             </div>
 
             <div className={styles.promo}>
               <input type="text" placeholder="Add promo code" />
               <button>Apply</button>
             </div>
-<Link href="/checkout">
-            <button className={styles.checkoutBtn}>Go to Checkout →</button>
-             </Link>
+
+            <Link href="/checkout">
+              <button className={styles.checkoutBtn}>
+                Go to Checkout →
+              </button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Share Button */}
+      {/* ✅ Share */}
       <div className={styles.shareSection}>
         <button className={styles.shareBtn}>Share</button>
       </div>
