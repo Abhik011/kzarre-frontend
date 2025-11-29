@@ -325,3 +325,45 @@
     margin-left: 0;
   }
 }
+.search-product-card {
+  display: flex;
+  width: 50vw;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: #000;
+  background-color: #ffffff;
+  align-items: center;
+}
+
+.search-product-card img {
+  width: 55px;
+  height: 70px;
+  object-fit: cover;
+}
+
+.search-product-card p {
+  font-size: 13px;
+  margin: 0;
+}
+
+.search-product-card span {
+  font-size: 12px;
+  color: #777;
+}
+
+.search-badge {
+  padding: 6px 12px;
+  font-size: 11px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.search-badge.exact {
+  color: green;
+}
+
+.search-badge.related {
+  color: #777;
+}
