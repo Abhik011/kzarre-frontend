@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import PageLayout from "../components/PageLayout";
 
 export default function MenPage() {
 
@@ -37,7 +38,7 @@ export default function MenPage() {
       try {
         const parsed = JSON.parse(cached);
         setProducts(parsed);
-      } catch {}
+      } catch { }
     }
 
     async function refresh() {
@@ -165,39 +166,42 @@ export default function MenPage() {
 
   /* ================= ✅ FINAL PAGE ================= */
   return (
-    <section className="gallery">
+    <PageLayout>
+      <section className="gallery">
 
-      {/* ✅ FIRST 4 PRODUCTS */}
-      <div className="gallery-div">
-        {firstFour.map((p) => (
-          <ProductCard key={p._id} p={p} />
-        ))}
-      </div>
+        {/* ✅ FIRST 4 PRODUCTS */}
+        <div className="gallery-div">
+          {firstFour.map((p) => (
+            <ProductCard key={p._id} p={p} />
+          ))}
+        </div>
 
-      {/* ✅ WOMEN PAGE CMS VIDEO */}
-      <div className="gallery-video">
-        {cmsVideo && (
-          <video
-            src={cmsVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            fetchPriority="high"
-            poster="/video-poster-women.jpg"
-            className="heritage-video"
-          />
-        )}
-      </div>
+        {/* ✅ WOMEN PAGE CMS VIDEO */}
+        <div className="gallery-video">
+          {cmsVideo && (
+            <video
+              src={cmsVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              fetchPriority="high"
+              poster="/video-poster-women.jpg"
+              className="heritage-video"
+            />
+          )}
+        </div>
 
-      {/* ✅ REMAINING PRODUCTS */}
-      <div className="gallery-div">
-        {remaining.map((p) => (
-          <ProductCard key={p._id} p={p} />
-        ))}
-      </div>
+        {/* ✅ REMAINING PRODUCTS */}
+        <div className="gallery-div">
+          {remaining.map((p) => (
+            <ProductCard key={p._id} p={p} />
+          ))}
+        </div>
 
-    </section>
+      </section>
+    </PageLayout>
+
   );
 }
