@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { User, Package, Settings, ShoppingCart } from "lucide-react";
 import styles from "./OrderDetails.module.css";
+import PageLayout from "../../components/PageLayout";
 
 export default function OrderDetailsPage() {
   const { id } = useParams(); // /orders/[id] → orderId
@@ -49,6 +50,7 @@ export default function OrderDetailsPage() {
   if (!order) return null;
 
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
         {/* ===== SIDEBAR ===== */}
@@ -240,5 +242,6 @@ export default function OrderDetailsPage() {
         </main>
       </div>
     </div>
+    </PageLayout>
   );
 }

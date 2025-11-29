@@ -13,6 +13,8 @@ import {
   PlusCircle
 } from "lucide-react";
 import styles from "./Profile.module.css";
+import PageLayout from "../components/PageLayout";
+
 
 /**
  * Helper: convert ISO country code to emoji flag
@@ -505,6 +507,7 @@ export default function ProfilePage() {
   const selectedCountry = COUNTRIES.find((c) => c.iso === form.countryIso) || { name: "Other", iso: "", dial_code: "" };
 
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       {/* Toast */}
       <Toast toast={toast} onClose={closeToast} />
@@ -813,6 +816,7 @@ export default function ProfilePage() {
         </div>
       )}
     </div>
+    </PageLayout>
   );
 }
 

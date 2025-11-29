@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import PageLayout from "../components/PageLayout";
 
 export default function AccessoriesPage() {
 
@@ -153,6 +154,7 @@ function filterByCategory(products, categoryName) {
     const [loaded, setLoaded] = useState(false);
 
     return (
+    
       <div
         className="gallery-item"
         onMouseEnter={() => setHoveredId(p._id)}
@@ -201,6 +203,7 @@ if (loading) {
   }
 
   return (
+      <PageLayout>
     <section className="gallery">
       {/* ✅ FIRST 4 PRODUCTS */}
       <div className="gallery-div">
@@ -234,5 +237,6 @@ if (loading) {
         ))}
       </div>
     </section>
+    </PageLayout>
   );
 }

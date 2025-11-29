@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { User, Package, Settings, ShoppingCart } from "lucide-react";
 import styles from "./Orders.module.css";
+import PageLayout from "../components/PageLayout";
+
 
 export default function OrdersPage() {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -47,6 +49,7 @@ useEffect(() => {
       : orders.filter((order) => order.status === activeFilter);
 
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
         {/* Sidebar */}
@@ -170,5 +173,6 @@ useEffect(() => {
         </main>
       </div>
     </div>
+    </PageLayout>
   );
 }

@@ -2,11 +2,12 @@
 import React from "react";
 import "./about.css";
 import Image from "next/image";
-
+import PageLayout from "../components/PageLayout";
 import img2 from "../Assest/men.png";
 
 export default function AboutPage() {
   return (
+    <PageLayout>
     <div className="about-container">
       {/* Fullscreen Video Section */}
       <section className="hero-section">
@@ -79,5 +80,6 @@ export default function AboutPage() {
         <h3>Welcome to KZARRÈ — a legacy of art, heart, and heritage.</h3>
       </section>
     </div>
+    </PageLayout>
   );
 }

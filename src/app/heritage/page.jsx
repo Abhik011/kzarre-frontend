@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import PageLayout from "../components/PageLayout";
 
 
 export default function HeritagePage() {
@@ -192,6 +193,7 @@ export default function HeritagePage() {
 
   /* ================= ✅ FINAL HERITAGE PAGE ================= */
   return (
+    <PageLayout>
     <section className="gallery">
 
       {/* ✅ FIRST 4 PRODUCTS */}
@@ -226,5 +228,6 @@ export default function HeritagePage() {
       </div>
 
     </section>
+    </PageLayout>
   );
 }

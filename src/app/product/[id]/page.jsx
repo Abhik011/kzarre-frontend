@@ -10,6 +10,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import "./product.css";
 import { addToCart } from "../../utils/addToCart";
+import PageLayout from "../../components/PageLayout";
+
 /* ==================== HELPERS ==================== */
 function formatPrice(num) {
   return Number(num).toLocaleString("en-US");
@@ -237,6 +239,7 @@ const handleAddToCart = async (e) => {
       : product.price;
 
   return (
+    <PageLayout>
     <main className="product-page">
       <div className="product-top">
         {/* =================== ✅ VERTICAL IMAGE SCROLL =================== */}
@@ -397,5 +400,6 @@ const handleAddToCart = async (e) => {
         </section>
       )}
     </main>
+    </PageLayout>
   );
 }

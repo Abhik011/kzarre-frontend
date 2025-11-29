@@ -8,6 +8,7 @@ import Stories from '../components/Stories';
 import Loading from '../loading';
 import Cookies from "js-cookie";
 import './home.css';
+import PageLayout from "../components/PageLayout";
 
 
 
@@ -70,6 +71,7 @@ export default function Home() {
   if (loading) return <Loading />;
 
   return (
+    <PageLayout>
     <>
       {/* =============================
           HERO VIDEO
@@ -115,5 +117,6 @@ export default function Home() {
         <Stories />
       </div>
     </>
+    </PageLayout>
   );
 }

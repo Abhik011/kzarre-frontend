@@ -9,6 +9,8 @@ import {
   Lock
 } from "lucide-react";
 import styles from "./Settings.module.css";
+import PageLayout from "../components/PageLayout";
+
 
 export default function SettingsPage() {
   /* ============================================================
@@ -30,6 +32,7 @@ export default function SettingsPage() {
   }
 
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
         
@@ -92,5 +95,6 @@ export default function SettingsPage() {
 
       </div>
     </div>
+    </PageLayout>
   );
 }

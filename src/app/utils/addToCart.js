@@ -1,6 +1,6 @@
 export async function addToCart(product) {
   try {
-    const token = localStorage.getItem("kzarre_token"); // ✅ from your login
+    const token = localStorage.getItem("kzarre_token");
 
     if (!token) {
       alert("Please login first");
@@ -13,13 +13,10 @@ export async function addToCart(product) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // ✅ matches your auth middleware
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           productId: product._id,
-          name: product.name,
-          image: product.imageUrl,
-          price: product.price,
           quantity: 1,
           size: "M",
         }),

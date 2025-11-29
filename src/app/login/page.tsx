@@ -53,7 +53,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
 
-        // ✅ THIS IS REQUIRED FOR COOKIE TO BE SAVED
+        // ✅ REQUIRED FOR COOKIE
         credentials: "include",
 
         body: JSON.stringify({
@@ -71,12 +71,13 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       return;
     }
 
-    // ✅ ✅ ✅ KEEP LOCALSTORAGE FOR FRONTEND UI (SAFE)
+    // ✅ ✅ ✅ LOCALSTORAGE (FOR OLD FUNCTIONS)
+    if (data.token) {
+      localStorage.setItem("kzarre_token", data.token);
+    }
+
     localStorage.setItem("kzarre_user", JSON.stringify(data.user));
     localStorage.setItem("kzarre_user_id", data.user.id);
-
-    // ✅ ❌ STOP RELYING ON TOKEN IN LOCALSTORAGE (COOKIE IS PRIMARY NOW)
-    // localStorage.setItem("kzarre_token", data.token || "");
 
     setSuccess("Login successful! Redirecting...");
     setTimeout(() => router.push("/home"), 1000);
@@ -87,6 +88,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(false);
   }
 };
+
 
 
   return (

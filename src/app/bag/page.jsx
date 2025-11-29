@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./bagsection.module.css";
 import Link from "next/link";
 import { FiTrash2 } from "react-icons/fi";
+import PageLayout from "../components/PageLayout";
 
 const API = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
@@ -82,6 +83,7 @@ export default function BagSection() {
   if (loading) return <p style={{ padding: 40 }}>Loading cart...</p>;
 
   return (
+    <PageLayout>
     <>
       <section className={styles.cartContainer}>
         {/* ✅ Left Section */}
@@ -94,12 +96,13 @@ export default function BagSection() {
               key={`${item.productId}-${item.size || "default"}`}
             >
               <div className={styles.itemImg}>
-                <Image
+                <img
                   src={item.image}
                   alt={item.name}
                   width={100}
                   height={100}
                 />
+
               </div>
 
               <div className={styles.itemInfo}>
@@ -169,5 +172,6 @@ export default function BagSection() {
         <button className={styles.shareBtn}>Share</button>
       </div>
     </>
+    </PageLayout>
   );
 }

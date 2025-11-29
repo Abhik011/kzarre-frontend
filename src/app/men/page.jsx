@@ -4,6 +4,8 @@ import React, { useEffect, useState, useRef } from "react";
 import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import PageLayout from "../components/PageLayout";
+
 
 export default function MenPage() {
 
@@ -159,6 +161,7 @@ export default function MenPage() {
 
   /* ================= ✅ FINAL MEN PAGE ================= */
   return (
+    <PageLayout>
     <section className="gallery">
 
       {/* ✅ FIRST 4 MEN PRODUCTS */}
@@ -193,5 +196,6 @@ export default function MenPage() {
       </div>
 
     </section>
+    </PageLayout>
   );
 }

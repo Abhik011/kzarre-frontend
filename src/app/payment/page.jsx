@@ -4,6 +4,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import styles from "./Payment.module.css";
+import PageLayout from "../components/PageLayout";
+
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -167,6 +169,7 @@ export default function PaymentPage() {
   if (!order) return <div className={styles.loading}>Order not found.</div>;
 
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
         <div className={styles.left}>
@@ -203,5 +206,6 @@ export default function PaymentPage() {
 
       {popup.show && <Popup message={popup.message} type={popup.type} onClose={() => setPopup({ show: false, message: "", type: "" })} />}
     </div>
+    </PageLayout>
   );
 }

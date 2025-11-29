@@ -11,9 +11,19 @@
     scrollbar-width: none;
     text-decoration: none;
 }
-.body{
-  overflow-x: hidden;
+
+body {
+  opacity: 0;
+   overflow-x: hidden;
+  animation: fadeIn 0.2s ease-in forwards;
 }
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
 /* Header */
 .header {
   width: 100%;

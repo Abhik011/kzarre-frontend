@@ -6,6 +6,8 @@ import styles from "./Checkout.module.css";
 import { CheckCircle, Home, FileText, Package } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import PageLayout from "../components/PageLayout";
+
 
 export default function CheckoutPage() {
   const search = useSearchParams();
@@ -223,6 +225,7 @@ export default function CheckoutPage() {
   ============================================================ */
 
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       {/* PROGRESS BAR */}
       <div className={styles.progress}>
@@ -398,5 +401,6 @@ export default function CheckoutPage() {
       {/* simple toast */}
       {message && <div className={styles.simpleToast}>{message}</div>}
     </div>
+    </PageLayout>
   );
 }
