@@ -14,16 +14,25 @@ import { IoClose } from "react-icons/io5";
 import "./header.css";
 
 /* ✅ PRICE FORMAT */
-function formatPrice(num) {
+function formatPrice(num: number | string | undefined): string {
   return Number(num || 0).toLocaleString("en-US");
 }
+
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [searchResults, setSearchResults] = useState([]);
+ interface SearchProduct {
+  _id: string;
+  name: string;
+  price: number;
+  imageUrl: string;
+}
+
+const [searchResults, setSearchResults] = useState<SearchProduct[]>([]);
+
   const [resultType, setResultType] = useState(""); // exact | related | none
   const [searchLoading, setSearchLoading] = useState(false);
 
