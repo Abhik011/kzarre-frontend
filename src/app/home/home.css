@@ -47,6 +47,10 @@
   width: 100%;
   height: auto;
 }
+.banner-container3{
+  width: 100%;
+  height: auto;
+}
 
 .banner-1,
 .banner-2 {
@@ -85,7 +89,7 @@
   }
 
   .banner-toggle {
-    height: 245vh !important;
+    height: auto !important;
     
 
   }
@@ -106,8 +110,9 @@
   }
 
   .banner-toggle {
-    height: 170vh;
-    border: 1px solid black;
+    height: fit-content;
+    
+    
    
   }
 

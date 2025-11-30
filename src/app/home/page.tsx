@@ -7,6 +7,7 @@ import Bannertwo from '../components/Bannertwo';
 import Stories from '../components/Stories';
 import Loading from '../loading';
 import Cookies from "js-cookie";
+import Bannergridwomens from "../components/Bannergridwomens";
 import './home.css';
 import PageLayout from "../components/PageLayout";
 
@@ -106,6 +107,9 @@ export default function Home() {
 
         <div className="banner-container1 banner-toggle">
           <BannerToggle />
+        </div>
+         <div className="banner-container3 ">
+         <Bannergridwomens/>
         </div>
 
         <div className="banner-container banner-2">

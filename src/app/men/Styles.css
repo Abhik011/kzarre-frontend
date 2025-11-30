@@ -74,10 +74,12 @@ font-size: 0.9rem;
 
 .heritage-video {
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
   border-radius: 0px;
   object-fit: cover;
    scroll-behavior: smooth;
+   border: 1px solid red;
+   margin-top: 1%;
 }
 
 /* ================= IMAGE WRAPPER ================= */

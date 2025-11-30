@@ -45,7 +45,7 @@ const Bannergrid: React.FC = () => {
   ];
 
   return (
-    <div className="banner-container grid">
+    <div className="banner-containerid">
       <div className="banner-wrapper">
         {grid.map((item, index) => (
           <div key={index} className={`banner-item ${layoutClasses[index]}`}>
@@ -56,7 +56,11 @@ const Bannergrid: React.FC = () => {
             />
           </div>
         ))}
+        
       </div>
+        <h3>Title</h3>
+      <p>Captions</p>
+    
     </div>
   );
 };

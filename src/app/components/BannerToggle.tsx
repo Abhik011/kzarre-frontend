@@ -43,12 +43,10 @@ const BannerToggle = () => {
                 {selected === 'women' ? (
                     <div className="banner_sections" >
                     <WomensBannerCard /> 
-                    <Bannergridwomens/>
                     </div>
                 ) : (
                     <div className="banner_sections">
-                    <MensBannerCard />
-                    <Bannergridmens/>
+                    <MensBannerCard/>
                     </div>
                 )}
             </div>

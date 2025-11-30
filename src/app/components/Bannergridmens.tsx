@@ -47,7 +47,7 @@ const MenBannerGrid: React.FC = () => {
   ];
 
   return (
-    <div className="banner-container grid">
+    <div className="banner-containerid">
       <div className="banner-wrapper">
         {grid.map((item, index) => (
           <div key={index} className={`banner-item ${layoutClasses[index]}`}>

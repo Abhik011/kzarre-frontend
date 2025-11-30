@@ -6,11 +6,12 @@
   align-items: flex-start;
   width: 100%;
   height: max-content;
-  margin: 50px auto;
+  margin: 0px auto;
   padding: 0 20px;
   box-sizing: border-box; 
   background-color: #f0f0f0;
-  border: 1px solid red;
+
+ 
 }
 
 /* Each banner card */
