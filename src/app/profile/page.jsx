@@ -684,7 +684,7 @@ export default function ProfilePage() {
               <span className={styles.label}>Saved addresses</span>
 
               <button className={styles.addBtn} onClick={openAddModal}>
-                <PlusCircle size={16} /> Add
+                Add
               </button>
             </div>
 

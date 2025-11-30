@@ -7,8 +7,6 @@ import Cookies from "js-cookie";
 import PageLayout from "../components/PageLayout";
 
 export default function AccessoriesPage() {
-
-  
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,41 +19,35 @@ export default function AccessoriesPage() {
   const SLIDE_INTERVAL = 2500;
   const COOKIE_KEY = "accessories_products_cache";
 
-  // ✅ Prevent state update after unmount
-const mountedRef = useRef(false);
+  const mountedRef = useRef(false);
 
-useEffect(() => {
-  mountedRef.current = true;
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
-  return () => {
-    mountedRef.current = false;
-  };
-}, []);
+  /* ================= ✅ CATEGORY FILTER ================= */
+  function filterByCategory(products, categoryName) {
+    const target = categoryName.toLowerCase();
 
+    return products.filter((p) => {
+      const categoryMatch =
+        p.category?.toLowerCase().includes(target) ||
+        p.categories?.some((c) => c.toLowerCase().includes(target));
 
-  /* ================= ✅ CATEGORY FILTER (NO UNISEX) ================= */
-function filterByCategory(products, categoryName) {
-  const target = categoryName.toLowerCase();
+      if (target === "accessories") return categoryMatch;
 
-  return products.filter((p) => {
-    const categoryMatch =
-      p.category?.toLowerCase().includes(target) ||
-      p.categories?.some((c) => c.toLowerCase().includes(target));
+      const isUnisex = Array.isArray(p.gender)
+        ? p.gender.some((g) => g.toLowerCase().includes("unisex"))
+        : p.gender?.toLowerCase().includes("unisex");
 
-    // ✅ ALLOW UNISEX FOR ACCESSORIES
-    if (target === "accessories") return categoryMatch;
+      return categoryMatch && !isUnisex;
+    });
+  }
 
-    // ❌ BLOCK UNISEX FOR MEN / WOMEN / HERITAGE
-    const isUnisex = Array.isArray(p.gender)
-      ? p.gender.some((g) => g.toLowerCase().includes("unisex"))
-      : p.gender?.toLowerCase().includes("unisex");
-
-    return categoryMatch && !isUnisex;
-  });
-}
-
-
-  /* ================= ✅ LOAD PRODUCTS (COOKIE → API REFRESH) ================= */
+  /* ================= ✅ LOAD PRODUCTS ================= */
   useEffect(() => {
     const cached = Cookies.get(COOKIE_KEY);
 
@@ -74,11 +66,17 @@ function filterByCategory(products, categoryName) {
 
         const data = await res.json();
 
-        // ✅ ACCESSORIES FILTER
-        const accessoriesProducts = filterByCategory(
+        let accessoriesProducts = filterByCategory(
           data.products,
           "Accessories"
         );
+
+        // ✅ ✅ ✅ SORT: IN-STOCK FIRST, OUT-OF-STOCK LAST
+        accessoriesProducts = accessoriesProducts.sort((a, b) => {
+          const aOut = Number(a.stockQuantity) <= 0;
+          const bOut = Number(b.stockQuantity) <= 0;
+          return aOut - bOut; // false(0) comes before true(1)
+        });
 
         Cookies.set(COOKIE_KEY, JSON.stringify(accessoriesProducts), {
           expires: 1,
@@ -95,17 +93,13 @@ function filterByCategory(products, categoryName) {
     refresh();
   }, []);
 
-  /* ================= ✅ LOAD ACCESSORIES PAGE VIDEO (COOKIE → CMS REFRESH) ================= */
+  /* ================= ✅ LOAD ACCESSORIES PAGE VIDEO ================= */
   useEffect(() => {
     async function loadVideo() {
       try {
-        // ✅ 1. Instant Cookie Load
         const cachedVideo = Cookies.get("accessories_page_video");
-        if (cachedVideo) {
-          setCmsVideo(cachedVideo);
-        }
+        if (cachedVideo) setCmsVideo(cachedVideo);
 
-        // ✅ 2. Always Refresh from CMS
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
           { cache: "no-store" }
@@ -119,9 +113,7 @@ function filterByCategory(products, categoryName) {
           Cookies.set(
             "accessories_page_video",
             data.accessoriesVideoUrl,
-            {
-              expires: 1,
-            }
+            { expires: 1 }
           );
         }
       } catch (err) {
@@ -132,20 +124,40 @@ function filterByCategory(products, categoryName) {
     loadVideo();
   }, []);
 
-  /* ================= ✅ SLIDESHOW ROTATION ================= */
-  // useEffect(() => {
-  //   const t = setInterval(
-  //     () => setSlideIndex((i) => i + 1),
-  //     SLIDE_INTERVAL
-  //   );
-  //   return () => clearInterval(t);
-  // }, []);
-
-  /* ================= ✅ IMAGE PICKER (HOVER + SLIDESHOW) ================= */
+  /* ================= ✅ IMAGE PICKER ================= */
   const pickImage = (p) => {
     const imgs = p.gallery?.length ? p.gallery : [p.imageUrl];
     if (hoveredId === p._id && imgs.length > 1) return imgs[1];
     return imgs[slideIndex % imgs.length];
+  };
+
+  /* ================= ✅ NOTIFY HANDLER ================= */
+  const handleNotify = async (productId) => {
+    const userRaw = localStorage.getItem("kzarre_user");
+    const user = userRaw ? JSON.parse(userRaw) : null;
+    const email = user?.email;
+
+    if (!email) {
+      alert("Please login to get stock notifications.");
+      return;
+    }
+
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+
+      const res = await fetch(`${API_URL}/api/notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, email }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      alert("You will be notified when this product is back in stock.");
+    } catch (err) {
+      alert(err.message || "Notify failed");
+    }
   };
 
   /* ================= ✅ PRODUCT CARD ================= */
@@ -153,24 +165,43 @@ function filterByCategory(products, categoryName) {
     const url = pickImage(p);
     const [loaded, setLoaded] = useState(false);
 
+    const isOutOfStock = Number(p.stockQuantity) <= 0;
+
     return (
-    
       <div
         className="gallery-item"
         onMouseEnter={() => setHoveredId(p._id)}
         onMouseLeave={() => setHoveredId(null)}
       >
-        <Link href={`/product/${p._id}`}>
-          <div className="img-wrapper">
-            <img
-              src={url}
-              alt={p.name}
-              className={`real-img ${loaded ? "visible" : ""}`}
-              loading="lazy"
-              onLoad={() => setLoaded(true)}
-            />
-          </div>
+        <div className="product-row">
+          <Link href={`/product/${p._id}`}>
+            <div className="img-wrapper notify-overlay-parent">
+              <img
+                src={url}
+                alt={p.name}
+                className={`real-img ${loaded ? "visible" : ""}`}
+                loading="lazy"
+                onLoad={() => setLoaded(true)}
+                style={{
+                  filter: isOutOfStock ? "grayscale(100%)" : "none",
+                  opacity: isOutOfStock ? 0.5 : 1,
+                }}
+              />
 
+              {/* ✅ NOTIFY OVER IMAGE */}
+              {isOutOfStock && (
+                <button
+                  onClick={() => handleNotify(p._id)}
+                  className="notify-overlay-btn"
+                >
+                  Notify Me
+                </button>
+              )}
+            </div>
+          </Link>
+        </div>
+
+        <Link href={`/product/${p._id}`}>
           <p className="gallery-title">{p.name}</p>
           <p className="gallery-price">$ {p.price}</p>
         </Link>
@@ -182,9 +213,7 @@ function filterByCategory(products, categoryName) {
   const firstFour = products.slice(0, 4);
   const remaining = products.slice(4);
 
-  // ✅ ✅ WHITE SCREEN FIX — NEVER SHOW EMPTY PAGE
-if (loading) {
-  
+  if (loading) {
     return (
       <section className="gallery">
         <div className="gallery-div">
@@ -203,40 +232,36 @@ if (loading) {
   }
 
   return (
-      <PageLayout>
-    <section className="gallery">
-      {/* ✅ FIRST 4 PRODUCTS */}
-      <div className="gallery-div">
-        {firstFour.map((p) => (
-          <ProductCard key={p._id} p={p} />
-        ))}
-      </div>
+    <PageLayout>
+      <section className="gallery">
+        <div className="gallery-div">
+          {firstFour.map((p) => (
+            <ProductCard key={p._id} p={p} />
+          ))}
+        </div>
 
-      {/* ✅ ACCESSORIES PAGE CMS VIDEO */}
-      <div className="gallery-video">
-        {cmsVideo && (
-          <video
-            src={cmsVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            fetchPriority="high"
-           
-            poster="/video-poster-accessories.jpg"
-            className="heritage-video"
-          />
-        )}
-      </div>
+        <div className="gallery-video">
+          {cmsVideo && (
+            <video
+              src={cmsVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              fetchPriority="high"
+              poster="/video-poster-accessories.jpg"
+              className="heritage-video"
+            />
+          )}
+        </div>
 
-      {/* ✅ REMAINING PRODUCTS */}
-      <div className="gallery-div">
-        {remaining.map((p) => (
-          <ProductCard key={p._id} p={p} />
-        ))}
-      </div>
-    </section>
+        <div className="gallery-div">
+          {remaining.map((p) => (
+            <ProductCard key={p._id} p={p} />
+          ))}
+        </div>
+      </section>
     </PageLayout>
   );
 }

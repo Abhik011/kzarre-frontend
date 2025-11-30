@@ -138,6 +138,40 @@ font-size: 0.9rem;
   width: 50%;
 }
 
+/* .product-row {
+  display: block;
+ justify-content: end;
+
+ text-align: end;
+  gap: 0px;
+
+} */
+/* ✅ Parent relative for overlay */
+.notify-overlay-parent {
+  position: relative;
+  width: 100%;
+
+}
+
+/* ✅ Overlay button centered on image */
+.notify-overlay-btn {
+  position: absolute;  
+  bottom: 2%;        /* move up/down if needed */
+  left: 70%;
+  background: rgb(0, 0, 0);
+  color: #ffffff;
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 0;
+  font-family: "open sans";
+  z-index: 10;
+}
+
+
+
+
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }

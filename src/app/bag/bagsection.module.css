@@ -31,9 +31,10 @@
 
 .itemImg img {
   border-radius: 0px;
-  width: 80%;
-  height: 60%;
+  width: 200px;
+  height: 250px;
   object-fit: cover;
+  border: 1px solid #ededed;
   
 }
 
@@ -46,6 +47,7 @@
 .itemInfo h3 {
   font-size: 1.1rem;
   margin: 0;
+  text-transform: uppercase;
 }
 
 .itemInfo p {
