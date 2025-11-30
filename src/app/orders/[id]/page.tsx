@@ -6,105 +6,148 @@ import { useParams } from "next/navigation";
 import { User, Package, Settings, ShoppingCart } from "lucide-react";
 import styles from "./OrderDetails.module.css";
 import PageLayout from "../../components/PageLayout";
+import Link from "next/link";
+
 
 export default function OrderDetailsPage() {
   const { id } = useParams(); // /orders/[id] → orderId
 
-  const [order, setOrder] = useState(null);
+const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
 
   // ✅ FETCH SINGLE ORDER FROM BACKEND
-  useEffect(() => {
-    if (!id) return;
+useEffect(() => {
+  if (!id) return;
 
-    const fetchOrder = async () => {
-      try {
-        const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+  const fetchOrder = async () => {
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-        const res = await fetch(`${API_URL}/api/orders/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      const res = await fetch(`${API_URL}/api/orders/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (!res.ok) throw new Error(data.message || "Failed to fetch order");
+      if (!res.ok) throw new Error(data.message || "Failed to fetch order");
 
-        setOrder(data.order);
-      } catch (err) {
-        setError(err.message || "Something went wrong");
-      } finally {
-        setLoading(false);
+      setOrder(data.order);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Something went wrong");
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchOrder();
-  }, [id]);
+  fetchOrder();
+}, [id]);
+
 
   // ✅ CANCEL ORDER
-  const handleCancelOrder = async () => {
-    if (!confirm("Are you sure you want to cancel this order?")) return;
+const handleCancelOrder = async () => {
+  if (!confirm("Are you sure you want to cancel this order?")) return;
 
-    try {
-      setActionLoading(true);
-      setSuccessMsg("");
+  try {
+    setActionLoading(true);
+    setSuccessMsg("");
 
-      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-      const res = await fetch(`${API_URL}/api/orders/cancel/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    const res = await fetch(`${API_URL}/api/orders/cancel/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) throw new Error(data.message || "Failed to cancel order");
+    if (!res.ok) throw new Error(data.message || "Failed to cancel order");
 
-      setOrder(data.order);
-      setSuccessMsg("✅ Order cancelled successfully");
-    } catch (err) {
-      alert(err.message || "Cancel failed");
-    } finally {
-      setActionLoading(false);
+    setOrder(data.order);
+    setSuccessMsg("✅ Order cancelled successfully");
+  } catch (err) {
+    if (err instanceof Error) {
+      alert(err.message);
+    } else {
+      alert("Cancel failed");
     }
+  } finally {
+    setActionLoading(false);
+  }
+};
+
+interface OrderItem {
+  image: string;
+  name: string;
+  sku: string;
+  size: string;
+  color: string;
+  qty: number;
+  price: number;
+}
+
+interface Order {
+  orderId: string;
+  createdAt: string;
+  status: string;
+  barcode?: string;
+  paymentMethod: string;
+  amount: number;
+  items: OrderItem[];
+  address?: {
+    name: string;
+    phone: string;
+    city: string;
+    pincode: string;
   };
+}
+
 
   // ✅ RETURN ORDER
-  const handleReturnOrder = async () => {
-    if (!confirm("Do you want to return this order?")) return;
+const handleReturnOrder = async () => {
+  if (!confirm("Do you want to return this order?")) return;
 
-    try {
-      setActionLoading(true);
-      setSuccessMsg("");
+  try {
+    setActionLoading(true);
+    setSuccessMsg("");
 
-      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-      const res = await fetch(`${API_URL}/api/orders/return/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    const res = await fetch(`${API_URL}/api/orders/return/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) throw new Error(data.message || "Failed to return order");
+    if (!res.ok) throw new Error(data.message || "Failed to return order");
 
-      setOrder(data.order);
-      setSuccessMsg("✅ Return request placed successfully");
-    } catch (err) {
-      alert(err.message || "Return failed");
-    } finally {
-      setActionLoading(false);
+    setOrder(data.order);
+    setSuccessMsg("✅ Return request placed successfully");
+  } catch (err) {
+    if (err instanceof Error) {
+      alert(err.message);
+    } else {
+      alert("Return failed");
     }
-  };
+  } finally {
+    setActionLoading(false);
+  }
+};
+
 
   // ✅ STATES
   if (loading) return <p className={styles.loading}>Loading order...</p>;
@@ -116,22 +159,26 @@ export default function OrderDetailsPage() {
       <div className={styles.pageWrap}>
         <div className={styles.container}>
           {/* ===== SIDEBAR ===== */}
-          <aside className={styles.sidebar}>
-            <nav className={styles.nav}>
-              <a href="/profile" className={styles.navItem}>
-                <User size={18} /> My Profile
-              </a>
-              <a href="/orders" className={`${styles.navItem} ${styles.active}`}>
-                <Package size={18} /> Orders
-              </a>
-              <a href="/settings" className={styles.navItem}>
-                <Settings size={18} /> Settings
-              </a>
-              <a href="/home" className={styles.navItem}>
-                <ShoppingCart size={18} /> Shop
-              </a>
-            </nav>
-          </aside>
+        <aside className={styles.sidebar}>
+  <nav className={styles.nav}>
+    <Link href="/profile" className={styles.navItem}>
+      <User size={18} /> My Profile
+    </Link>
+
+    <Link href="/orders" className={`${styles.navItem} ${styles.active}`}>
+      <Package size={18} /> Orders
+    </Link>
+
+    <Link href="/settings" className={styles.navItem}>
+      <Settings size={18} /> Settings
+    </Link>
+
+    <Link href="/home" className={styles.navItem}>
+      <ShoppingCart size={18} /> Shop
+    </Link>
+  </nav>
+</aside>
+
 
           {/* ===== MAIN CONTENT ===== */}
           <main className={styles.content}>

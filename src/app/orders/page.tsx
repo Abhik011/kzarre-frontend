@@ -107,22 +107,26 @@ export default function OrdersPage() {
       <div className={styles.pageWrap}>
         <div className={styles.container}>
           {/* ================= SIDEBAR ================= */}
-          <aside className={styles.sidebar}>
-            <nav className={styles.nav}>
-              <a href="/profile" className={styles.navItem}>
-                <User size={18} /> My Profile
-              </a>
-              <a href="/orders" className={`${styles.navItem} ${styles.active}`}>
-                <Package size={18} /> Orders
-              </a>
-              <a href="/settings" className={styles.navItem}>
-                <Settings size={18} /> Settings
-              </a>
-              <a href="/home" className={styles.navItem}>
-                <ShoppingCart size={18} /> Shop
-              </a>
-            </nav>
-          </aside>
+         <aside className={styles.sidebar}>
+  <nav className={styles.nav}>
+    <Link href="/profile" className={styles.navItem}>
+      <User size={18} /> My Profile
+    </Link>
+
+    <Link href="/orders" className={`${styles.navItem} ${styles.active}`}>
+      <Package size={18} /> Orders
+    </Link>
+
+    <Link href="/settings" className={styles.navItem}>
+      <Settings size={18} /> Settings
+    </Link>
+
+    <Link href="/home" className={styles.navItem}>
+      <ShoppingCart size={18} /> Shop
+    </Link>
+  </nav>
+</aside>
+
 
           {/* ================= MAIN CONTENT ================= */}
           <main className={styles.content}>
