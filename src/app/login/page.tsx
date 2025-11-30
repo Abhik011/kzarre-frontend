@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./login.css";
@@ -24,7 +24,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Handle text input changes
+  // ✅ Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -32,64 +32,64 @@ const LoginPage = () => {
     });
   };
 
-  // Submit login
-// Submit login (✅ COOKIE + LOCALSTORAGE HYBRID)
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  setError("");
-  setSuccess("");
+  // ✅ ✅ ✅ FINAL FIXED LOGIN HANDLER (VERCEL SAFE)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
-  if (!formData.emailOrPhone || !formData.password) {
-    setError("Please fill in all fields.");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-
-        // ✅ REQUIRED FOR COOKIE
-        credentials: "include",
-
-        body: JSON.stringify({
-          email: formData.emailOrPhone,
-          password: formData.password,
-        }),
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      setError(data.message || "Login failed.");
-      setLoading(false);
+    if (!formData.emailOrPhone || !formData.password) {
+      setError("Please fill in all fields.");
       return;
     }
 
-    // ✅ ✅ ✅ LOCALSTORAGE (FOR OLD FUNCTIONS)
-    if (data.token) {
-      localStorage.setItem("kzarre_token", data.token);
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // ✅ REQUIRED FOR COOKIE
+          body: JSON.stringify({
+            email: formData.emailOrPhone,
+            password: formData.password,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message || "Login failed.");
+        setLoading(false);
+        return;
+      }
+
+      // ✅ ✅ ✅ SAVE TOKEN (FOR ALL OLD FUNCTIONS)
+      if (data.token) {
+        localStorage.setItem("kzarre_token", data.token);
+      }
+
+      // ✅ ✅ ✅ SAVE USER DATA
+      localStorage.setItem("kzarre_user", JSON.stringify(data.user));
+      localStorage.setItem("kzarre_user_id", data.user.id);
+
+      // ✅ ✅ ✅ GLOBAL AUTH SYNC (FIXES VERCEL FLASH LOGOUT)
+      window.dispatchEvent(new Event("auth-change"));
+
+      setSuccess("Login successful! Redirecting...");
+
+      // ✅ ✅ ✅ SAFE REDIRECT (NO setTimeout)
+      router.replace("/home");
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong.");
+    } finally {
+      setLoading(false);
     }
-
-    localStorage.setItem("kzarre_user", JSON.stringify(data.user));
-    localStorage.setItem("kzarre_user_id", data.user.id);
-
-    setSuccess("Login successful! Redirecting...");
-    setTimeout(() => router.push("/home"), 1000);
-  } catch (err) {
-    console.error(err);
-    setError("Something went wrong.");
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  };
 
   return (
     <div className="login-container">
@@ -105,8 +105,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           <p>Enter your details below</p>
 
           <form onSubmit={handleSubmit}>
-
-            {/* Email / Phone */}
+            {/* ✅ Email / Phone */}
             <div className="input-group">
               <input
                 type="text"
@@ -117,7 +116,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               />
             </div>
 
-            {/* Password + Show/Hide */}
+            {/* ✅ Password */}
             <div className="input-group" style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
@@ -140,17 +139,17 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               </span>
             </div>
 
-            {/* Links */}
+            {/* ✅ Links */}
             <div className="form-links">
-              <a href="/singup">New here? <strong>Create an account</strong></a>
+              <a href="/signup">New here? <strong>Create an account</strong></a>
               <a href="/forgot-password">Forget Password ?</a>
             </div>
 
-            {/* Messages */}
+            {/* ✅ Messages */}
             {error && <p className="error-text">{error}</p>}
             {success && <p className="success-text">{success}</p>}
 
-            {/* Button */}
+            {/* ✅ Submit Button */}
             <button type="submit" className="login-btn" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>

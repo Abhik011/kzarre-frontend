@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import styles from "./Profile.module.css";
 import PageLayout from "../components/PageLayout";
+import { useAuth } from "../hooks/useAuth";
 
 
 /**
@@ -192,7 +193,8 @@ export default function ProfilePage() {
   const [countryQuery, setCountryQuery] = useState("");
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("kzarre_token") : "";
+const { token, ready } = useAuth(true);
+
 
   /* ---------- derived country list ---------- */
   const countryOptions = useMemo(() => {
@@ -205,85 +207,110 @@ export default function ProfilePage() {
         (c.dial_code && c.dial_code.includes(q))
     );
   }, [countryQuery]);
+const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+  setMounted(true);
+}, []);
+
 
   /* ---------- load profile from backend ---------- */
-  useEffect(() => {
-    async function loadProfile() {
-      if (!token) {
-        // not logged in
-        window.location.href = "/login";
+ useEffect(() => {
+  if (!mounted) return; // ✅ WAIT UNTIL CLIENT IS READY
+
+  async function loadProfile() {
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("kzarre_token")
+        : null;
+
+    console.log("✅ PROFILE TOKEN:", token);
+
+    if (!token) {
+      console.log("❌ NO TOKEN AFTER MOUNT → REDIRECT LOGIN");
+      window.location.replace("/login");
+      return;
+    }
+
+    try {
+      console.log("✅ CALLING PROFILE API");
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/profile`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      console.log("✅ PROFILE API RESPONSE:", data);
+
+      if (!data.success) {
+        console.log("❌ API NOT AUTH → REDIRECT LOGIN");
+        window.location.replace("/login");
         return;
       }
 
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/profile`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (!data.success) {
-          setToast({ type: "error", message: data.message || "Failed to load profile" });
-          return;
-        }
+      const u = data.user;
+      setUser(u);
 
-        const u = data.user;
-        setUser(u);
-        // if user stored phone with country prefix, try to detect country
-        let countryIso = "US";
-        let dial_code = "+1";
-        // naive detection: find a country whose dial_code matches prefix of phone
-        if (u?.phone) {
-          const digits = stripNumber(u.phone);
-          for (const c of COUNTRIES) {
-            const cleanDial = (c.dial_code || "").replace(/\D/g, "");
-            if (cleanDial && digits.startsWith(cleanDial)) {
-              countryIso = c.iso || countryIso;
-              dial_code = c.dial_code || dial_code;
-              break;
-            }
+      let countryIso = "US";
+      let dial_code = "+1";
+
+      if (u?.phone) {
+        const digits = stripNumber(u.phone);
+        for (const c of COUNTRIES) {
+          const cleanDial = (c.dial_code || "").replace(/\D/g, "");
+          if (cleanDial && digits.startsWith(cleanDial)) {
+            countryIso = c.iso || countryIso;
+            dial_code = c.dial_code || dial_code;
+            break;
           }
-        } else {
-          // fallback to local default
-          countryIso = "US";
-          dial_code = "+1";
         }
-
-        setForm({
-          name: u.name || "",
-          email: u.email || "",
-          phone: u.phone || "",
-          countryIso,
-          dial_code,
-        });
-
-        // also fetch addresses
-        await loadAddresses();
-      } catch (err) {
-        console.error(err);
-        setToast({ type: "error", message: "Error loading profile" });
       }
-    }
 
-    // loadAddresses used below; define inside to avoid hoisting issues
-    async function loadAddresses() {
-      if (!token) return;
-      setLoadingAddresses(true);
-      try {
-        const res2 = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/address/list`, {
+      setForm({
+        name: u.name || "",
+        email: u.email || "",
+        phone: u.phone || "",
+        countryIso,
+        dial_code,
+      });
+
+      loadAddresses(token);
+    } catch (err) {
+      console.error("❌ PROFILE FETCH ERROR:", err);
+      window.location.replace("/login");
+    }
+  }
+
+  async function loadAddresses(token) {
+
+    setLoadingAddresses(true);
+    try {
+      const res2 = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/address/list`,
+        {
           headers: { Authorization: `Bearer ${token}` },
-        });
-        const d2 = await res2.json();
-        if (d2.success && Array.isArray(d2.addresses)) setAddresses(d2.addresses);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoadingAddresses(false);
+        }
+      );
+      const d2 = await res2.json();
+      if (d2.success && Array.isArray(d2.addresses)) {
+        setAddresses(d2.addresses);
       }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingAddresses(false);
     }
+  }
 
-    loadProfile();
-    // we intentionally do not add loadAddresses into dependencies here; all handled in function
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  loadProfile();
+}, [mounted]);
+
 
   /* ---------- handlers for profile form ---------- */
   function handleFormChange(e) {
@@ -502,7 +529,9 @@ export default function ProfilePage() {
   // If bottom nav overlays content, apply padding-bottom to .content or .pageWrap in CSS.
 
   /* ---------- render ---------- */
-  if (!user) return <div className={styles.loading}>Loading profile…</div>;
+ if (!mounted) return null;
+if (!user) return <div className={styles.loading}>Loading profile…</div>;
+
 
   const selectedCountry = COUNTRIES.find((c) => c.iso === form.countryIso) || { name: "Other", iso: "", dial_code: "" };
 
@@ -819,12 +848,3 @@ export default function ProfilePage() {
     </PageLayout>
   );
 }
-
-/* ---------- Toast CSS placeholders (if your Profile.module.css does not include) ----------
-   If your CSS already contains toast classes (toast, toastSuccess, toastError, toastClose),
-   you can skip — otherwise add small styles to your module to match the design:
-   .toast { position: fixed; right: 20px; top: 20px; padding: 10px 14px; border-radius: 8px; z-index: 99999 }
-   .toastSuccess { background: #0b3; color: #fff; }
-   .toastError { background: #b02a2a; color: #fff; }
-   .toastClose { background: transparent; border: none; color: #fff; margin-left: 8px; }
-------------------------------------------------------------------------------------- */
