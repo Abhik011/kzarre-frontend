@@ -85,7 +85,7 @@
 
   .banner-1,
   .banner-2 {
-    height: 95vh !important;
+    height: auto !important;
         
   }
 
@@ -107,7 +107,7 @@
 
   .banner-1,
   .banner-2 {
-    height: auto;
+    height: fit-content !important;
   }
 
   .banner-toggle {
@@ -133,7 +133,7 @@
 
   .banner-1,
   .banner-2 {
-    height: 85vh;
+    height: fit-content;
       
   }
 
