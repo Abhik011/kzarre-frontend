@@ -46,18 +46,16 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include", // ✅ REQUIRED FOR COOKIE
-          body: JSON.stringify({
-            email: formData.emailOrPhone,
-            password: formData.password,
-          }),
-        }
-      );
+     const res = await fetch("/api/auth/login", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include", // ✅ keeps frontend cookie
+  body: JSON.stringify({
+    email: formData.emailOrPhone,
+    password: formData.password,
+  }),
+});
+
 
       const data = await res.json();
 
