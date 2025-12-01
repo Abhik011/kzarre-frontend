@@ -107,7 +107,7 @@
 
   .banner-1,
   .banner-2 {
-    height: 90vh;
+    height: auto;
   }
 
   .banner-toggle {
