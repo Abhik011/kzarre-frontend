@@ -55,7 +55,7 @@
 
 .banner-1,
 .banner-2 {
-  height: 95vh;
+  height: auto;
 }
 
 .banner-toggle {
