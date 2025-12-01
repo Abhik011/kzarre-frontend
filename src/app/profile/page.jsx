@@ -236,10 +236,11 @@ const [mounted, setMounted] = useState(false);
       console.log("✅ CALLING PROFILE API");
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/profile`,
+        "/api/user/profile",
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            
           },
         }
       );
@@ -291,8 +292,7 @@ const [mounted, setMounted] = useState(false);
 
     setLoadingAddresses(true);
     try {
-      const res2 = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/address/list`,
+      const res2 = await fetch("/api/user/address/list",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -341,9 +341,10 @@ const [mounted, setMounted] = useState(false);
         phone: combineDial(country.dial_code, form.phone)
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/profile`, {
+      const res = await fetch(`/api/user/profile`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          credentials: "include",
         body: JSON.stringify(body)
       });
 
@@ -435,7 +436,7 @@ const [mounted, setMounted] = useState(false);
         phone: combineDial(addressForm.dial_code || c.dial_code, addressForm.phone),
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/address/add`, {
+      const res = await fetch("/api/user/address/add", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(payload)
@@ -474,9 +475,10 @@ const [mounted, setMounted] = useState(false);
         phone: combineDial(addressForm.dial_code || c.dial_code, addressForm.phone)
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/address/update/${currentAddress._id}`, {
+      const res = await fetch(`/api/user/address/update/${currentAddress._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          credentials: "include",
         body: JSON.stringify(payload)
       });
 
@@ -500,7 +502,7 @@ const [mounted, setMounted] = useState(false);
     if (!confirm("Delete this address? This cannot be undone.")) return;
     setDeletingId(id);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/user/address/delete/${id}`, {
+      const res = await fetch("/api/user/address/delete/${id}", {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` }
       });

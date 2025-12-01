@@ -3,6 +3,14 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import PageLayout from "../../components/PageLayout";
 
+/* ================= ✅ USD FORMATTER ================= */
+function formatUSD(amount = 0) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+}
+
 export default function SuccessPage() {
   const searchParams = useSearchParams();
 
@@ -70,7 +78,7 @@ export default function SuccessPage() {
     );
   }
 
-  /* ================= ✅ SMART FIELD MAPPING (AUTO FIXES ALL ISSUES) ================= */
+  /* ================= ✅ SMART FIELD MAPPING ================= */
 
   const customerName =
     order.user?.name ||
@@ -84,7 +92,7 @@ export default function SuccessPage() {
     order.address?.email ||
     "Not Provided";
 
-  // ✅ AUTO-CALCULATE SUBTOTAL FROM ITEMS (IF BACKEND FAILS)
+  // ✅ AUTO-CALCULATE SUBTOTAL FROM ITEMS
   const calculatedSubtotal = Array.isArray(order.items)
     ? order.items.reduce(
         (sum, item) => sum + (item.price ?? 0) * (item.qty ?? 1),
@@ -104,7 +112,7 @@ export default function SuccessPage() {
     order.deliveryCharge ??
     0;
 
-  // ✅ FINAL TOTAL (NEVER ZERO AGAIN)
+  // ✅ FINAL TOTAL
   const total =
     order.total ??
     order.grandTotal ??
@@ -167,9 +175,7 @@ export default function SuccessPage() {
                   <span>
                     {item.product?.name || item.name} × {item.qty ?? 1}
                   </span>
-                  <strong>
-                    ₹ {(item.price ?? 0).toLocaleString()}
-                  </strong>
+                  <strong>{formatUSD(item.price ?? 0)}</strong>
                 </div>
               ))}
 
@@ -177,21 +183,17 @@ export default function SuccessPage() {
 
             <div style={styles.totalRow}>
               <span>Subtotal</span>
-              <strong>₹ {subtotal.toLocaleString()}</strong>
+              <strong>{formatUSD(subtotal)}</strong>
             </div>
 
             <div style={styles.totalRow}>
               <span>Shipping</span>
-              <strong>
-                {shipping === 0
-                  ? "Free"
-                  : `₹ ${shipping.toLocaleString()}`}
-              </strong>
+              <strong>{shipping === 0 ? "Free" : formatUSD(shipping)}</strong>
             </div>
 
             <div style={styles.grandTotal}>
               <span>Total</span>
-              <strong>₹ {total.toLocaleString()}</strong>
+              <strong>{formatUSD(total)}</strong>
             </div>
           </div>
 

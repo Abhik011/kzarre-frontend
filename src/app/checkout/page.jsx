@@ -255,17 +255,7 @@ useEffect(() => {
     <PageLayout>
       <div className={styles.pageWrap}>
         {/* PROGRESS BAR */}
-        <div className={styles.progress}>
-          <div className={styles.progressInner}>
-            <div className={styles.progressStepActive}><CheckCircle /></div>
-            <div className={styles.progressLineActive} />
-            <div className={styles.progressStepActive}><Home /></div>
-            <div className={styles.progressLineActive} />
-            <div className={styles.progressStep}><FileText /></div>
-            <div className={styles.progressLine} />
-            <div className={styles.progressStep}><Package /></div>
-          </div>
-        </div>
+     
 
         <div className={styles.container}>
           {/* LEFT SIDE */}
