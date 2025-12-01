@@ -46,6 +46,7 @@
 .banner-container1 {
   width: 100%;
   height: auto;
+  border: 1px solid black;
 }
 .banner-container3{
   width: 100%;
