@@ -30,8 +30,7 @@ function normalizeStatus(status?: string): string {
 
   const map: Record<string, string> = {
     Processing: "In Progress",
-    "In-Progress": "In Progress",
-    Shipped: "In Progress",
+    Shipped: "Shipped",
     Completed: "Delivered",
     Delivered: "Delivered",
     Cancelled: "Cancelled",
@@ -84,8 +83,8 @@ export default function OrdersPage() {
         const status = order.status?.toLowerCase();
 
         // ✅ IN PROGRESS = pending + paid + shipped
-        if (activeFilter === "In Progress") {
-          return ["pending", "paid", "shipped"].includes(status);
+        if (activeFilter === "In Conform") {
+          return ["Conform", "paid", "shipped"].includes(status);
         }
 
         // ✅ DELIVERED
@@ -134,7 +133,7 @@ export default function OrdersPage() {
 
             {/* ================= FILTERS (ALWAYS VISIBLE) ================= */}
             <div className={styles.filterRow}>
-              {["All", "In Progress", "Delivered", "Cancelled"].map((f) => (
+              {["All", "In Progress", "Shipped", "Delivered", "Cancelled"].map((f) => (
                 <button
                   key={f}
                   onClick={() => setActiveFilter(f)}
