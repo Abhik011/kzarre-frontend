@@ -2,90 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { User, Package, Settings, ShoppingCart } from "lucide-react";
 import styles from "./OrderDetails.module.css";
 import PageLayout from "../../components/PageLayout";
 import Link from "next/link";
 
-
-export default function OrderDetailsPage() {
-  const { id } = useParams(); // /orders/[id] → orderId
-
-const [order, setOrder] = useState<Order | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [actionLoading, setActionLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-
-  // ✅ FETCH SINGLE ORDER FROM BACKEND
-useEffect(() => {
-  if (!id) return;
-
-  const fetchOrder = async () => {
-    try {
-      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-
-      const res = await fetch(`${API_URL}/api/orders/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) throw new Error(data.message || "Failed to fetch order");
-
-      setOrder(data.order);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Something went wrong");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchOrder();
-}, [id]);
-
-
-  // ✅ CANCEL ORDER
-const handleCancelOrder = async () => {
-  if (!confirm("Are you sure you want to cancel this order?")) return;
-
-  try {
-    setActionLoading(true);
-    setSuccessMsg("");
-
-    const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-
-    const res = await fetch(`${API_URL}/api/orders/cancel/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.message || "Failed to cancel order");
-
-    setOrder(data.order);
-    setSuccessMsg("✅ Order cancelled successfully");
-  } catch (err) {
-    if (err instanceof Error) {
-      alert(err.message);
-    } else {
-      alert("Cancel failed");
-    }
-  } finally {
-    setActionLoading(false);
-  }
-};
+/* ============================
+   ✅ TYPES (MUST BE AT TOP)
+============================ */
 
 interface OrderItem {
   image: string;
@@ -97,88 +22,234 @@ interface OrderItem {
   price: number;
 }
 
+interface Address {
+  name: string;
+  phone: string;
+  city: string;
+  pincode: string;
+}
+
 interface Order {
   orderId: string;
   createdAt: string;
-  status: string;
-  barcode?: string;
-  paymentMethod: string;
+  status:
+    | "pending"
+    | "paid"
+    | "shipped"
+    | "delivered"
+    | "cancelled"
+    | "failed"
+    | "refunded";
+  paymentMethod: "ONLINE" | "COD";
   amount: number;
+  barcode?: string;
   items: OrderItem[];
-  address?: {
-    name: string;
-    phone: string;
-    city: string;
-    pincode: string;
-  };
+  address?: Address;
 }
 
+/* ============================
+   ✅ COMPONENT
+============================ */
 
-  // ✅ RETURN ORDER
-const handleReturnOrder = async () => {
-  if (!confirm("Do you want to return this order?")) return;
+export default function OrderDetailsPage() {
+  const params = useParams();
+  const router = useRouter();
 
-  try {
-    setActionLoading(true);
-    setSuccessMsg("");
+  const id = params?.id as string;
+  const orderId = Array.isArray(id) ? id[0] : id;
 
-    const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+ 
+  const [order, setOrder] = useState<Order | null>(null);
 
-    const res = await fetch(`${API_URL}/api/orders/return/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [actionLoading, setActionLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
-    const data = await res.json();
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-    if (!res.ok) throw new Error(data.message || "Failed to return order");
+  /* =======================
+     ✅ FETCH SINGLE ORDER
+  ======================= */
 
-    setOrder(data.order);
-    setSuccessMsg("✅ Return request placed successfully");
-  } catch (err) {
-    if (err instanceof Error) {
-      alert(err.message);
-    } else {
-      alert("Return failed");
+  useEffect(() => {
+    if (!orderId) return;
+
+    async function fetchOrder() {
+      try {
+        const res = await fetch(`${API_URL}/api/orders/${orderId}`, {
+          credentials: "include",
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to fetch order");
+
+        setOrder(data.order);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
     }
-  } finally {
-    setActionLoading(false);
+
+    fetchOrder();
+  }, [orderId, API_URL]);
+
+  /* =======================
+     ✅ RELOAD ORDER
+  ======================= */
+
+  async function reloadOrder() {
+    if (!orderId) return;
+    try {
+      const res = await fetch(`${API_URL}/api/orders/${orderId}`, {
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (res.ok) setOrder(data.order);
+    } catch (e) {
+      console.error("reload error:", e);
+    }
   }
-};
 
+  /* =======================
+     ✅ CANCEL / REFUND
+  ======================= */
 
-  // ✅ STATES
-  if (loading) return <p className={styles.loading}>Loading order...</p>;
-  if (error) return <p className={styles.error}>{error}</p>;
+  const handleCancelOrder = async () => {
+    if (!order || !orderId) return;
+
+    const isPaidOnline =
+      order.status === "paid" && order.paymentMethod === "ONLINE";
+
+    const confirmMsg = isPaidOnline
+      ? "This order is already paid. Cancelling will trigger a refund. Continue?"
+      : "Are you sure you want to cancel this order?";
+
+    if (!window.confirm(confirmMsg)) return;
+
+    try {
+      setActionLoading(true);
+      setSuccessMsg("");
+
+      const endpoint = isPaidOnline
+        ? `${API_URL}/api/checkout/refund`
+        : `${API_URL}/api/orders/cancel`;
+
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ orderId: order.orderId }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success)
+        throw new Error(data.message || "Failed");
+
+      if (data.order) setOrder(data.order);
+      else await reloadOrder();
+
+      setSuccessMsg(
+        isPaidOnline
+          ? "✅ Order refunded successfully"
+          : "✅ Order cancelled successfully"
+      );
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Cancel failed");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  /* =======================
+     ✅ RETURN (REFUND AFTER DELIVERY)
+  ======================= */
+
+  const handleReturnOrder = async () => {
+    if (!order) return;
+    if (!window.confirm("Return & refund this order?")) return;
+
+    try {
+      setActionLoading(true);
+
+      const res = await fetch(`${API_URL}/api/checkout/refund`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ orderId: order.orderId }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success)
+        throw new Error(data.message || "Return failed");
+
+      if (data.order) setOrder(data.order);
+      else await reloadOrder();
+
+      setSuccessMsg("✅ Return processed & payment refunded");
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Return failed");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  /* =======================
+     ✅ UI STATES
+  ======================= */
+
+  if (loading)
+    return (
+      <PageLayout>
+        <p className={styles.loading}>Loading order...</p>
+      </PageLayout>
+    );
+
+  if (error)
+    return (
+      <PageLayout>
+        <p className={styles.error}>{error}</p>
+      </PageLayout>
+    );
+
   if (!order) return null;
+
+  const isCancellableStatus = ["pending", "paid", "shipped"].includes(
+    order.status
+  );
+
+  /* =======================
+     ✅ UI RENDER
+  ======================= */
 
   return (
     <PageLayout>
       <div className={styles.pageWrap}>
         <div className={styles.container}>
           {/* ===== SIDEBAR ===== */}
-        <aside className={styles.sidebar}>
-  <nav className={styles.nav}>
-    <Link href="/profile" className={styles.navItem}>
-      <User size={18} /> My Profile
-    </Link>
+          <aside className={styles.sidebar}>
+            <nav className={styles.nav}>
+              <Link href="/profile" className={styles.navItem}>
+                <User size={18} /> My Profile
+              </Link>
 
-    <Link href="/orders" className={`${styles.navItem} ${styles.active}`}>
-      <Package size={18} /> Orders
-    </Link>
+              <Link
+                href="/orders"
+                className={`${styles.navItem} ${styles.active}`}
+              >
+                <Package size={18} /> Orders
+              </Link>
 
-    <Link href="/settings" className={styles.navItem}>
-      <Settings size={18} /> Settings
-    </Link>
+              <Link href="/settings" className={styles.navItem}>
+                <Settings size={18} /> Settings
+              </Link>
 
-    <Link href="/home" className={styles.navItem}>
-      <ShoppingCart size={18} /> Shop
-    </Link>
-  </nav>
-</aside>
-
+              <Link href="/home" className={styles.navItem}>
+                <ShoppingCart size={18} /> Shop
+              </Link>
+            </nav>
+          </aside>
 
           {/* ===== MAIN CONTENT ===== */}
           <main className={styles.content}>
@@ -210,17 +281,19 @@ const handleReturnOrder = async () => {
 
               {/* ✅ ACTION BUTTONS */}
               {successMsg && (
-                <p style={{ color: "green", fontWeight: 600, marginBottom: "10px" }}>
+                <p
+                  style={{
+                    color: "green",
+                    fontWeight: 600,
+                    marginBottom: "10px",
+                  }}
+                >
                   {successMsg}
                 </p>
               )}
 
               <div style={{ marginBottom: "20px" }}>
-                {[
-                  "pending",
-                  "paid",
-                  "shipped",
-                ].includes(order.status) && (
+                {isCancellableStatus && (
                   <button
                     onClick={handleCancelOrder}
                     disabled={actionLoading}
@@ -258,31 +331,79 @@ const handleReturnOrder = async () => {
                 )}
               </div>
 
-              {/* ✅ ORDER TRACKING */}
+              {/* ✅ TRACKING HEADER */}
               <div className={styles.trackingHeader}>
                 <h3>Order Tracking</h3>
                 <p>Tracking ID: {order.barcode || "Not assigned"}</p>
               </div>
 
               {order.status === "cancelled" && (
-                <p style={{ color: "red", fontWeight: 600, marginBottom: "10px" }}>
-                   This order has been cancelled
+                <p
+                  style={{
+                    color: "red",
+                    fontWeight: 600,
+                    marginBottom: "10px",
+                  }}
+                >
+                  This order has been cancelled
                 </p>
               )}
 
+              {order.status === "failed" && (
+                <p
+                  style={{
+                    color: "red",
+                    fontWeight: 600,
+                    marginBottom: "10px",
+                  }}
+                >
+                  Payment failed / cancelled. No charge was made.
+                </p>
+              )}
+
+              {order.status === "refunded" && (
+                <p
+                  style={{
+                    color: "#d9c169",
+                    fontWeight: 600,
+                    marginBottom: "10px",
+                  }}
+                >
+                  This order has been refunded.
+                </p>
+              )}
+
+              {/* ✅ ORDER TRACKING STEPS */}
               <div className={styles.trackingBox}>
-                {[ 
-                  { key: "pending", label: "Order Placed", icon: "/Assest/gifs/order-placed.gif" },
-                  { key: "paid", label: "Order Packed", icon: "/Assest/gifs/package.gif" },
-                  { key: "shipped", label: "In Transit", icon: "/Assest/gifs/truck.gif" },
-                  { key: "delivered", label: "Delivered", icon: "/Assest/gifs/delivered.gif" },
+                {[
+                  {
+                    key: "pending",
+                    label: "Order Placed",
+                    icon: "/Assest/gifs/order-placed.gif",
+                  },
+                  {
+                    key: "paid",
+                    label: "Order Packed",
+                    icon: "/Assest/gifs/package.gif",
+                  },
+                  {
+                    key: "shipped",
+                    label: "In Transit",
+                    icon: "/Assest/gifs/truck.gif",
+                  },
+                  {
+                    key: "delivered",
+                    label: "Delivered",
+                    icon: "/Assest/gifs/delivered.gif",
+                  },
                 ].map((step, idx, steps) => {
                   const currentIndex = steps.findIndex(
                     (s) => s.key === order.status
                   );
 
-                  const isCompleted = idx <= currentIndex;
-                  const isCurrent = idx === currentIndex;
+                  const isCompleted =
+                    currentIndex === -1 ? false : idx <= currentIndex;
+                  const isCurrent = currentIndex === idx;
 
                   return (
                     <div key={idx} className={styles.trackStep}>
@@ -311,7 +432,10 @@ const handleReturnOrder = async () => {
                       </p>
 
                       {isCurrent && (
-                        <p className={styles.date} style={{ color: "#d9c169" }}>
+                        <p
+                          className={styles.date}
+                          style={{ color: "#d9c169" }}
+                        >
                           Current Status
                         </p>
                       )}
@@ -345,10 +469,12 @@ const handleReturnOrder = async () => {
                         <h4>{item.name}</h4>
                         <p>SKU: {item.sku}</p>
                         <p>
-                          Size: {item.size} | Colour: <strong>{item.color}</strong>
+                          Size: {item.size} | Colour:{" "}
+                          <strong>{item.color}</strong>
                         </p>
                         <p className={styles.expected}>
-                          Payment Method: <strong>{order.paymentMethod}</strong>
+                          Payment Method:{" "}
+                          <strong>{order.paymentMethod}</strong>
                         </p>
                       </div>
                     </div>
@@ -356,15 +482,16 @@ const handleReturnOrder = async () => {
                     <div className={styles.qty}>{item.qty}</div>
 
                     <div className={styles.price}>
-                      ${item.price * item.qty}
-                      <span>including of Tax</span>
+                      ${Number(item.price * item.qty).toFixed(2)}
+                      <span>including Tax</span>
                     </div>
                   </div>
                 ))}
 
                 {/* ✅ TOTAL */}
                 <div className={styles.totalBox}>
-                  <strong>Total Amount:</strong> ${order.amount}
+                  <strong>Total Amount:</strong>{" "}
+                  ${Number(order.amount).toFixed(2)}
                 </div>
 
                 {/* ✅ SHIPPING ADDRESS */}
