@@ -4,7 +4,7 @@
 .header {
   width: 100%;
   height: 60px;
-  background-color: #0C2B19;
+  background-color: #ffffff;
   font-family: 'Lora', serif;
   position: fixed;
   top: 0;
@@ -36,7 +36,7 @@
 
 .nav-left a,
 .nav-right a {
-  color: #ffffff;
+  color: black;
   font-size: 0.7rem;
   font-weight: 500;
   text-decoration: none;
@@ -126,7 +126,7 @@
 }
 
 .mobile-nav-items a {
-  color: #ffffff;
+  color: black;
   font-size: 0.85rem;
   font-family: 'Lora';
 }

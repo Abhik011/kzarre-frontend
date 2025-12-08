@@ -1,9 +1,9 @@
 .footer {
-  background-color: #082415;
+  background-color: #ffffff;
   width: 100vw;
   margin-top: 1%;
   height: max-content;
-  color: #ffffff;
+  color: black;
   font-family: "Open Sans", sans-serif;
   padding: 20px 0px;
 }
@@ -63,11 +63,11 @@
 .footer-column li,
 .footer-column li a,
 a[href^="tel"] {
-  color: #ffffff !important;
+  color: black !important;
   text-decoration: none !important;
 }
 .footer-column li {
-  color: #ffffff;
+  color: black;
   font-size: 0.8rem;
   margin-bottom: 6px;
   cursor: pointer;
@@ -78,20 +78,20 @@ a[href^="tel"] {
   background: transparent;
   border: none;
   border-bottom: 1px solid #d4af37;
-  color: #ffffff;
+  color: black;
   padding: 8px 0;
   outline: none;
 }
 
 .footer-small-text {
   font-size: 0.7rem;
-  color: #ccc;
+  color: #676767;
   margin-top: 10px;
   line-height: 1.3;
 }
 
 .footer-small-text span {
-  color: #ffffff;
+  color: black;
   text-decoration: underline;
 }
 
@@ -167,9 +167,7 @@ a[href^="tel"] {
     letter-spacing: 0.2em;
   }
 
-  .footer-content {
-    /* padding: 25px 10px; */
-  }
+
 
   .footer-column h3 {
     font-size: 0.85rem;

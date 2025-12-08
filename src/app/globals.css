@@ -60,7 +60,7 @@ body {
 .nav-left a {
   margin-left: 40px;
   text-decoration: none;
-  color: #ffffff;
+  color: black;
   font-family: 'Lora', sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
@@ -82,7 +82,7 @@ body {
 .nav-right a {
   margin-right: 40px;
   text-decoration: none;
-  color: #ffffff;
+  color: black;
   font-size: 0.8rem;
   font-family: 'Lora', sans-serif;
   font-weight: 500;
