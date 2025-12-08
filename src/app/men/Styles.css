@@ -27,9 +27,10 @@
 }
 
 .gallery-item {
+
   margin-top: 10%;
   width: 100%;
-  height: 520px;
+  height: 500px;
    scroll-behavior: smooth;
 
    
@@ -57,7 +58,7 @@
 .gallery-price {
   color: #555;
 font-size: 0.9rem;
-  margin-top: 10px;
+  margin-top: 8px;
   line-height: 1;
   text-align: center;
   font-family: 'Lora';

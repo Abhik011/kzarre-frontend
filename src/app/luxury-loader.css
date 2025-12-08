@@ -2,7 +2,7 @@
 .luxury-loader {
   position: fixed;
   inset: 0;
-  background-color: #0a1f16; /* deep green background */
+  background-color: #ffffff; /* deep green background */
   display: flex;
   flex-direction: column;
   justify-content: center;
