@@ -4,8 +4,6 @@ import { useState } from 'react';
 import '../Toggle.css'
 import WomensBannerCard from './WomensBannerCard';
 import MensBannerCard from './MensBannerCard';
-import Bannergridwomens from './Bannergridwomens';
-import Bannergridmens from './Bannergridmens';
 
 const BannerToggle = () => {
     const [selected, setSelected] = useState<'women' | 'men'>('women');
@@ -29,7 +27,7 @@ const BannerToggle = () => {
         <div className="banner-toggle-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '0px', alignItems: 'center', width: '100%'}}>
 
             {/* Buttons */}
-            <div style={{ display: 'flex', gap: '0px', }}>
+            <div style={{ display: 'flex', gap: '0px', marginTop:'0%',}}>
                 <button onClick={() => setSelected('women')} style={btnStyle(selected === 'women')}>
                     Women
                 </button>

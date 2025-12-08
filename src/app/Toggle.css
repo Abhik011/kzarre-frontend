@@ -16,7 +16,6 @@
 @media (max-width: 1366px) {
     .banner-toggle-wrapper{
         height: 245vh;
-      
         margin-top: 0%;
     }
     .banner_sections{
@@ -27,7 +26,6 @@
 @media (max-width: 480px) {
     .banner-toggle-wrapper{
         height: 200vh;
-     
         margin-top: 0%;
        
         
