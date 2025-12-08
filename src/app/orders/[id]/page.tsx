@@ -29,9 +29,25 @@ interface Address {
   pincode: string;
 }
 
+interface Shipment {
+  carrier?: "ups" | "fedex" | "dhl" | "manual";
+  trackingId?: string;
+  status?: 
+    | "label_created"
+    | "picked_up"
+    | "in_transit"
+    | "out_for_delivery"
+    | "delivered"
+    | "exception";
+  labelUrl?: string;
+  shippedAt?: string;
+  deliveredAt?: string;
+}
+
 interface Order {
   orderId: string;
   createdAt: string;
+
   status:
     | "pending"
     | "paid"
@@ -40,12 +56,17 @@ interface Order {
     | "cancelled"
     | "failed"
     | "refunded";
+
   paymentMethod: "ONLINE" | "COD";
   amount: number;
-  barcode?: string;
+
   items: OrderItem[];
   address?: Address;
+
+  // ✅ ✅ ✅ NEW
+  shipment?: Shipment;
 }
+
 
 /* ============================
    ✅ COMPONENT
@@ -58,7 +79,7 @@ export default function OrderDetailsPage() {
   const id = params?.id as string;
   const orderId = Array.isArray(id) ? id[0] : id;
 
- 
+
   const [order, setOrder] = useState<Order | null>(null);
 
   const [loading, setLoading] = useState(true);
@@ -134,10 +155,10 @@ export default function OrderDetailsPage() {
 
       const endpoint = isPaidOnline
         ? `${API_URL}/api/checkout/refund`
-        : `${API_URL}/api/orders/cancel`;
+        : `${API_URL}/api/orders/cancel/${order.orderId}`;
 
       const res = await fetch(endpoint, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({ orderId: order.orderId }),
@@ -333,9 +354,52 @@ export default function OrderDetailsPage() {
 
               {/* ✅ TRACKING HEADER */}
               <div className={styles.trackingHeader}>
-                <h3>Order Tracking</h3>
-                <p>Tracking ID: {order.barcode || "Not assigned"}</p>
-              </div>
+  <h3>Order Tracking</h3>
+
+  {order.shipment?.trackingId ? (
+    <>
+      <p>
+        Tracking ID: <strong>{order.shipment.trackingId}</strong>
+      </p>
+      <p>
+        Carrier:{" "}
+        <strong>
+          {order.shipment.carrier?.toUpperCase()}
+        </strong>
+      </p>
+
+      {order.shipment.labelUrl && (
+        <a
+          href={order.shipment.labelUrl}
+          target="_blank"
+          className={styles.downloadLabel}
+        >
+          Download Shipping Label
+        </a>
+      )}
+    </>
+  ) : (
+    <p>Tracking ID: Not assigned yet</p>
+  )}
+</div>
+
+ {order.shipment?.status && (
+  <p
+    style={{
+      marginTop: "6px",
+      fontWeight: 600,
+      color:
+        order.shipment.status === "delivered"
+          ? "green"
+          : order.shipment.status === "exception"
+          ? "red"
+          : "#000",
+    }}
+  >
+    Shipment Status:{" "}
+    {order.shipment.status.replaceAll("_", " ").toUpperCase()}
+  </p>
+)}
 
               {order.status === "cancelled" && (
                 <p
