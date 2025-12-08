@@ -5,6 +5,7 @@
   display: block;
   justify-content: center;
 
+
   /* padding: 5px 0; */
 }
 .banner-containerid h3{
@@ -23,7 +24,8 @@
    text-transform: lowercase;
     font-size: 1.1rem;
    font-family: 'open sans';
-   letter-spacing: 0.05em;
+   letter-spacing: 0.05em; 
+ 
    
 }
 /* Wrapper */

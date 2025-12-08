@@ -110,7 +110,7 @@ export default function Home() {
          <Bannergridwomens/>
         </div>
 
-        <div className="banner-container banner-2">
+        <div className="banner-containe4 banner-2">
           <Bannertwo />
         </div>
      
