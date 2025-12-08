@@ -27,7 +27,8 @@
 /* Wrapper */
 .banner-wrapper {
   width: 100%;
-  height: auto;
+  height: 100%;
+  border: 1px solid red ;
   padding: 0% 1% 1%;
   display: grid;
   gap: 20px;
@@ -37,7 +38,7 @@
     "left-top center right-top"
     "left-bottom center right-bottom";
   grid-template-columns: 4fr 2.7fr 4fr;   /* Responsive — no fixed px */
-  grid-template-rows: 310px 310px;   
+  grid-template-rows: 380px 380px;   
    /* Equal height rows */
 }
 
