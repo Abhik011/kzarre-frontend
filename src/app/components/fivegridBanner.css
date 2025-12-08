@@ -38,7 +38,7 @@
     "left-top center right-top"
     "left-bottom center right-bottom";
   grid-template-columns: 4fr 2.7fr 4fr;   /* Responsive — no fixed px */
-  grid-template-rows: 380px 380px;   
+  grid-template-rows: 360px 360px;   
    /* Equal height rows */
 }
 
