@@ -99,8 +99,6 @@ export default function Home() {
           </div>
         )}
       </section>
-
-      <section className="banner-section">
         <div className="banner-container banner-1">
           <Bannerone />
         </div>
@@ -115,11 +113,12 @@ export default function Home() {
         <div className="banner-container banner-2">
           <Bannertwo />
         </div>
-      </section>
+     
 
       <div className="stories-section">
         <Stories />
       </div>
+   
     </>
     </PageLayout>
   );
