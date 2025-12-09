@@ -16,7 +16,7 @@ const Footer = () => {
             <Image
               src={logo}
               alt="KZARRÈ Logo"
-             
+              className="logo-img"
             />
           </Link>
         </div>

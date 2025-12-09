@@ -53,14 +53,17 @@
 .nav-left a { margin-left: 40px; }
 .nav-right a { margin-right: 40px; }
 
-/* ============================
-           LOGO
-============================ */
+
 .logo {
   text-align: center;
   flex-shrink: 0;
+
 }
 
+.logo-img{
+    width: 200px !important;
+  height: auto !important;
+}
 /* ============================
      MOBILE EXCLUSIVE BUTTONS
 ============================ */

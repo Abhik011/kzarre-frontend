@@ -164,8 +164,8 @@ export default function WomenPage() {
                 loading="lazy"
                 onLoad={() => setLoaded(true)}
                 style={{
-                  filter: isOutOfStock ? "grayscale(100%)" : "none",
-                  opacity: isOutOfStock ? 0.5 : 1,
+                  filter: isOutOfStock ? "grayscale(0%)" : "none",
+                  opacity: isOutOfStock ? 1 : 1,
                 }}
               />
 
