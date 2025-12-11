@@ -67,13 +67,6 @@
   height: max-content;
 }
 
-/* .banner-toggle {
-  margin-top: 0%;
-  width: 100%;
-  height: max-content ;
-
-} */
-
 .stories-section {
   width: 100%;
   height: auto;
@@ -83,10 +76,10 @@
 /* DEFAULT — Auto height */
 .banner-toggle {
   width: 100%;
-  height: auto !important;      /* KEY FIX */
+  height: auto !important;      
   margin: 0;
   padding: 0;
-  overflow: visible;            /* Prevent content clipping */
+  overflow: visible;            
 }
 
 /* LARGE LAPTOPS */
