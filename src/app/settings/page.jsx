@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import styles from "./Settings.module.css";
 import PageLayout from "../components/PageLayout";
-
+import SidebarNav from "../components/SidebarNav"
 
 export default function SettingsPage() {
   /* ============================================================
@@ -35,36 +35,7 @@ export default function SettingsPage() {
     <PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
-        
-        {/* ============================================================
-            SIDEBAR
-          ============================================================ */}
-        <aside className={styles.sidebar}>
-          <nav className={styles.nav}>
-            <a href="/profile" className={styles.navItem}>
-              <User size={18} /> My Profile
-            </a>
-
-            <a href="/orders" className={styles.navItem}>
-              <Package size={18} /> Orders
-            </a>
-
-            <a
-              href="/settings"
-              className={`${styles.navItem} ${styles.active}`}
-            >
-              <Settings size={18} /> Settings
-            </a>
-
-            <a href="/home" className={styles.navItem}>
-              <ShoppingCart size={18} /> Shop
-            </a>
-          </nav>
-        </aside>
-
-        {/* ============================================================
-            MAIN CONTENT
-          ============================================================ */}
+       <SidebarNav active="profile" />
         <main className={styles.content}>
           <h2 className={styles.sectionTitle}>Settings</h2>
 

@@ -8,7 +8,7 @@
 
 /* ===== PAGE WRAP ===== */
 .pageWrap {
-  margin-top: 3%;
+  margin-top: 4%;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -21,41 +21,6 @@
   display: grid;
   grid-template-columns: 260px 1fr;
   min-height: calc(100vh - 60px);
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar {
-  background: #fafafa;
-  border-right: 1px solid var(--border);
-  padding: 40px 20px;
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.navItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #333;
-  text-decoration: none;
-  font-family: "Open Sans", sans-serif;
-  font-size: 15px;
-  padding: 8px 12px;
-  transition: all 0.2s ease;
-}
-
-.navItem:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.active {
-  color: var(--green);
-  font-weight: 600;
-  background: rgba(0, 0, 0, 0.05);
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -324,11 +289,14 @@
   margin-bottom: 10px;
   font-family: "Open Sans", sans-serif;
 }
-
 /* ===== RESPONSIVE - TABLET ===== */
 @media (max-width: 1024px) {
+  .pageWrap{
+    padding: 0%;
+   
+  }
   .content {
-    padding: 30px;
+    padding-top: 20px;
   }
 
   .trackingBox {
@@ -344,6 +312,7 @@
 @media (max-width: 900px) {
   .container {
     grid-template-columns: 1fr;
+    margin-top: 5%;
   }
 
   .content {
@@ -378,7 +347,7 @@
 /* ===== SMALL MOBILE OPTIMIZATION ===== */
 @media (max-width: 600px) {
   .pageWrap {
-    margin-top: 70px;
+    margin-top: 20px;
   }
 
   .sectionTitle {
@@ -418,9 +387,5 @@
 
   .addressBox {
     font-size: 14px;
-  }
-
-  .sidebar {
-    display: none;
   }
 }

@@ -7,6 +7,7 @@ import { User, Package, Settings, ShoppingCart } from "lucide-react";
 import styles from "./OrderDetails.module.css";
 import PageLayout from "../../components/PageLayout";
 import Link from "next/link";
+import SidebarNav from "../../components/SidebarNav";
 
 /* ============================
    ✅ TYPES (MUST BE AT TOP)
@@ -249,29 +250,7 @@ export default function OrderDetailsPage() {
       <div className={styles.pageWrap}>
         <div className={styles.container}>
           {/* ===== SIDEBAR ===== */}
-          <aside className={styles.sidebar}>
-            <nav className={styles.nav}>
-              <Link href="/profile" className={styles.navItem}>
-                <User size={18} /> My Profile
-              </Link>
-
-              <Link
-                href="/orders"
-                className={`${styles.navItem} ${styles.active}`}
-              >
-                <Package size={18} /> Orders
-              </Link>
-
-              <Link href="/settings" className={styles.navItem}>
-                <Settings size={18} /> Settings
-              </Link>
-
-              <Link href="/home" className={styles.navItem}>
-                <ShoppingCart size={18} /> Shop
-              </Link>
-            </nav>
-          </aside>
-
+          <SidebarNav/>
           {/* ===== MAIN CONTENT ===== */}
           <main className={styles.content}>
             <h2 className={styles.sectionTitle}>Order Details</h2>

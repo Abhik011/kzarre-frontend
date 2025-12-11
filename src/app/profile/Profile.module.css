@@ -1,32 +1,24 @@
 /* ============================================================
-   GLOBAL THEME (Your original base + luxury addons)
+   GLOBAL THEME
 ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap');
+
 :root {
   --green: #082415;
   --gold: #d9c169;
   --muted: #777;
-  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-
+  --shadow: 0 8px 20px rgba(0,0,0,0.08);
   --border: rgba(0,0,0,0.06);
-  --black: #111;
   --white: #fff;
 }
 
-
-
-
-/* ============================================================
-   PAGE WRAPPER
-============================================================ */
 .pageWrap {
-  padding-top:2.5%;
+  margin-top: 4%;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background: #fff;
   font-family: "Open Sans", sans-serif;
-  text-transform: uppercase;
 }
 
 
@@ -39,52 +31,8 @@
   min-height: calc(100vh - 60px);
 }
 
-
-/* ============================================================
-   SIDEBAR
-============================================================ */
-.sidebar {
-  background: #fafafa;
-  border-right: 1px solid var(--border);
-  padding: 40px 20px;
-}
-
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.navItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #333;
-  text-decoration: none;
-  font-size: 15px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-family: "open sans"; 
-}
-
-.navItem:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.active {
-  color: var(--green);
-  font-weight: 600;
-  background: rgba(0, 0, 0, 0.05);
-}
-
-
-/* ============================================================
-   MAIN CONTENT
-============================================================ */
 .content {
-  width: 80vw;
-  margin-top: 2%;
+  width: 100%;
   padding: 40px 50px;
   background: #fff;
 }
@@ -140,15 +88,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  letter-spacing: 0.03em;
 }
 
 .value {
   color: var(--muted);
 }
 
-
-/* Edit Icon */
 .editIcon {
   color: var(--green);
   cursor: pointer;
@@ -160,7 +105,7 @@
 }
 
 
-/* Input fields inside profile editor */
+/* Input */
 .input {
   border: 1px solid var(--border);
   padding: 8px 10px;
@@ -186,7 +131,6 @@
   cursor: pointer;
   font-weight: 700;
   border: none;
-  transition: 0.2s ease;
 }
 
 .saveBtn:hover {
@@ -195,26 +139,15 @@
 
 
 /* ============================================================
-   ADDRESS SECTION (Your design + new features)
+   ADDRESS LIST
 ============================================================ */
-.addressSection {
-  position: relative;
-  padding-right: 30px;
+.addressItem {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-top: 1px solid rgba(0,0,0,0.06);
 }
-
-.subLabel {
-  font-weight: 600;
-  color: #444;
-  margin-bottom: 6px;
-  font-family: "Lora", serif;
-}
-
-.addressText p {
-  margin: 2px 0;
-  line-height: 1.5rem;
-}
-
-/* Add button */
 .addBtn {
   background: none;
   border: 1px solid var(--green);
@@ -225,27 +158,6 @@
   border-radius: 0px;
   transition: 0.2s;
   font-family: "open sans";
-}
-
-.addBtn:hover {
-  background: var(--green);
-  color: #fff;
-}
-
-
-/* ============================================================
-   ADDRESS LIST ITEMS (NEW)
-============================================================ */
-.addressItem {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  padding: 14px 0;
-  border-top: 1px solid rgba(0,0,0,0.06);
-}
-
-.addressItem:first-of-type {
-  border-top: none;
 }
 
 .addrIcon {
@@ -288,92 +200,6 @@
   background: rgba(255,0,0,0.08);
 }
 
-
-/* ============================================================
-   MODAL OVERLAY
-============================================================ */
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 10000;
-}
-
-
-/* ============================================================
-   MODAL BOX
-============================================================ */
-.modal {
-  width: 600px;
-  max-width: 100%;
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.18);
-  overflow: hidden;
-  animation: modalShow 0.2s ease;
-}
-
-@keyframes modalShow {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-
-/* Modal header */
-.modalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.modalHeader h3 {
-  margin: 0;
-  font-family: "Lora", serif;
-}
-
-.modalClose {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-
-
-/* Modal body grid */
-.modalBody {
-  padding: 18px 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.modalBody label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 14px;
-}
-
-/* Inputs inside modal */
-.modalBody input {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-}
-
-.modalBody input:focus {
-  border-color: var(--gold);
-  box-shadow: 0 10px 25px rgba(217,193,105,0.12);
-}
-
-
-/* Modal footer */
 .modalFooter {
   padding: 14px 20px;
   border-top: 1px solid #eee;
@@ -398,22 +224,154 @@
   cursor: pointer;
 }
 
+/* ============================================================
+   MODAL OVERLAY
+============================================================ */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 9999;
+}
 
 
 /* ============================================================
-   RESPONSIVE
+   MODAL BOX RESPONSIVE
 ============================================================ */
+.modal {
+  width: 600px;
+  max-width: 95%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.18);
+  overflow: hidden;
+  animation: modalShow 0.25s ease-out;
+}
+
+@keyframes modalShow {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+
+/* HEADER */
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+/* BODY GRID (2 columns desktop, 1 column mobile) */
+.modalBody {
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modalBody label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modalBody input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+/* FOOTER */
+.modalFooter {
+  padding: 14px 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+
+/* ============================================================
+   RESPONSIVE — FULLY FIXED
+============================================================ */
+
+/* 📌 Tablets & iPad */
+@media (max-width: 1024px) {
+  .content {
+    padding: 25px 30px;
+  }
+}
+
+/* 📌 Mobile & iPad Portrait */
 @media (max-width: 900px) {
+
+  /* Sidebar collapses */
   .container {
     grid-template-columns: 1fr;
   }
 
+  .content {
+    width: 100%;
+    padding: 25px 20px;
+  }
+
+  /* Card rows stack */
   .cardRow {
     flex-direction: column;
     align-items: flex-start;
+    gap: 6px;
   }
 
+  /* Addresses stack */
+  .addressItem {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .addrActions {
+    flex-direction: row;
+  }
+
+  /* Modal becomes single column */
   .modalBody {
     grid-template-columns: 1fr;
   }
+
+  /* Modal fits screen without cutting */
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }
+
+/* 📌 Small Mobile (iPhone SE, 13 Mini) */
+@media (max-width: 480px) {
+  .content {
+    padding: 18px 16px;
+  }
+
+  .sectionTitle {
+    font-size: 18px;
+  }
+
+  .input {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .modalHeader h3 {
+    font-size: 18px;
+  }
+}
+
+
+
+
+
