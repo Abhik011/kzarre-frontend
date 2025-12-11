@@ -11,10 +11,10 @@
 }
 
 /* === Title === */
-.stories-sectioni h2 {
+.stories-title {
   font-family: 'Montserrat', serif;
   font-size: 20pt;
-  font-weight: 550;
+  font-weight: 100;
   color: #000;
   letter-spacing: 3px;
   margin-bottom: 40px;
