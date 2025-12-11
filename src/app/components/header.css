@@ -1,11 +1,12 @@
 /* ============================
         HEADER BASE
 ============================ */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 .header {
   width: 100%;
   height: 60px;
   background-color: #ffffff;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   position: fixed;
   top: 0;
   left: 0;
@@ -39,9 +40,9 @@
 .nav-right a {
   color: black;
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 100;
   text-decoration: none;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat';
   transition: color 0.3s;
 }
 
@@ -136,7 +137,7 @@
 .mobile-nav-items a {
   color: black;
   font-size: 0.85rem;
-  font-family: 'Lora';
+  font-family: 'Montserrat';
 }
 
 .mobile-lower-links {
@@ -195,7 +196,7 @@
   border: 1px solid rgba(150, 150, 150, 0.786);
   font-size: 1rem;
   outline: none;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
 }
 
 .search-close {
@@ -257,7 +258,7 @@
   padding: 6px 12px;
   font-size: 11px;
   letter-spacing: 1px;
-  font-family: "Lora";
+  font-family: "Montserrat";
 }
 
 .search-badge.exact {
@@ -329,7 +330,7 @@
   padding: 12px 10px;
   font-size: 1rem;
   color: white;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
 }
 
 .desktop-search-close {
@@ -396,7 +397,7 @@
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: 0.3s ease;
-  font-family: "Lora";
+  font-family: "Montserrat";
 }
 
 .login-btn:hover {
