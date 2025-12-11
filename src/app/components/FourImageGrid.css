@@ -1,41 +1,32 @@
+
 .four-image-grid-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 25px;
   justify-content: center;
-  align-items: flex-start;
+  gap: 25px;
   width: 100%;
-  height: max-content;
-  margin: 0px auto;
-  padding: 0 20px;
-  box-sizing: border-box; 
+  padding: 20px;
+  margin: 0 auto;
   background-color: #f3f3f3d3;
- 
-
- 
+  box-sizing: border-box;
 }
 
-/* Each banner card */
+
 .grid-item {
+  flex: 1 1 22%;
+  max-width: 22%;
+
   margin-top: 50px;
   margin-bottom: 20px;
-  flex: 1 1 22%;
-  max-width: 100%;
-  /* min-width: 330px; */
-  border-radius: 0px;
+
+  border-radius: 0;
   overflow: hidden;
   text-align: center;
   cursor: pointer;
+
   transition: transform 0.35s ease, box-shadow 0.35s ease;
-  box-shadow: 0 0 0 transparent;
 }
 
-.grid-ima:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-/* Image styling */
 .grid-image {
   width: 100%;
   height: 650px;
@@ -44,11 +35,18 @@
   transition: transform 0.4s ease;
 }
 
+.grid-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
 .grid-item:hover .grid-image {
   transform: scale(1.05);
 }
 
-/* Text styling */
+/* ============================
+      TEXT
+============================ */
 .grid-text {
   padding: 15px 10px;
 }
@@ -65,67 +63,103 @@
 .grid-text p {
   font-family: 'Open Sans', sans-serif;
   font-size: 15px;
+  color: #D2BD50;
   margin: 0;
-  color: #D2BD50; /* gold accent */
   font-weight: 500;
 }
+
+/* ===========================================
+      RESPONSIVE BREAKPOINTS
+=========================================== */
+
+/* 🔶 Large laptops: 1380px */
 @media (max-width: 1380px) {
   .grid-item {
-    /* flex: 1 1 28%; */
-    max-width: 20%;
-    /* border:#D2BD50 1px solid; */
-    margin-top: 5%;
+    flex: 1 1 24%;
+    max-width: 24%;
   }
-  .four-image-grid-wrapper{
-    height: 100vh;
-    width: 100%;
-        gap: 65px;
-}
+
+  .grid-image {
+    height: 520px;
+  }
 }
 
-/* 🔹 Responsive adjustments */
+/* 🔶 1200px (standard laptop) */
 @media (max-width: 1200px) {
   .grid-item {
-    flex: 1 1 28%;
-    max-width: 28%;
-    
+    flex: 1 1 30%;
+    max-width: 30%;
   }
-  .four-image-grid-wrapper{
-    height: auto;
-    
+
+  .grid-image {
+    height: 480px;
   }
- 
 }
 
+/* 🔶 Tablets 992px */
 @media (max-width: 992px) {
   .grid-item {
     flex: 1 1 45%;
     max-width: 45%;
   }
+
   .grid-image {
-    height: 400px;
+    height: 380px;
   }
 }
 
+/* 🔶 Mobile 600px */
 @media (max-width: 600px) {
   .four-image-grid-wrapper {
     gap: 25px;
-    height: auto;
-
   }
+
   .grid-item {
     flex: 1 1 100%;
-    max-width: 90%;
-    
+    max-width: 100%;
     margin-top: 30px;
   }
+
   .grid-image {
-    height: 580px;
+    height: 420px;
+ 
   }
+
   .grid-text h3 {
     font-size: 16px;
   }
+
   .grid-text p {
     font-size: 13px;
+  }
+}
+
+/* 🔶 Small Mobile 480px */
+@media (max-width: 480px) {
+  .grid-image {
+    height: 460px;
+  }
+}
+
+/* 🔶 Extra Small Mobile 360px */
+@media (max-width: 360px) {
+  .grid-image {
+    height: 330px;
+  }
+}
+
+
+/* ========================================================
+   📌 FIX FOR iPad Pro & Tablets (768px–1200px)
+   Ensures perfect 2-column layout — NO 3 items in a row
+======================================================== */
+@media (min-width: 768px) and (max-width: 1200px) {
+  .grid-item {
+    flex: 1 1 45% !important;
+    max-width: 45% !important;
+  }
+
+  .grid-image {
+    height: 520px !important; /* balanced height */
   }
 }

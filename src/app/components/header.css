@@ -50,20 +50,24 @@
   color: #D2BD50;
 }
 
-.nav-left a { margin-left: 40px; }
-.nav-right a { margin-right: 40px; }
+.nav-left a {
+  margin-left: 40px;
+}
 
+.nav-right a {
+  margin-right: 40px;
+}
 
 .logo {
   text-align: center;
   flex-shrink: 0;
-
 }
 
-.logo-img{
-    width: 200px !important;
+.logo-img {
+  width: 200px !important;
   height: auto !important;
 }
+
 /* ============================
      MOBILE EXCLUSIVE BUTTONS
 ============================ */
@@ -89,7 +93,7 @@
   }
 
   .mobile-menu-btn {
-    display: block;
+    display: block !important;
     margin-left: 12px;
   }
 
@@ -100,7 +104,7 @@
 }
 
 /* ============================
-       MOBILE MENU OVERLAY
+      MOBILE MENU OVERLAY
 ============================ */
 .mobile-menu-overlay {
   position: fixed;
@@ -108,7 +112,7 @@
   left: 0;
   width: 100%;
   height: calc(100dvh - 60px);
-  background-color: #2f4b3b;
+  background-color: #EDEADE;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease;
@@ -139,7 +143,7 @@
   margin-top: 45%;
   display: flex;
   flex-direction: column;
-  gap: 32px; 
+  gap: 32px;
   align-items: center;
 }
 
@@ -149,15 +153,19 @@
 }
 
 /* ============================
-      MOBILE SEARCH OVERLAY
+      SEARCH OVERLAY
 ============================ */
 .search-overlay {
   position: fixed;
   top: 60px;
   width: 70%;
   left: 15%;
-  height: calc(40vh - 60px);
-  background: #0c2b19;
+  height: calc(55vh - 60px);
+  background: #ffffffbd;
+  border-radius: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  backdrop-filter: blur(5px);
   opacity: 0;
   visibility: hidden;
   transition: 0.3s ease;
@@ -183,47 +191,102 @@
 .search-input {
   flex: 1;
   padding: 12px 15px;
-  border-radius: 0px;
-  border: none;
+  border-radius: 0;
+  border: 1px solid rgba(150, 150, 150, 0.786);
   font-size: 1rem;
   outline: none;
   font-family: "Lora", serif;
 }
 
 .search-close {
-  background: #fff;
-  border: none;
-  width: 80px;
-  height: 42px;
+  background: #ffffffd4;
+  border: 1px solid rgba(150, 150, 150, 0.786);
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0px;
-  cursor: pointer; 
-  margin-left: 0%;
+  cursor: pointer;
 }
-
 
 .search-close:hover svg {
   color: #0C2B19;
 }
 
+/* ============================
+      SEARCH RESULTS LIST
+============================ */
+.search-results {
+  background: #fff;
+  width: 60%;
+  max-height: 550px;
+  overflow-y: auto;
+  border-radius: 2px;
+  border: 1px solid #c9c9c9a7;
+}
 
-.search-submit {
-  margin-top: 20px;
-  padding: 12px 100px;
-  background: #D2BD50;
-  color: #0C2B19;
-  font-weight: 500;
-  font-family:"Open Sans", sans-serif;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 0px;
-  cursor: pointer;
+.search-product-card {
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  text-decoration: none;
+  color: #000;
+  background-color: #ffffff;
   align-items: center;
 }
 
+.search-product-card img {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+}
 
+.search-product-card p {
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.search-product-card span {
+  font-size: 15px;
+  color: #777;
+}
+
+.search-badge {
+  padding: 6px 12px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-family: "Lora";
+}
+
+.search-badge.exact {
+  color: green;
+}
+
+.search-badge.related {
+  color: #777;
+}
+
+.search-submit {
+  margin-top: 20px;
+  padding: 10px 50px;
+  background: #deba05df;
+  color: #000;
+  font-weight: 500;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  border: 1px solid rgba(150, 150, 150, 0.786);
+  cursor: pointer;
+}
+
+.search-submit:hover {
+  background: #caa104;
+}
+
+/* ============================
+      DESKTOP SEARCH OVERLAY
+============================ */
 .desktop-search-overlay {
   position: fixed;
   top: -140px;
@@ -256,7 +319,6 @@
   border: 1px solid #D2BD50;
   border-radius: 6px;
   padding: 10px 15px;
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 .desktop-search-input {
@@ -278,16 +340,16 @@
   font-size: 1rem;
   color: #0C2B19;
   cursor: pointer;
-  transition: 0.2s ease-in-out;
 }
 
 .desktop-search-close:hover {
   background: #b99f44;
 }
 
+/* =========================================
+        TABLET FIX (iPad / iPad Pro)
+========================================= */
 @media (max-width: 1024px) {
-
-  /* ✅ Force mobile-style header on ALL tablets */
   .hide-mobile {
     display: none !important;
   }
@@ -298,76 +360,45 @@
 
   .mobile-menu-btn {
     display: block !important;
-    margin-left: 12px;
   }
 
-  .nav-left a,
-  .nav-right a {
-    margin: 0;
-  }
-
-  /* ✅ Disable desktop search safely */
   .desktop-search-overlay {
     display: none !important;
   }
 }
 
+/* =========================================
+        MOBILE FIXES
+========================================= */
 @media (max-width: 480px) {
   .search-overlay {
     width: 100vw;
-    height: 100vh;     
-  
-    margin: 0;
     left: 0;
-    
+    height: 100vh;
+    border-radius: 0;
   }
+
   .search-box {
     width: 90%;
   }
-  .search-close {
-  
-    margin-left: 0;
+
+  .search-results {
+    width: 90%;
   }
 }
-.search-product-card {
-  display: flex;
-  width: 50vw;
-  gap: 12px;
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-  text-decoration: none;
-  color: #000;
-  background-color: #ffffff;
-  align-items: center;
+
+/* ============================
+      LOGIN BUTTON
+============================ */
+.login-btn {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: "Lora";
 }
 
-.search-product-card img {
-  width: 55px;
-  height: 70px;
-  object-fit: cover;
-}
-
-.search-product-card p {
-  font-size: 13px;
-  margin: 0;
-}
-
-.search-product-card span {
-  font-size: 12px;
-  color: #777;
-}
-
-.search-badge {
-  padding: 6px 12px;
-  font-size: 11px;
-  text-align: center;
-  letter-spacing: 1px;
-}
-
-.search-badge.exact {
-  color: green;
-}
-
-.search-badge.related {
-  color: #777;
+.login-btn:hover {
+  color: #b49f3f;
 }

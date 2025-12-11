@@ -37,7 +37,7 @@
 .banner-container {
   margin-top: 10px;
   width: 100%;
-  height: auto !important; 
+  height: 100vh !important; 
  
 }
 
@@ -45,7 +45,7 @@
 .banner-containe4 {
   margin-top: 14px;
   width: 100%;
-  height: auto !important; 
+  height: 100vh !important; 
   
  
 }
@@ -53,170 +53,87 @@
 .banner-container1 {
 
   width: 100%;
-  height: auto !important; 
+  height: max-content !important; 
   
  
 }
 .banner-container3{
   width: 100%;
-  height: auto;
+  height: max-content;
 }
 
 .banner-1,
 .banner-2 {
-  height: auto;
+  height: max-content;
 }
 
-.banner-toggle {
+/* .banner-toggle {
   margin-top: 0%;
   width: 100%;
-  height: auto ;
+  height: max-content ;
 
-  
+} */
 
-}
-
-/* ============================
-   STORIES
-============================ */
 .stories-section {
   width: 100%;
   height: auto;
   margin-top: 0px;
 }
 
-/* ========================================
-   LARGE LAPTOPS - 1366px
-======================================== */
+/* DEFAULT — Auto height */
+.banner-toggle {
+  width: 100%;
+  height: auto !important;      /* KEY FIX */
+  margin: 0;
+  padding: 0;
+  overflow: visible;            /* Prevent content clipping */
+}
+
+/* LARGE LAPTOPS */
 @media (max-width: 1366px) {
-  .hero-section {
-    height: 100vh;
-    margin-top: 2%;
-  }
-
-  .banner-1,
-  .banner-2 {
-    height: auto !important;
-        
-  }
-
   .banner-toggle {
     height: auto !important;
-    
-
   }
 }
 
-/* ========================================
-   STANDARD LAPTOPS - 1280px (NEW)
-======================================== */
+/* 1480px */
 @media (max-width: 1480px) {
-  .hero-section {
-    height: 94vh;
-    margin-top: 60px;
-  }
-
-  .banner-1,
-  .banner-2 {
-    height: fit-content !important;
-  }
-
   .banner-toggle {
-    height: fit-content;
-    
-    
-   
-  }
-
-  .banner-section {
-    gap: 20px;
+    height: auto !important;
   }
 }
 
-/* ========================================
-   SMALL LAPTOPS / BIG TABLETS - 1024px
-======================================== */
+/* 1024px */
 @media (max-width: 1024px) {
-  .hero-section {
-    height: 85vh;
-    margin-top: 55px;
-  }
-
-  .banner-1,
-  .banner-2 {
-    height: fit-content;
-      
-  }
-
   .banner-toggle {
-    min-height: 80vh;
+    height: auto !important;
+    min-height: auto;           /* Remove forced tall layout */
   }
 }
 
-/* ============================
-   TABLETS - 768px
-============================ */
+/* TABLETS 768px */
 @media (max-width: 768px) {
-  .hero-section {
-    height: 86vh;
-    margin-top: 60px;
-  }
-
-  .hero-video {
-    height: 86vh;
-    position: relative;
-  }
-
-  .banner-1,
-  .banner-2 {
-    height: auto;
-  }
-
   .banner-toggle {
-    height: 535vh !important;
-    margin-top: 0px;
-    margin-bottom: 0px;
-
-  }
-
-  .stories-section {
-    margin-top: 0;
+    height: auto !important;
+    margin: 0;
+    padding: 0;
   }
 }
 
-/* ============================
-   MOBILE PHONES - 480px
-============================ */
+/* MOBILE - Universal fix for all widths */
 @media (max-width: 480px) {
-  .hero-section {
-    height: 100vh;
-    width: 100vw;
-    margin-top: 50px;  }
-
-  .hero-video {
-    height: 100vh;
-    
-  }
-
-  .banner-1,
-  .banner-2 {
-    height: 90vh !important;
-    width: 100vw ;
-  }
-
   .banner-toggle {
     width: 100vw;
-    height: 581vh !important;
+    height: auto !important;    /* SUPER IMPORTANT */
     margin: 0;
   }
+}
 
-  .banner-container1 {
-    width: 100%;
-    height: 100vh;
-  }
 
-  .stories-section {
-    margin-top: 0; 
-    padding: 0;
+@media (max-width: 430px), (max-width: 414px), (max-width: 412px), (max-width: 375px), (max-width: 360px) {
+  .banner-toggle {
+    width: 100vw;
+    height: auto !important;
+    margin: 0;
   }
 }

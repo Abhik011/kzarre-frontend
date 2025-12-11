@@ -1,38 +1,55 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../Assest/logo.png";
+import Cookies from "js-cookie";
 
-// ✅ React Icons
-import { IoSearch, IoPersonOutline, IoBagOutline, IoMenu, IoClose } from "react-icons/io5";
+// Icons
+import {
+  IoSearch,
+  IoPersonOutline,
+  IoBagOutline,
+  IoMenu,
+  IoClose,
+} from "react-icons/io5";
 
 import "./header.css";
 
-/* ✅ PRICE FORMAT */
+/* ================================
+      PRICE FORMATTER
+================================ */
 function formatPrice(num: number | string | undefined): string {
   return Number(num || 0).toLocaleString("en-US");
 }
 
 const Header = () => {
+  /* ================================
+        STATE
+  ================================== */
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  interface SearchProduct {
-    _id: string;
-    name: string;
-    price: number;
-    imageUrl: string;
-  }
-
-  const [searchResults, setSearchResults] = useState<SearchProduct[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [resultType, setResultType] = useState("");
   const [searchLoading, setSearchLoading] = useState(false);
 
-  /* ================= ✅ LIVE SEARCH ================= */
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const searchRef = useRef<HTMLDivElement | null>(null);
+
+
+const [authChecked, setAuthChecked] = useState(false);
+
+
+
+
+  /* ================================
+       LIVE SEARCH
+  ================================== */
   useEffect(() => {
-    if (!searchQuery) {
+    if (!searchQuery.trim()) {
       setSearchResults([]);
       setResultType("");
       return;
@@ -45,6 +62,7 @@ const Header = () => {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/search?q=${searchQuery}`
         );
+
         const data = await res.json();
 
         if (data.type === "exact") {
@@ -67,26 +85,60 @@ const Header = () => {
     return () => clearTimeout(delay);
   }, [searchQuery]);
 
+  /* ================================
+       CLICK OUTSIDE SEARCH CLOSE
+  ================================== */
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        searchOpen &&
+        searchRef.current &&
+        !searchRef.current.contains(e.target as Node)
+      ) {
+        setSearchOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchOpen]);
+
+  /* ================================
+       INLINE KEYFRAME ANIMATIONS
+  ================================== */
+  const animationStyles = `
+@keyframes slideDown {
+  from { transform: translateY(-25px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-25px); opacity: 0; }
+}
+`;
+
+
   return (
     <>
+      <style>{animationStyles}</style>
+
       {/* ================= HEADER ================= */}
       <header className="header">
         <div className="container">
-
           {/* LEFT */}
           <div className="nav-left lsp-3">
             <IoSearch
               size={20}
               className="desktop-search hide-mobile"
               onClick={() => setSearchOpen(true)}
-              style={{ cursor: "pointer" }}
             />
 
             <IoSearch
               size={20}
               className="mobile-search"
               onClick={() => setSearchOpen(true)}
-              style={{ cursor: "pointer", marginRight: "15px" }}
+              style={{ marginRight: "15px" }}
             />
 
             <Link href="/heritage" className="hide-mobile">HERITAGE</Link>
@@ -98,7 +150,7 @@ const Header = () => {
           {/* CENTER LOGO */}
           <div className="logo">
             <Link href="/home">
-              <Image src={logo} alt="KZARRÈ Logo" className="logo-img"/>
+              <Image src={logo} alt="KZARRÈ Logo" className="logo-img" />
             </Link>
           </div>
 
@@ -109,13 +161,15 @@ const Header = () => {
             <Link href="/bag" className="hide-mobile">
               <IoBagOutline size={20} />
             </Link>
-
-            <Link href="/profile" className="hide-mobile">
-              <IoPersonOutline size={20} />
-            </Link>
-
-            {/* MOBILE HAMBURGER */}
-            <div className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+   
+              <Link href="/profile" className="hide-mobile">
+                <IoPersonOutline size={20} />
+              </Link>
+        
+            <div
+              className="mobile-menu-btn"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
               {menuOpen ? <IoClose size={22} /> : <IoMenu size={22} />}
             </div>
           </div>
@@ -125,15 +179,29 @@ const Header = () => {
       {/* ================= MOBILE MENU ================= */}
       <div className={`mobile-menu-overlay ${menuOpen ? "open" : ""}`}>
         <div className="mobile-nav-items">
-          <Link href="/heritage" onClick={() => setMenuOpen(false)}>HERITAGE</Link>
-          <Link href="/women" onClick={() => setMenuOpen(false)}>WOMEN</Link>
-          <Link href="/men" onClick={() => setMenuOpen(false)}>MEN</Link>
-          <Link href="/accessories" onClick={() => setMenuOpen(false)}>ACCESSORIES</Link>
+          <Link href="/heritage" onClick={() => setMenuOpen(false)}>
+            HERITAGE
+          </Link>
+          <Link href="/women" onClick={() => setMenuOpen(false)}>
+            WOMEN
+          </Link>
+          <Link href="/men" onClick={() => setMenuOpen(false)}>
+            MEN
+          </Link>
+          <Link href="/accessories" onClick={() => setMenuOpen(false)}>
+            ACCESSORIES
+          </Link>
         </div>
       </div>
 
       {/* ================= SEARCH OVERLAY ================= */}
-      <div className={`search-overlay ${searchOpen ? "open" : ""}`}>
+      <div
+        className={`search-overlay ${searchOpen ? "open" : ""}`}
+        style={{
+          animation: searchOpen ? "slideDown 0.35s ease" : "slideUp 0.35s ease",
+        }}
+        ref={searchRef}
+      >
         <div className="search-box">
           <input
             type="text"
@@ -148,11 +216,14 @@ const Header = () => {
           </button>
         </div>
 
-        {/* ✅ RESULT TYPE BADGE */}
-        {resultType === "exact" && <p className="search-badge exact">Exact Match</p>}
-        {resultType === "related" && <p className="search-badge related">Related Products</p>}
+        {resultType === "exact" && (
+          <p className="search-badge exact">Exact Match</p>
+        )}
+        {resultType === "related" && (
+          <p className="search-badge related">Related Products</p>
+        )}
 
-        {/* ✅ LIVE SEARCH RESULTS */}
+        {/* RESULTS */}
         {searchQuery && (
           <div className="search-results">
             {searchLoading && <p className="search-loading">Searching...</p>}

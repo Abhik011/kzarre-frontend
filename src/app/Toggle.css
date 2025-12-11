@@ -1,42 +1,42 @@
-*{
-    letter-spacing: 0.03em;
+* {
+  letter-spacing: 0.03em;
 }
-.banner_sections{
-    width: 100vw;
-    height: fit-content; 
-    margin-top: 0%;
-  
 
+/* WRAPPER */
+.banner-toggle-wrapper {
+  width: 100%;
+  height: auto !important;
+  margin-top: 1.05%;
+  padding: 0;
+  overflow: visible !important;
 }
-.banner-toggle-wrapper{
-    width: 100%;
-    z-index: 0;
-    height: auto;
-    margin-top: 1.05%;
+
+/* CONTENT SECTIONS */
+.banner_sections {
+  width: 100%;
+  height: auto !important;
+  margin-top: 0;
+  padding: 0;
+  overflow: visible !important;
 }
+
+/* LAPTOP FIX */
 @media (max-width: 1366px) {
-    .banner-toggle-wrapper{
-        height: 245vh;
-        margin-top: 0%;
-    }
-    .banner_sections{
-     height: auto;
-    }
+  .banner-toggle-wrapper {
+    height: auto !important;  /* REMOVE 245vh */
+    margin-top: 0;
+  }
 }
 
+/* MOBILE FIX */
 @media (max-width: 480px) {
-    .banner-toggle-wrapper{
-        height: 200vh;
-        margin-top: 0%;
-       
-        
-    } 
-    .banner_sections{
-     height: auto;
-     
-    }
+  .banner-toggle-wrapper {
+    height: auto !important;  /* REMOVE 200vh */
+    margin-top: 0;
+  }
 
-  
-
-    
+  .banner_sections {
+    height: auto !important;
+    width: 100%;
+  }
 }
