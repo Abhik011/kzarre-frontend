@@ -27,7 +27,7 @@
   content: "";
   width: 60vh;        /* short line */
   height: 2px;        /* line thickness */
-  background: #D2BD50;   /* line color */
+  background: #EFBF04;   /* line color */
   opacity: 0.8;       /* soften look */
   border-radius: 30px;
 }
@@ -79,7 +79,7 @@ a[href^="tel"] {
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 1px solid #d4af37;
+  border-bottom: 1px solid #EFBF04;
   color: black;
   padding: 8px 0;
   outline: none;

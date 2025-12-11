@@ -212,7 +212,7 @@ const [authChecked, setAuthChecked] = useState(false);
           />
 
           <button className="search-close" onClick={() => setSearchOpen(false)}>
-            <IoClose size={32} color="#D2BD50" />
+            <IoClose size={32} color="#EFBF04" />
           </button>
         </div>
 

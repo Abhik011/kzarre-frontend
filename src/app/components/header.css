@@ -14,7 +14,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #D2BD50;
+  border-bottom: 1px solid #EFBF04;
 }
 
 .container {
@@ -48,7 +48,7 @@
 
 .nav-left a:hover,
 .nav-right a:hover {
-  color: #D2BD50;
+  color: #EFBF04;
 }
 
 .nav-left a {
@@ -317,7 +317,7 @@
   display: flex;
   align-items: center;
   background: #123522;
-  border: 1px solid #D2BD50;
+  border: 1px solid #EFBF04;
   border-radius: 6px;
   padding: 10px 15px;
 }
@@ -334,7 +334,7 @@
 }
 
 .desktop-search-close {
-  background: #D2BD50;
+  background: #EFBF04;
   border: none;
   padding: 8px 14px;
   border-radius: 4px;

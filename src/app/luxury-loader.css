@@ -16,7 +16,7 @@
   font-family: "Cinzel", serif;
   font-size: 2rem;
   letter-spacing: 0.5em;
-  color: #d4af37; /* gold */
+  color: #EFBF04; /* gold */
   text-transform: uppercase;
   margin-bottom: 30px;
   animation: glow 2s infinite alternate;
@@ -33,7 +33,7 @@
   width: 90px;
   height: 90px;
   border: 3px solid rgba(212, 175, 55, 0.3);
-  border-top-color: #d4af37;
+  border-top-color: #EFBF04;
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);

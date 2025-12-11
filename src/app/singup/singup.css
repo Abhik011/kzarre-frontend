@@ -33,7 +33,7 @@
 }
 
 .register-box h2 span {
-  color: #d4af37;
+  color: #EFBF04;
   font-weight: 600;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .register-btn:hover {
-  background-color: #d4af37;
+  background-color: #EFBF04;
   color: #000;
 }
 
@@ -193,7 +193,7 @@
   height: 100%;
   background: transparent;
   border: none;
-  color: #d4af37;
+  color: #EFBF04;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -286,8 +286,8 @@
 }
 
 .login-btn:hover {
-  background: #d4af37;
-  border-color: #d4af37;
+  background: #EFBF04;
+  border-color: #EFBF04;
   color: #fff;
 }
 
@@ -304,7 +304,7 @@
 }
 
 .resend-btn:hover {
-  background: #d4af37;
+  background: #EFBF04;
   color: #000;
 }
 

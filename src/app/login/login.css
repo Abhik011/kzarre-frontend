@@ -57,7 +57,7 @@
 }
 
 .login-box h2 span {
-  color: #d4af37;
+  color: #EFBF04;
   font-weight: 600;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .input-group input:focus {
-  border-color: #d4af37;
+  border-color: #EFBF04;
 }
 
 /* ========== FORM LINKS ========== */
@@ -109,7 +109,7 @@
 }
 
 .form-links a:hover {
-  color: #d4af37;
+  color: #EFBF04;
 }
 
 /* ========== BUTTON ========== */
@@ -127,7 +127,7 @@
 }
 
 .login-btn:hover {
-  background-color: #d4af37;
+  background-color: #EFBF04;
   color: #000;
 }
 .error-text {
