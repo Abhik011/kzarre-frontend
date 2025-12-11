@@ -29,7 +29,7 @@
 
 .grid-image {
   width: 100%;
-  height: 650px;
+  height: 550px;
   object-fit: cover;
   display: block;
   transition: transform 0.4s ease;
