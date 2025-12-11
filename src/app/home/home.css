@@ -37,7 +37,7 @@
 .banner-container {
   margin-top: 10px;
   width: 100%;
-  height: 100vh !important; 
+  height: auto !important; 
  
 }
 
@@ -45,7 +45,7 @@
 .banner-containe4 {
   margin-top: 14px;
   width: 100%;
-  height: 100vh !important; 
+  height: auto !important; 
   
  
 }
