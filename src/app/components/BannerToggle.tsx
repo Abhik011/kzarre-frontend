@@ -13,7 +13,7 @@ const BannerToggle = () => {
         padding: '12px 0',
         border: '2px solid #D2BD50',
         cursor: 'pointer',
-        fontFamily: 'Lora',
+        fontFamily: 'Montserrat',
         backgroundColor: isSelected ? '#D2BD50' : '#ffffff',
         color: isSelected ? '#ffffff' : '#D2BD50',
         fontSize: '18px',

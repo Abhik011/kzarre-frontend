@@ -22,7 +22,7 @@
   padding: 18px 40px;
   text-align: center;
   font-size: 22px;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-weight: bold;
   letter-spacing: 0.15em;
 }
@@ -68,7 +68,7 @@
 }
 
 .sectionTitle {
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-size: 20px;
   margin-bottom: 24px;
   color: var(--green);
@@ -85,7 +85,7 @@
 
 .emptyTitle {
   font-weight: bold;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
 }
 
 .emptyText {
@@ -152,7 +152,7 @@
   font-weight: 600;
   text-transform: capitalize;
   letter-spacing: 0.05em;
-  font-family: "Lora";
+  font-family: "Montserrat";
 }
 
 .InProgress {
@@ -214,7 +214,7 @@
 
 .title {
   font-size: 0.8rem;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-weight: 600;
   color: #000;
   text-transform: uppercase;

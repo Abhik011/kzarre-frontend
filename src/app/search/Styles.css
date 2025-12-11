@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400..700&display=swap');
 
 /* ================= GALLERY BASE ================= */
 
@@ -56,7 +56,7 @@ font-size: 0.9rem;
   margin-top: 10px;
   line-height: 1;
   text-align: center;
-  font-family: 'Lora';
+  font-family: 'Montserrat';
    font-weight: 500;
   text-transform: uppercase;
 }
@@ -184,7 +184,7 @@ grid-template-columns: repeat(2, 1fr);  /* ✅ 1 IMAGE */
     font-size: 0.8rem;
   }
  .gallery-price {
-  font-family: 'lora';
+  font-family: 'Montserrat';
     font-size: 0.9rem;
   }
   .gallery-item img {
@@ -218,7 +218,7 @@ grid-template-columns: repeat(1, 1fr);  /* ✅ 1 IMAGE */
     font-size: 0.8rem;
   }
  .gallery-price {
-  font-family: 'lora';
+  font-family: 'Montserrat';
     font-size: 0.9rem;
   }
   .gallery-item img {

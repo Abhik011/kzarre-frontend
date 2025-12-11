@@ -29,7 +29,7 @@
 }
 
 .sectionTitle {
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-size: 22px;
   font-weight: bold;
   color: var(--green);
@@ -121,7 +121,7 @@
 .label {
   font-weight: 600;
   margin-bottom: 5px;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   color: #000;
 }
 
@@ -135,7 +135,7 @@
 /* ===== ITEM TABLE ===== */
 .itemsBox h3 {
   margin-bottom: 12px;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-weight: 600;
   color: var(--green);
 }
@@ -186,7 +186,7 @@
 .itemInfo h4 {
   margin: 0;
   font-size: 16px;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-weight: 600;
   color: #000;
 }
@@ -264,7 +264,7 @@
 .addressBox h4 {
   margin-bottom: 6px;
   font-size: 16px;
-  font-family: "Lora", serif;
+  font-family: "Montserrat", serif;
   font-weight: 600;
   color: var(--green);
 }

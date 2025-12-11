@@ -1,10 +1,10 @@
 /* ===============================
    LUXURY BLACK & WHITE THEME
    Accent Gold: #d9c169
-   Fonts: Lora + Open Sans
+   Fonts: Montserrat + Open Sans
    =============================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap');
 
 :root {
   --gold: #d9c169;
@@ -118,7 +118,7 @@
 }
 .cardHeader h2 {
   font-size: 20px;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
 }
 .addNew {
   padding: 6px 14px;
@@ -171,7 +171,7 @@
    =============================== */
 .right { width:100%; }
 .summaryCard { padding: 25px; border-radius: 8px; box-shadow: var(--shadow); border:1px solid var(--light-gray); }
-.summaryCard h3 { font-family:'Lora',serif; font-size:20px; margin-bottom:15px; }
+.summaryCard h3 { font-family:'Montserrat',serif; font-size:20px; margin-bottom:15px; }
 .summaryList { border-bottom:1px solid var(--light-gray); padding-bottom:20px; margin-bottom:20px; }
 .summaryItem { display:flex; gap:14px; align-items:center; }
 .itemTitle { font-weight:600; }
@@ -367,7 +367,7 @@
   padding: 16px 18px; border-bottom: 1px solid var(--light-gray);
   background: linear-gradient(90deg, rgba(217,193,105,0.02), transparent);
 }
-.modalHeader h3 { margin:0; font-family:'Lora',serif; font-size:18px; }
+.modalHeader h3 { margin:0; font-family:'Montserrat',serif; font-size:18px; }
 .modalClose { background:transparent; border:none; cursor:pointer; padding:6px; }
 .modalBody { padding: 16px 18px; display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
 .modalBody label { display:flex; flex-direction:column; gap:8px; font-size:14px; }
