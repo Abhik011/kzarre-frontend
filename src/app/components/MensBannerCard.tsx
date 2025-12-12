@@ -67,26 +67,32 @@ useEffect(() => {
 
 
   /* ---------------- Inject uploaded fonts dynamically ---------------- */
-  useEffect(() => {
-    if (!fonts.length) return;
+useEffect(() => {
+  if (!fonts.length) {
+    return; // <-- valid void return
+  }
 
-    const styleTag = document.createElement("style");
+  const styleTag = document.createElement("style");
 
-    styleTag.innerHTML = fonts
-      .map(
-        (font: any) => `
+  styleTag.innerHTML = fonts
+    .map(
+      (font: any) => `
         @font-face {
           font-family: '${font.name}';
           src: url('${font.url}');
         }
       `
-      )
-      .join("");
+    )
+    .join("");
 
-    document.head.appendChild(styleTag);
+  document.head.appendChild(styleTag);
 
-    return () => document.head.removeChild(styleTag);
-  }, [fonts]);
+  // Cleanup MUST be returned only if styleTag was added
+  return () => {
+    document.head.removeChild(styleTag);
+  };
+}, [fonts]);
+
 
   /* ---------------- Image URL resolver ---------------- */
   const resolveImageUrl = (url?: string): string => {

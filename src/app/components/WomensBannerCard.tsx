@@ -65,24 +65,32 @@ useEffect(() => {
   fetchGrid();
 }, []);
 
-  useEffect(() => {
-    if (!fonts.length) return;
+useEffect(() => {
+  if (!fonts.length) {
+    return; // <-- valid void return
+  }
 
-    const styleTag = document.createElement("style");
-    styleTag.innerHTML = fonts
-      .map(
-        (font) => `
-      @font-face {
-        font-family: '${font.name}';
-        src: url('${font.url}');
-      }
-    `
-      )
-      .join("");
+  const styleTag = document.createElement("style");
 
-    document.head.appendChild(styleTag);
-    return () => document.head.removeChild(styleTag);
-  }, [fonts]);
+  styleTag.innerHTML = fonts
+    .map(
+      (font: any) => `
+        @font-face {
+          font-family: '${font.name}';
+          src: url('${font.url}');
+        }
+      `
+    )
+    .join("");
+
+  document.head.appendChild(styleTag);
+
+  // Cleanup MUST be returned only if styleTag was added
+  return () => {
+    document.head.removeChild(styleTag);
+  };
+}, [fonts]);
+
 
   return (
     <div className="four-image-grid-wrapper">

@@ -55,24 +55,31 @@ export default function Bannergrid() {
   }, []);
 
   /** Inject fonts */
-  useEffect(() => {
-    if (!fonts.length) return;
+/** Inject uploaded fonts dynamically */
+useEffect(() => {
+  if (!fonts.length) {
+    return; // no cleanup required
+  }
 
-    const styleTag = document.createElement("style");
-    styleTag.innerHTML = fonts
-      .map(
-        (font) => `
+  const styleTag = document.createElement("style");
+  styleTag.innerHTML = fonts
+    .map(
+      (font: any) => `
         @font-face {
           font-family: '${font.name}';
           src: url('${font.url}');
         }
       `
-      )
-      .join("");
-    document.head.appendChild(styleTag);
+    )
+    .join("");
 
-    return () => document.head.removeChild(styleTag);
-  }, [fonts]);
+  document.head.appendChild(styleTag);
+
+  return () => {
+    document.head.removeChild(styleTag);
+  };
+}, [fonts]);
+
 
   if (!parent || media.length !== 5) return null;
 
