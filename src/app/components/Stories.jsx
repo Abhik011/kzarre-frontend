@@ -106,7 +106,7 @@ export default function StoriesSectionDebug() {
 
   return (
     <section className="stories-sectioni">
-      <h2 className="stories-title">Our Stories</h2>
+      <h2 className="stories-title">Stories</h2>
 
       <div
         ref={containerRef}

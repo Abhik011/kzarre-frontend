@@ -1,41 +1,83 @@
+"use client";
 
-'use client';
+import React, { useEffect, useState } from "react";
+import "./fivegridBanner.css";
 
-import React, { useEffect, useState } from 'react';
-import './fivegridBanner.css';
-
-interface GridItem {
-  imageUrl: string;
-  title?: string;
-  description?: string;
+interface BannerStyle {
+  titleColor?: string;
+  titleSize?: string;
+  descColor?: string;
+  descSize?: string;
+  alignment?: "left" | "center" | "right";
+  fontFamily?: string;
 }
 
-const Bannergrid: React.FC = () => {
-  const [grid, setGrid] = useState<GridItem[]>([]);
+export default function Bannergrid() {
+  const [media, setMedia] = useState<any[]>([]);
+  const [parent, setParent] = useState<any>(null);
+  const [fonts, setFonts] = useState<any[]>([]);
 
   useEffect(() => {
-    const loadData = async () => {
+    const load = async () => {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`
         );
         const data = await res.json();
 
-        if (Array.isArray(data?.womenGrid)) {
-          setGrid(data.womenGrid);
+        /** 
+         * YOUR API RETURNS:
+         * womenGrid = [
+         *    { _doc: {image...}, $__parent: {...parent data...} },
+         *    { _doc: {...}, $__parent: {...} },
+         *    ...
+         * ]
+         */
+
+        const arr = data?.womenGrid || [];
+
+        if (arr.length > 0) {
+          setParent(arr[0].$__parent);         // ⭐ Extract parent (title, desc, bannerStyle)
         }
+
+        // Extract only images
+        const cleanedImages = arr.map((item: any) => item._doc);
+        setMedia(cleanedImages);
+
+        // Fonts
+        if (Array.isArray(data?.fonts)) setFonts(data.fonts);
       } catch (err) {
-        console.error("Failed to load women 5-grid:", err);
+        console.error("Women 5-grid load error:", err);
       }
     };
 
-    loadData();
+    load();
   }, []);
 
-  // If not exactly 5 images → render nothing
-  if (grid.length !== 5) return null;
+  /** Inject fonts */
+  useEffect(() => {
+    if (!fonts.length) return;
 
-  // Mapping layout classes in correct order (1 → 5)
+    const styleTag = document.createElement("style");
+    styleTag.innerHTML = fonts
+      .map(
+        (font) => `
+        @font-face {
+          font-family: '${font.name}';
+          src: url('${font.url}');
+        }
+      `
+      )
+      .join("");
+    document.head.appendChild(styleTag);
+
+    return () => document.head.removeChild(styleTag);
+  }, [fonts]);
+
+  if (!parent || media.length !== 5) return null;
+
+  const style: BannerStyle = parent.bannerStyle || {};
+
   const layoutClasses = [
     "banner-left-top",
     "banner-left-bottom",
@@ -44,25 +86,54 @@ const Bannergrid: React.FC = () => {
     "banner-right-bottom",
   ];
 
+  const titleStyle: React.CSSProperties = {
+    color: style.titleColor,
+    fontSize: style.titleSize,
+    fontFamily: style.fontFamily,
+    textAlign: style.alignment || "center",
+  };
+
+  const descStyle: React.CSSProperties = {
+    color: style.descColor,
+    fontSize: style.descSize,
+    fontFamily: style.fontFamily,
+    textAlign: style.alignment || "center",
+  };
+
+  const alignFlex =
+    style.alignment === "left"
+      ? "flex-start"
+      : style.alignment === "right"
+      ? "flex-end"
+      : "center";
+
   return (
     <div className="banner-containerid">
       <div className="banner-wrapper">
-        {grid.map((item, index) => (
-          <div key={index} className={`banner-item ${layoutClasses[index]}`}>
-            <img
-              src={item.imageUrl}
-              alt={item.title || "Women Banner"}
-              className="banner-img"
-            />
+        {media.map((img, i) => (
+          <div key={i} className={`banner-item ${layoutClasses[i]}`}>
+            <img src={img.imageUrl} className="banner-img" alt="Grid" />
           </div>
         ))}
-        
       </div>
-        <h3>Title</h3>
-      <p>Captions</p>
-    
+
+      {/* TEXT FROM PARENT ONLY */}
+      <div
+        className="banner-text-wrapper"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: alignFlex,
+        }}
+      >
+        <h3 className="banner-title" style={titleStyle}>
+          {parent.title}
+        </h3>
+
+        <p className="banner-description" style={descStyle}>
+          {parent.description}
+        </p>
+      </div>
     </div>
   );
-};
-
-export default Bannergrid;
+}

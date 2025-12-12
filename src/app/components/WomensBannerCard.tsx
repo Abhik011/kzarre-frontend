@@ -1,57 +1,126 @@
-
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import "./FourImageGrid.css";
+
+interface BannerStyle {
+  titleColor?: string;
+  titleSize?: string;
+  descColor?: string;
+  descSize?: string;
+  alignment?: "left" | "center" | "right";
+  fontFamily?: string;
+}
 
 interface GridItem {
   imageUrl: string;
   title?: string;
   description?: string;
+  style?: BannerStyle;
 }
 
 const WomensBannerCard: React.FC = () => {
   const [banners, setBanners] = useState<GridItem[]>([]);
+  const [fonts, setFonts] = useState<any[]>([]);
+
+useEffect(() => {
+  const fetchGrid = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`
+      );
+
+      const data = await res.json();
+      console.log("CMS 4-GRID DATA:", data);
+
+      if (Array.isArray(data?.women4Grid) && data.women4Grid.length > 0) {
+
+        // ⭐ Global style comes from parent
+        const globalStyle =
+          data.women4Grid[0]?.$__parent?.bannerStyle || {};
+
+        // ⭐ Each grid item = one object in women4Grid array
+        const prepared = data.women4Grid.map((item: any) => ({
+          imageUrl: item._doc?.imageUrl,
+          title: item._doc?.title,
+          description: item._doc?.description,
+          style: {
+            titleColor: globalStyle.titleColor,
+            titleSize: globalStyle.titleSize,
+            descColor: globalStyle.descColor,
+            descSize: globalStyle.descSize,
+            alignment: globalStyle.alignment,
+            fontFamily: globalStyle.titleFont || undefined,
+          },
+        }));
+
+        setBanners(prepared);
+      }
+
+    } catch (err) {
+      console.error("Failed to load 4-grid CMS:", err);
+    }
+  };
+
+  fetchGrid();
+}, []);
 
   useEffect(() => {
-    const fetchGrid = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`
-        );
+    if (!fonts.length) return;
 
-        const data = await res.json();
-
-        if (data?.women4Grid) {
-          setBanners(data.women4Grid);
-        }
-      } catch (err) {
-        console.error("Failed to load 4-grid CMS:", err);
+    const styleTag = document.createElement("style");
+    styleTag.innerHTML = fonts
+      .map(
+        (font) => `
+      @font-face {
+        font-family: '${font.name}';
+        src: url('${font.url}');
       }
-    };
+    `
+      )
+      .join("");
 
-    fetchGrid();
-  }, []);
+    document.head.appendChild(styleTag);
+    return () => document.head.removeChild(styleTag);
+  }, [fonts]);
 
   return (
     <div className="four-image-grid-wrapper">
-      {(banners.length > 0 ? banners : Array(4).fill(null)).map((banner, index) => (
-        <div key={index} className="grid-item">
-          <img
-            src={banner?.imageUrl || "/placeholder.png"}
-            alt={banner?.title || "Women Banner"}
-            width={410}
-            height={668}
-            className="grid-image"
-          />
+      {(banners.length > 0 ? banners : Array(4).fill(null)).map(
+        (banner, index) => {
+          const s = banner?.style || {};
+          const alignment = s.alignment || "left";
 
-          <div className="grid-text lsp-3">
-            <h3>{banner?.title || ""}</h3>
-            <p>{banner?.description || ""}</p>
-          </div>
-        </div>
-      ))}
+          const titleStyle: React.CSSProperties = {
+            ...(s.titleColor && { color: s.titleColor }),
+            ...(s.titleSize && { fontSize: s.titleSize }),
+            ...(s.fontFamily && { fontFamily: s.fontFamily }),
+            textAlign: alignment,
+          };
+
+          const descStyle: React.CSSProperties = {
+            ...(s.descColor && { color: s.descColor }),
+            ...(s.descSize && { fontSize: s.descSize }),
+            ...(s.fontFamily && { fontFamily: s.fontFamily }),
+            textAlign: alignment,
+          };
+
+          return (
+            <div key={index} className="grid-item">
+              <img
+                src={banner?.imageUrl || "/placeholder.png"}
+                alt={banner?.title || "Women Banner"}
+                className="grid-image"
+              />
+
+              <div className="grid-text lsp-3" style={{ textAlign: alignment }}>
+                <h3 style={titleStyle}>{banner?.title || ""}</h3>
+                <p style={descStyle}>{banner?.description || ""}</p>
+              </div>
+            </div>
+          );
+        }
+      )}
     </div>
   );
 };
