@@ -1,44 +1,65 @@
-name: Deploy Frontend to EC2
+name: Deploy Frontend
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+    - name: Install & Build
+      run: |
+        npm install
+        npm run build
 
-      - name: Install Dependencies
-        run: npm ci
+    - name: Zip build
+      run: zip -r build.zip .next package.json
 
-      - name: Build Next.js Production
-        run: npm run build
+    - name: Copy to EC2
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_KEY }}
+        source: "build.zip"
+        target: "/home/ec2-user/app-frontend/"
 
-      - name: Upload .next to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: ".next/**"
-          target: "/home/ec2-user/kzarre-frontend/.next"
+    - name: Deploy on EC2
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          cd app-frontend
+          unzip -o build.zip
+          npm install
 
-      - name: Restart Frontend PM2
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd kzarre-frontend
-            pm2 restart kzarre-frontend
+          ACTIVE=$(curl -s http://localhost | grep '3000' && echo blue || echo green)
+
+          if [ "$ACTIVE" = "blue" ]; then
+            pm2 restart kzarre-frontend-green
+            HEALTH=$(bash /home/ec2-user/health-check.sh http://127.0.0.1:3001)
+            if [ "$HEALTH" = "OK" ]; then
+              bash /home/ec2-user/switch-blue-green.sh frontend green
+            else
+              pm2 restart kzarre-frontend-blue
+              exit 1
+            fi
+          else
+            pm2 restart kzarre-frontend-blue
+            HEALTH=$(bash /home/ec2-user/health-check.sh http://127.0.0.1:3000)
+            if [ "$HEALTH" = "OK" ]; then
+              bash /home/ec2-user/switch-blue-green.sh frontend blue
+            else
+              pm2 restart kzarre-frontend-green
+              exit 1
+            fi
+          fi
+
+          pm2 save
