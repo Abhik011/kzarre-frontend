@@ -1,65 +1,59 @@
-name: Deploy Frontend
+#!/bin/bash
+set -e
 
-on:
-  push:
-    branches: [ main ]
+SOURCE_DIR="/home/ec2-user/kzarre-frontend"
+BLUE_DIR="/home/ec2-user/kzarre-frontend-blue"
+GREEN_DIR="/home/ec2-user/kzarre-frontend-green"
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+BLUE_PORT=3000
+GREEN_PORT=3001
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+BLUE_NAME="kzarre-frontend-blue"
+GREEN_NAME="kzarre-frontend-green"
 
-    - name: Install & Build
-      run: |
-        npm install
-        npm run build
+echo "🔄 Pulling latest frontend code..."
+cd $SOURCE_DIR
+git pull
 
-    - name: Zip build
-      run: zip -r build.zip .next package.json
+echo "📦 Installing dependencies..."
+npm install
 
-    - name: Copy to EC2
-      uses: appleboy/scp-action@v0.1.4
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ec2-user
-        key: ${{ secrets.EC2_KEY }}
-        source: "build.zip"
-        target: "/home/ec2-user/app-frontend/"
+echo "🏗️ Building Next.js..."
+npm run build
 
-    - name: Deploy on EC2
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ec2-user
-        key: ${{ secrets.EC2_KEY }}
-        script: |
-          cd app-frontend
-          unzip -o build.zip
-          npm install
+# Identify target
+if pm2 describe $BLUE_NAME > /dev/null 2>&1; then
+    TARGET=$GREEN_NAME
+    TARGET_DIR=$GREEN_DIR
+    PORT=$GREEN_PORT
+else
+    TARGET=$BLUE_NAME
+    TARGET_DIR=$BLUE_DIR
+    PORT=$BLUE_PORT
+fi
 
-          ACTIVE=$(curl -s http://localhost | grep '3000' && echo blue || echo green)
+echo "🗂️ Copying build to $TARGET_DIR"
+rm -rf $TARGET_DIR/*
+cp -R $SOURCE_DIR/.next $TARGET_DIR/
+cp -R $SOURCE_DIR/public $TARGET_DIR/
+cp $SOURCE_DIR/package.json $TARGET_DIR/
 
-          if [ "$ACTIVE" = "blue" ]; then
-            pm2 restart kzarre-frontend-green
-            HEALTH=$(bash /home/ec2-user/health-check.sh http://127.0.0.1:3001)
-            if [ "$HEALTH" = "OK" ]; then
-              bash /home/ec2-user/switch-blue-green.sh frontend green
-            else
-              pm2 restart kzarre-frontend-blue
-              exit 1
-            fi
-          else
-            pm2 restart kzarre-frontend-blue
-            HEALTH=$(bash /home/ec2-user/health-check.sh http://127.0.0.1:3000)
-            if [ "$HEALTH" = "OK" ]; then
-              bash /home/ec2-user/switch-blue-green.sh frontend blue
-            else
-              pm2 restart kzarre-frontend-green
-              exit 1
-            fi
-          fi
+cd $TARGET_DIR
 
-          pm2 save
+echo "🚀 Starting frontend ($TARGET) on port $PORT..."
+pm2 start "npm start" --name $TARGET -- --port=$PORT || pm2 restart $TARGET -- --port=$PORT
+
+echo "⏳ Waiting for frontend to boot..."
+sleep 5
+
+echo "🩺 Checking health..."
+if curl -fs http://127.0.0.1:$PORT/ > /dev/null; then
+    echo "✅ Frontend healthy! Switching upstream..."
+    bash /home/ec2-user/switch-blue-green.sh frontend $PORT
+else
+    echo "❌ Frontend failed health check!"
+    exit 1
+fi
+
+echo "💾 Saving PM2 state..."
+pm2 save
