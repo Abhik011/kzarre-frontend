@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -18,13 +18,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Build Next.js
+      - name: Build Next.js Production
         run: npm run build
 
-      - name: Copy build to EC2
+      - name: Upload .next to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -33,7 +33,7 @@ jobs:
           source: ".next/**"
           target: "/home/ec2-user/kzarre-frontend/.next"
 
-      - name: Restart PM2
+      - name: Restart Frontend PM2
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
