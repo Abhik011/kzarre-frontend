@@ -22,7 +22,7 @@ export default function AboutPage() {
         <p className="quote">
           Inspired by the sacred wisdom of the Bhagavad Gita,
           <span> “Karmanye vadhikaraste ma phaleshu kadachana” </span> — our
-          philosophy embraces purposeful creation. switching checking to push 
+          philosophy embraces purposeful creation. switching checking to push  2
         </p>
 
         <p className="intro">
