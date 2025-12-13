@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "standalone",   // ✅ Required for EC2 deployment
+  output: "standalone",
 
   images: {
     remotePatterns: [
@@ -17,8 +17,6 @@ const nextConfig = {
     ],
   },
 
-  // ✅ API proxy only for local development
-  // ❗ This does NOT affect production
   async rewrites() {
     return [
       {
