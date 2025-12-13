@@ -1,6 +1,7 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "standalone",   // ✅ Required for EC2 deployment
 
-const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -16,12 +17,13 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // ✅ ✅ ✅ API PROXY (FIXES COOKIE ISSUE ON LOCALHOST)
+  // ✅ API proxy only for local development
+  // ❗ This does NOT affect production
   async rewrites() {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:5500/api/:path*", // ✅ your backend
+        destination: "http://localhost:5500/api/:path*",
       },
     ];
   },
