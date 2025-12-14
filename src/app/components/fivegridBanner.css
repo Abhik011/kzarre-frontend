@@ -6,6 +6,7 @@
   height: auto;
   display: block;
   justify-content: center;
+
 }
 
 .banner-containerid h3 {
@@ -76,6 +77,8 @@
   object-fit: cover;
 }
 
+
+
 /* ===========================================
      RESPONSIVE BREAKPOINTS
 =========================================== */
@@ -119,13 +122,21 @@
   .banner-wrapper {
     grid-auto-rows: 240px;
   }
+  .banner-text-wrapper{
+    margin-top: 5px;
+  }
+  
 }
 
 /* 768px – Tablet Portrait */
 @media (max-width: 768px) {
   .banner-wrapper {
     grid-auto-rows: 230px;
+      padding: 0px 12px;
+
   }
+  
+ 
 }
 
 /* 600px – Mobile Tablets */
@@ -142,6 +153,7 @@
 
     grid-auto-rows: 260px;
   }
+  
 }
 
 /* 480px – Mobile */

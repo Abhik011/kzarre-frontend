@@ -8,10 +8,9 @@ interface BannerStyle {
   titleSize?: string;
   descColor?: string;
   descSize?: string;
-  alignment?: "left" | "center" | "right";  // <-- FIXED
+  alignment?: "left" | "center" | "right";
   fontFamily?: string;
 }
-
 
 interface BannerItem {
   image?: string;
@@ -20,11 +19,10 @@ interface BannerItem {
   style?: BannerStyle;
 }
 
-export default function Bannertwo() {
+export default function BannerTwo() {
   const [banner, setBanner] = useState<BannerItem | null>(null);
   const [fonts, setFonts] = useState<any[]>([]);
 
-  // Fetch banner + fonts
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`)
       .then((res) => res.json())
@@ -32,10 +30,10 @@ export default function Bannertwo() {
         if (data?.banners?.bannerTwo) setBanner(data.banners.bannerTwo);
         if (data?.fonts) setFonts(data.fonts);
       })
-      .catch((err) => console.error("BannerTwo Error:", err));
+      .catch((err) => console.error("BannerOne Error:", err));
   }, []);
 
-  // Inject uploaded fonts
+  // Load uploaded fonts
 useEffect(() => {
   if (!fonts.length) return;
 
@@ -61,9 +59,11 @@ useEffect(() => {
 }, [fonts]);
 
 
-  const s = banner?.style || {};
+  if (!banner) return null;
 
-  // only apply values if they exist — otherwise CSS handles it
+  const s = banner.style || {};
+
+  // Only apply inline style if admin set it
   const titleStyle: React.CSSProperties = {
     ...(s.titleColor ? { color: s.titleColor } : {}),
     ...(s.titleSize ? { fontSize: s.titleSize } : {}),
@@ -78,21 +78,39 @@ useEffect(() => {
     ...(s.alignment ? { textAlign: s.alignment } : {}),
   };
 
+  const containerStyle: React.CSSProperties = {
+    ...(s.alignment ? { textAlign: s.alignment } : {}),
+  };
+
   return (
-    <div className="div2">
-      {banner?.image ? (
-        <img src={banner.image} alt={banner.title || "Banner Two"} className="bone" />
+<div className="main">
+  <div className="borderone" style={containerStyle}>
+    
+    {/* IMAGE */}
+    <div className="bone-frame">
+      {banner.image ? (
+        <img
+          src={banner.image}
+          alt={banner.title || "Banner One"}
+          className="bone"
+        />
       ) : (
         <div className="bone-placeholder" />
       )}
-
-      <h3 className="lsp-3" style={titleStyle}>
-        {banner?.title}
-      </h3>
-
-      <p className="lsp-3" style={descStyle}>
-        {banner?.description}
-      </p>
     </div>
+
+    {/* TITLE */}
+    <h3 className="banner-title lsp-3" style={titleStyle}>
+      {banner.title}
+    </h3>
+
+    {/* DESCRIPTION */}
+    <p className="banner-desc lsp-3" style={descStyle}>
+      {banner.description}
+    </p>
+
+  </div>
+</div>
+ 
   );
 }

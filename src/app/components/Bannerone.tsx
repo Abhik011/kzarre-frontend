@@ -83,7 +83,11 @@ useEffect(() => {
   };
 
   return (
-    <div className="div2" style={containerStyle}>
+<div className="main">
+  <div className="borderone" style={containerStyle}>
+    
+    {/* IMAGE */}
+    <div className="bone-frame">
       {banner.image ? (
         <img
           src={banner.image}
@@ -93,14 +97,20 @@ useEffect(() => {
       ) : (
         <div className="bone-placeholder" />
       )}
-
-      <h3 className="lsp-3" style={titleStyle}>
-        {banner.title}
-      </h3>
-
-      <p className="lsp-3" style={descStyle}>
-        {banner.description}
-      </p>
     </div>
+
+    {/* TITLE */}
+    <h3 className="banner-title lsp-3" style={titleStyle}>
+      {banner.title}
+    </h3>
+
+    {/* DESCRIPTION */}
+    <p className="banner-desc lsp-3" style={descStyle}>
+      {banner.description}
+    </p>
+
+  </div>
+</div>
+ 
   );
 }

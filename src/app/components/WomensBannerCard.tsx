@@ -114,7 +114,9 @@ useEffect(() => {
           };
 
           return (
+    
             <div key={index} className="grid-item">
+              
               <img
                 src={banner?.imageUrl || "/placeholder.png"}
                 alt={banner?.title || "Women Banner"}
@@ -126,6 +128,7 @@ useEffect(() => {
                 <p style={descStyle}>{banner?.description || ""}</p>
               </div>
             </div>
+        
           );
         }
       )}
