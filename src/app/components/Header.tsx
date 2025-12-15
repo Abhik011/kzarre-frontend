@@ -14,7 +14,7 @@ import {
   IoClose,
 } from "react-icons/io5";
 
-import "./header.css";
+import "./Header.css";
 
 /* ================================
       PRICE FORMATTER
@@ -40,7 +40,7 @@ const Header = () => {
   const searchRef = useRef<HTMLDivElement | null>(null);
 
 
-const [authChecked, setAuthChecked] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
 
 
@@ -107,27 +107,16 @@ const [authChecked, setAuthChecked] = useState(false);
   /* ================================
        INLINE KEYFRAME ANIMATIONS
   ================================== */
-  const animationStyles = `
-@keyframes slideDown {
-  from { transform: translateY(-25px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-@keyframes slideUp {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-25px); opacity: 0; }
-}
-`;
+
 
 
   return (
     <>
-      <style>{animationStyles}</style>
-
       {/* ================= HEADER ================= */}
       <header className="header">
         <div className="container">
           {/* LEFT */}
-          <div className="nav-left lsp-3">
+          <div className="nav-left">
             <IoSearch
               size={20}
               className="desktop-search hide-mobile"
@@ -141,10 +130,10 @@ const [authChecked, setAuthChecked] = useState(false);
               style={{ marginRight: "15px" }}
             />
 
-            <Link href="/heritage" className="hide-mobile">HERITAGE</Link>
-            <Link href="/women" className="hide-mobile">WOMEN</Link>
-            <Link href="/men" className="hide-mobile">MEN</Link>
-            <Link href="/accessories" className="hide-mobile">ACCESSORIES</Link>
+            <Link href="/heritage" className="hide-mobile headerlink">HERITAGE</Link>
+            <Link href="/women" className="hide-mobile headerlink">WOMEN</Link>
+            <Link href="/men" className="hide-mobile headerlink">MEN</Link>
+            <Link href="/accessories" className="hide-mobile headerlink">ACCESSORIES</Link>
           </div>
 
           {/* CENTER LOGO */}
@@ -155,17 +144,17 @@ const [authChecked, setAuthChecked] = useState(false);
           </div>
 
           {/* RIGHT */}
-          <div className="nav-right lsp-3">
+          <div className="nav-right">
             <Link href="/about" className="hide-mobile">ORIGIN STORY</Link>
 
             <Link href="/bag" className="hide-mobile">
               <IoBagOutline size={20} />
             </Link>
-   
-              <Link href="/profile" className="hide-mobile">
-                <IoPersonOutline size={20} />
-              </Link>
-        
+
+            <Link href="/profile" className="hide-mobile">
+              <IoPersonOutline size={20} />
+            </Link>
+
             <div
               className="mobile-menu-btn"
               onClick={() => setMenuOpen(!menuOpen)}

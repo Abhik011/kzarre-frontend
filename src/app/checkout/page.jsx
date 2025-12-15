@@ -252,7 +252,7 @@ useEffect(() => {
   ============================================================ */
 
   return (
-    <PageLayout>
+
       <div className={styles.pageWrap}>
         {/* PROGRESS BAR */}
      
@@ -417,6 +417,6 @@ useEffect(() => {
         {/* simple toast */}
         {message && <div className={styles.simpleToast}>{message}</div>}
       </div>
-    </PageLayout>
+ 
   );
 }

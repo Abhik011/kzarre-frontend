@@ -215,7 +215,7 @@ export default function WomenPage() {
 
   /* ================= ✅ FINAL WOMEN PAGE ================= */
   return (
-    <PageLayout>
+
       <section className="gallery">
         <div className="gallery-div">
           {firstFour.map((p) => (
@@ -245,6 +245,6 @@ export default function WomenPage() {
           ))}
         </div>
       </section>
-    </PageLayout>
+
   );
 }

@@ -123,7 +123,7 @@ export default function SearchPage() {
   /* ================= ✅ LOADING ================= */
   if (loading) {
     return (
-      <PageLayout>
+   
         <section className="gallery">
           <div className="gallery-div">
             {Array(8)
@@ -137,13 +137,13 @@ export default function SearchPage() {
               ))}
           </div>
         </section>
-      </PageLayout>
+ 
     );
   }
 
   /* ================= ✅ FINAL SEARCH PAGE ================= */
   return (
-    <PageLayout>
+
       <section className="gallery">
 
         {/* ✅ SEARCH HEADING */}
@@ -219,6 +219,6 @@ export default function SearchPage() {
           </div>
         )}
       </section>
-    </PageLayout>
+
   );
 }

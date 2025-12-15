@@ -212,7 +212,7 @@ export default function MenPage() {
 
   /* ================= ✅ FINAL MEN PAGE ================= */
   return (
-    <PageLayout>
+
       <section className="gallery">
 
         <div className="gallery-div">
@@ -244,6 +244,6 @@ export default function MenPage() {
         </div>
 
       </section>
-    </PageLayout>
+
   );
 }

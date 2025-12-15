@@ -1,5 +1,14 @@
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import "./globals.css";
-import "./Toggle.css";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-montserrat",
+});
 
 export default function RootLayout({
   children,
@@ -8,7 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={montserrat.variable}>
+        <Header/>
+        {children}
+        <Footer/>
+      </body>
     </html>
   );
 }

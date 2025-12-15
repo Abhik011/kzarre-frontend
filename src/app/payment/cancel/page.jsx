@@ -10,7 +10,7 @@ export default function PaymentCancelPage() {
   const orderId = params.get("order");
 
   return (
-    <PageLayout>
+
       <div style={styles.page}>
         <div style={styles.card}>
           <h1 style={styles.title}>Payment Cancelled</h1>
@@ -36,7 +36,7 @@ export default function PaymentCancelPage() {
           </div>
         </div>
       </div>
-    </PageLayout>
+ 
   );
 }
 

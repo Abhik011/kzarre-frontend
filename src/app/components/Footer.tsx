@@ -1,62 +1,110 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import "./Footer.css";
 import Image from "next/image";
-import Link from "next/link"
+import Link from "next/link";
 import logo from "../Assest/logo.png";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleSubscribe = async () => {
+    if (!email || !email.includes("@")) {
+      setStatus("error");
+      setMessage("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setStatus("loading");
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/admin/campaign/subscribe`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message);
+
+      setStatus("success");
+      setMessage("Thank you for subscribing!");
+      setEmail("");
+    } catch (err: any) {
+      setStatus("error");
+      setMessage(err.message || "Subscription failed.");
+    }
+  };
+
   return (
-    <footer className="footer">
-      {/* <div className="footer-top">
-        <h1 className="footer-logo">KZARRÈ</h1>
-      </div> */}
+    <div className="footer">
+      {/* LOGO */}
       <div className="footer-logo logo">
-          <Link href="/home">
-            <Image
-              src={logo}
-              alt="KZARRÈ Logo"
-              className="logo-img"
-            />
-          </Link>
-        </div>
+        <Link href="/home">
+          <Image src={logo} alt="KZARRÈ Logo" className="logo-img" />
+        </Link>
+      </div>
 
       <div className="footer-content">
-        {/* Subscribe Section */}
+        {/* SUBSCRIBE */}
         <div className="footer-column-input">
           <h3>SUBSCRIBE TO OUR NEWSLETTER</h3>
+
           <input
             type="email"
             placeholder="Insert Your e-mail address"
             className="footer-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={status === "loading"}
           />
+
+          <button
+            onClick={handleSubscribe}
+            className="footer-subscribe-btn"
+            disabled={status === "loading"}
+          >
+            {status === "loading" ? "Submitting..." : "Subscribe"}
+          </button>
+
+          {message && (
+            <p
+              className={`footer-message ${
+                status === "success" ? "success" : "error"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+
           <p className="footer-small-text">
             By clicking on “Subscribe”, you confirm that you have read and
-            understood our <span>Privacy Statement</span> and that you agree to
-            receive newsletter and other marketing communications.
+            understood our <span>Privacy Statement</span>.
           </p>
         </div>
 
-        {/* Help Section */}
+         {/* Help Section */}
         <div className="footer-column">
           <h3>DO YOU NEED HELP ?</h3>
           <ul>
-       <li><a href="tel:18779977232">Call us 1-877-997-7232</a></li>
-            <li>Write us on WhatsApp</li>
-            <li>Contacts</li>
+            <li>Contacts us</li>
             <li>FAQ</li>
-            <li>Sitemap</li>
+            
           </ul>
         </div>
 
         {/* Exclusive Services */}
         <div className="footer-column">
-          <h3>EXCLUSIVE SERVICES</h3>
+          <h3>Orders & Shipping</h3>
           <ul>
-            <li>KZARRE</li>
-            <li>Services</li>
-            <li>Track your order</li>
-            <li>Returns</li>
+            <li>Start a Return</li>
+            <li>Shipping</li>
           </ul>
         </div>
 
@@ -64,28 +112,19 @@ const Footer = () => {
         <div className="footer-column">
           <h3>LEGAL TERMS AND CONDITIONS</h3>
           <ul>
-            <li>Legal Notice</li>
-            <li>Privacy</li>
-            <li>Statement</li>
-            <li>Cookie Policy</li>
-            <li>Cookie Setting</li>
-            <li>Terms of Sale</li>
+            <li>Legal & Privacy</li>
+            <li>Return Policy</li>
           </ul>
-        </div>
-
-        {/* Company */}
-        <div className="footer-column">
-          <h3>COMPANY</h3>
+        </div>.   <div className="footer-column">
+          <h3>About</h3>
           <ul>
-            <li>About Kzaare</li>
-            <li>Kzaare Group</li>
-            <li>Sustainability</li>
-            <li>Work with us</li>
+            <li>About the Brand</li>
+            <li>Sustaibility</li>
+            <li>Accessibility</li>
           </ul>
         </div>
       </div>
 
-      {/* Footer Bottom */}
       <div className="footer-bottom">
         <div className="footer-bottom-left">© KZARRÈ. 2025</div>
         <div className="footer-bottom-center">
@@ -93,7 +132,7 @@ const Footer = () => {
         </div>
         <div className="footer-bottom-right">STORE LOCATION</div>
       </div>
-    </footer>
+    </div>
   );
 };
 

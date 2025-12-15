@@ -83,7 +83,7 @@ export default function BagSection() {
   if (loading) return <p style={{ padding: 40 }}>Loading cart...</p>;
 
   return (
-    <PageLayout>
+
     <>
       <section className={styles.cartContainer}>
         {/* ✅ Left Section */}
@@ -172,6 +172,6 @@ export default function BagSection() {
         <button className={styles.shareBtn}>Share</button>
       </div>
     </>
-    </PageLayout>
+   
   );
 }

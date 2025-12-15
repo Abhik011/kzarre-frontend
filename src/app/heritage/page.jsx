@@ -237,7 +237,7 @@ export default function HeritagePage() {
 
   /* ================= ✅ FINAL HERITAGE PAGE ================= */
   return (
-    <PageLayout>
+ 
       <section className="gallery">
         <div className="gallery-div">
           {firstFour.map((p) => (
@@ -267,6 +267,6 @@ export default function HeritagePage() {
           ))}
         </div>
       </section>
-    </PageLayout>
+
   );
 }

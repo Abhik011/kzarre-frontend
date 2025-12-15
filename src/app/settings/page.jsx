@@ -32,7 +32,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <PageLayout>
+
     <div className={styles.pageWrap}>
       <div className={styles.container}>
        <SidebarNav active="profile" />
@@ -66,6 +66,6 @@ export default function SettingsPage() {
 
       </div>
     </div>
-    </PageLayout>
+
   );
 }

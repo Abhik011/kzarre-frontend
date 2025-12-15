@@ -242,7 +242,7 @@ export default function ProfilePage() {
   ================================= */
 
   return (
-    <PageLayout>
+
       <div className={styles.pageWrap}>
         <Toast toast={toast} onClose={() => setToast(null)} />
 
@@ -380,6 +380,6 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
-    </PageLayout>
+
   );
 }

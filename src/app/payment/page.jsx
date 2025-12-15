@@ -95,7 +95,7 @@ export default function PaymentPage() {
   if (!order) return <div className={styles.loading}>Order not found</div>;
 
   return (
-    <PageLayout>
+
       <div className={styles.pageWrap}>
         <div className={styles.container}>
           <h2>Select Payment Method</h2>
@@ -111,6 +111,6 @@ export default function PaymentPage() {
 
         {popup.show && <div>{popup.message}</div>}
       </div>
-    </PageLayout>
+
   );
 }

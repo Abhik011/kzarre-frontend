@@ -232,7 +232,7 @@ export default function AccessoriesPage() {
   }
 
   return (
-    <PageLayout>
+
       <section className="gallery">
         <div className="gallery-div">
           {firstFour.map((p) => (
@@ -262,6 +262,6 @@ export default function AccessoriesPage() {
           ))}
         </div>
       </section>
-    </PageLayout>
+
   );
 }

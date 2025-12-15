@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import '../Toggle.css'
+import './toggle.css'
 import WomensBannerCard from './WomensBannerCard';
 import MensBannerCard from './MensBannerCard';
 

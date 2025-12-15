@@ -1,7 +1,7 @@
 /* ================================
    KZARRÈ - Pixel Perfect Login Page
    ================================ */
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 .login-container {
   display: flex;
   width: 100%;

@@ -54,18 +54,18 @@ export default function SuccessPage() {
   /* ================= ✅ LOADING ================= */
   if (loading) {
     return (
-      <PageLayout>
+ 
         <div style={styles.page}>
           <div style={styles.card}>Loading order details...</div>
         </div>
-      </PageLayout>
+
     );
   }
 
   /* ================= ✅ ERROR ================= */
   if (error || !order) {
     return (
-      <PageLayout>
+ 
         <div style={styles.page}>
           <div style={styles.card}>
             <h2>{error || "Order not found"}</h2>
@@ -74,7 +74,7 @@ export default function SuccessPage() {
             </a>
           </div>
         </div>
-      </PageLayout>
+
     );
   }
 
@@ -121,7 +121,7 @@ export default function SuccessPage() {
 
   /* ================= ✅ FINAL UI ================= */
   return (
-    <PageLayout>
+ 
       <div style={styles.page}>
         <div style={styles.card}>
           {/* ✅ Header */}
@@ -209,7 +209,7 @@ export default function SuccessPage() {
           </div>
         </div>
       </div>
-    </PageLayout>
+
   );
 }
 

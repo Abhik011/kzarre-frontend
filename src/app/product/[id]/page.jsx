@@ -10,7 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import "./product.css";
 import { addToCart } from "../../utils/addToCart";
-import PageLayout from "../../components/PageLayout";
+import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 /* ==================== HELPERS ==================== */
 function formatPrice(num) {
@@ -22,7 +22,7 @@ async function safeJson(res) {
   try {
     return JSON.parse(text);
   } catch {
-    return { __raw: text };
+    return {};
   }
 }
 
@@ -35,156 +35,21 @@ export default function ProductPage() {
     return p[p.length - 1];
   }, [pathname]);
 
+  /* ================= STATE ================= */
   const [product, setProduct] = useState(null);
   const [similar, setSimilar] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  /* ✅ IMAGE INDEX */
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  /* ✅ SCROLL DELAY LOCK */
-  const scrollLock = useRef(false);
-
-  /* ✅ VERTICAL TOUCH SWIPE */
-  const touchStartY = useRef(0);
-
-  const handleTouchStart = (e) => {
-    touchStartY.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e) => {
-    if (scrollLock.current) return;
-    scrollLock.current = true;
-
-    const diff =
-      touchStartY.current -
-      e.changedTouches[0].clientY;
-
-    if (!product?.gallery?.length) return;
-
-    if (diff > 50) {
-      setCurrentIndex((p) => (p + 1) % product.gallery.length);
-    } else if (diff < -50) {
-      setCurrentIndex(
-        (p) => (p - 1 + product.gallery.length) % product.gallery.length
-      );
-    }
-
-    setTimeout(() => {
-      scrollLock.current = false;
-    }, 700);
-  };
-
   const [adding, setAdding] = useState(false);
 
-  const handleAddToCart = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  /* IMAGE */
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollLock = useRef(false);
+  const touchStartY = useRef(0);
 
-    if (!selectedSize) return alert("Please select a size");
-    if (!selectedColor) return alert("Please select a color");
-
-    setAdding(true);
-
-    const cartProduct = {
-      _id: product._id,
-      name: product.name,
-      price: product.discountPrice || product.price,
-      image: product.imageUrl || product.gallery?.[0],
-      size: selectedSize,
-      color: selectedColor,
-      qty: 1,
-    };
-
-    await addToCart(cartProduct);
-    setAdding(false);
-  };
-
-  const handleBuyNow = () => {
-    if (!selectedSize) return alert("Please select a size");
-    if (!selectedColor) return alert("Please select a color");
-
-    const url = `/checkout?product=${product._id}&qty=1&size=${encodeURIComponent(
-      selectedSize
-    )}&color=${encodeURIComponent(selectedColor)}`;
-
-    window.location.href = url;
-  };
-
-  /* ✅ LUXURY POPUP STATE */
-  const [popup, setPopup] = useState({
-    show: false,
-    message: "",
-    type: "success",
-  });
-
-  /* ==================== ✅ NOTIFY HANDLER (AUTO + LOCKED) ==================== */
-  const handleNotify = async () => {
-    try {
-      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-
-      const userRaw = localStorage.getItem("kzarre_user");
-      const user = userRaw ? JSON.parse(userRaw) : null;
-      const userEmail = user?.email;
-
-      if (!userEmail) {
-        setPopup({
-          show: true,
-          message: "Please login to get stock notifications.",
-          type: "error",
-        });
-        return;
-      }
-
-      // ✅ BLOCK IF ALREADY SUBSCRIBED
-      if (subscribed) {
-        setPopup({
-          show: true,
-          message: "You are already subscribed for this product.",
-          type: "success",
-        });
-        return;
-      }
-
-      const res = await fetch(`${API_URL}/api/notify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product._id,
-          email: userEmail,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
-
-      // ✅ SAVE LOCAL SUBSCRIPTION FLAG
-      localStorage.setItem(`notify_${product._id}`, "true");
-      setSubscribed(true);
-
-      setPopup({
-        show: true,
-        message: "You will be notified when this product is back in stock.",
-        type: "success",
-      });
-    } catch (err) {
-      setPopup({
-        show: true,
-        message: err.message || "Notify failed",
-        type: "error",
-      });
-    }
-
-    setTimeout(() => {
-      setPopup({ show: false, message: "", type: "success" });
-    }, 3000);
-  };
-
-  /* ==================== FETCH PRODUCT ==================== */
+  /* ================= FETCH PRODUCT ================= */
   useEffect(() => {
     if (!id) return;
 
@@ -196,59 +61,39 @@ export default function ProductPage() {
       );
       const parsed = await safeJson(res);
 
-      if (!res.ok || !parsed.product) return alert("Product not found.");
+      if (!parsed?.product) {
+        setLoading(false);
+        return;
+      }
 
-      const data = parsed.product;
+      const p = parsed.product;
 
       const normalized = {
-        _id: data._id,
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        discountPrice: data.discountPrice || null,
-        gallery: Array.isArray(data.gallery)
-          ? data.gallery
-          : [data.imageUrl],
-        imageUrl: data.imageUrl,
-        variants: data.variants || [],
-        category: data.category,
-        stockQuantity: data.stockQuantity,
-        inStock: data.inStock,
+        _id: p._id,
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        discountPrice: p.discountPrice || null,
+        gallery: Array.isArray(p.gallery) ? p.gallery : [p.imageUrl],
+        imageUrl: p.imageUrl,
+        variants: p.variants || [],
+        category: p.category,
+        stockQuantity: p.stockQuantity,
       };
 
       setProduct(normalized);
       setCurrentIndex(0);
-
-      // ✅ LOAD SUBSCRIBED STATE
-      const notifyKey = `notify_${data._id}`;
-      const alreadySubscribed = localStorage.getItem(notifyKey);
-      if (alreadySubscribed === "true") {
-        setSubscribed(true);
-      } else {
-        setSubscribed(false);
-      }
-
-      const sizes = [
-        ...new Set(normalized.variants.map((v) => v.size).filter(Boolean)),
-      ];
-      const colors = [
-        ...new Set(normalized.variants.map((v) => v.color).filter(Boolean)),
-      ];
-
-      setSelectedSize(sizes[0] || "");
-      setSelectedColor(colors[0] || "");
-
       setLoading(false);
     }
 
     load();
   }, [id]);
 
-  /* ==================== ✅ FETCH SIMILAR ==================== */
+  /* ================= FETCH SIMILAR ================= */
   useEffect(() => {
     if (!product?.category) return;
 
-    async function loadSimilarByCategory() {
+    async function loadSimilar() {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/products`
       );
@@ -265,10 +110,103 @@ export default function ProductPage() {
       setSimilar(related);
     }
 
-    loadSimilarByCategory();
+    loadSimilar();
   }, [product]);
 
-  if (!product) return <div className="loading">Loading…</div>;
+  /* ================= VARIANT NORMALIZATION ================= */
+  const variantMap = useMemo(() => {
+    if (!product?.variants) {
+      return { sizes: [], colors: [], sizeColorMap: {} };
+    }
+
+    const sizesSet = new Set();
+    const colorsSet = new Set();
+    const sizeColorMap = {};
+
+    product.variants.forEach((v) => {
+      if (!v.size || !v.color) return;
+
+      const size = v.size.trim();
+      const color = v.color.trim();
+
+      sizesSet.add(size);
+      colorsSet.add(color);
+
+      if (!sizeColorMap[size]) sizeColorMap[size] = [];
+      if (!sizeColorMap[size].includes(color)) {
+        sizeColorMap[size].push(color);
+      }
+    });
+
+    return {
+      sizes: Array.from(sizesSet),
+      colors: Array.from(colorsSet), // ✅ UNIQUE COLORS
+      sizeColorMap,
+    };
+  }, [product]);
+
+  const { sizes, colors, sizeColorMap } = variantMap;
+
+  /* ================= AVAILABLE COLORS BY SIZE ================= */
+  const availableColors = useMemo(() => {
+    if (!selectedSize) return colors;
+    return sizeColorMap[selectedSize] || [];
+  }, [selectedSize, colors, sizeColorMap]);
+
+  /* ================= AUTO FIX INVALID COLOR ================= */
+  useEffect(() => {
+    if (!selectedSize) return;
+
+    if (!availableColors.includes(selectedColor)) {
+      setSelectedColor(availableColors[0] || "");
+    }
+  }, [selectedSize, availableColors, selectedColor]);
+
+  /* ================= ADD TO CART ================= */
+  const handleAddToCart = async () => {
+    if (!selectedSize) return alert("Select size");
+    if (!selectedColor) return alert("Select color");
+
+    setAdding(true);
+
+    await addToCart({
+      _id: product._id,
+      name: product.name,
+      price: product.discountPrice || product.price,
+      image: product.imageUrl,
+      size: selectedSize,
+      color: selectedColor,
+      qty: 1,
+    });
+
+    setAdding(false);
+  };
+
+  /* ================= IMAGE SWIPE ================= */
+  const handleTouchStart = (e) => {
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (scrollLock.current || !product?.gallery?.length) return;
+
+    scrollLock.current = true;
+    const diff = touchStartY.current - e.changedTouches[0].clientY;
+
+    if (diff > 50) {
+      setCurrentIndex((i) => (i + 1) % product.gallery.length);
+    } else if (diff < -50) {
+      setCurrentIndex(
+        (i) => (i - 1 + product.gallery.length) % product.gallery.length
+      );
+    }
+
+    setTimeout(() => (scrollLock.current = false), 600);
+  };
+
+  if (loading || !product) {
+    return <div className="loading">Loading…</div>;
+  }
 
   const priceNow =
     product.discountPrice && product.discountPrice > 0
@@ -277,135 +215,172 @@ export default function ProductPage() {
 
   const isOutOfStock = Number(product.stockQuantity) <= 0;
 
+  /* ================= IMAGE ARROWS ================= */
+  const showPrevImage = () => {
+    if (!product?.gallery?.length) return;
+    setCurrentIndex((i) =>
+      i === 0 ? product.gallery.length - 1 : i - 1
+    );
+  };
+
+  const showNextImage = () => {
+    if (!product?.gallery?.length) return;
+    setCurrentIndex((i) =>
+      (i + 1) % product.gallery.length
+    );
+  };
+
+
   return (
-    <PageLayout>
-      <main className="product-page">
-        <div className="product-top">
-          <div className="gallery-col">
-            <div
-              className="main-image luxury-scroll"
-              onWheel={(e) => {
-                e.preventDefault();
-                if (!product.gallery.length) return;
-                if (scrollLock.current) return;
+    <main className="product-page">
+      <div className="product-top">
+        {/* IMAGE */}
+       <div
+  className="main-image"
+  onTouchStart={handleTouchStart}
+  onTouchEnd={handleTouchEnd}
+>
+  {/* LEFT ARROW */}
+<button
+  className="img-arrow left"
+  onClick={() =>
+    setCurrentIndex(
+      (i) => (i - 1 + product.gallery.length) % product.gallery.length
+    )
+  }
+  aria-label="Previous image"
+>
+  <IoChevronBack />
+</button>
+  <img
+    src={product.gallery[currentIndex]}
+    alt={product.name}
+    className="luxury-img"
+  />
 
-                scrollLock.current = true;
+  {/* RIGHT ARROW */}
+<button
+  className="img-arrow right"
+  onClick={() =>
+    setCurrentIndex((i) => (i + 1) % product.gallery.length)
+  }
+  aria-label="Next image"
+>
+  <IoChevronForward />
+</button>
+</div>
 
-                setCurrentIndex((prev) => {
-                  if (e.deltaY > 0) {
-                    return (prev + 1) % product.gallery.length;
-                  } else {
-                    return (
-                      (prev - 1 + product.gallery.length) %
-                      product.gallery.length
-                    );
-                  }
-                });
 
-                setTimeout(() => {
-                  scrollLock.current = false;
-                }, 700);
-              }}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-            >
-              {/* ✅ GRAYSCALE WHEN OUT OF STOCK */}
-              <img
-                src={product.gallery[currentIndex]}
-                alt={product.name}
-                className="luxury-img"
-                style={{
-                  filter: isOutOfStock ? "grayscale(100%)" : "none",
-                  opacity: isOutOfStock ? 0.6 : 1,
-                }}
-              />
+
+        {/* INFO */}
+        <aside className="info-col">
+          <h1 className="product-title">{product.name}</h1>
+          <p className="subtitle">{product.description}</p>
+          <div className="price-current">$ {formatPrice(priceNow)}</div>
+
+          {/* SIZE */}
+          {sizes.length > 0 && (
+            <div className="variant-group">
+              <p className="variant-label">Size</p>
+              <div className="variant-options">
+                {sizes.map((size) => (
+                  <button
+                    key={size}
+                    className={`variant-btn ${selectedSize === size ? "active" : ""
+                      }`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
             </div>
+          )}
+
+          {/* COLOR */}
+          {colors.length > 0 && (
+            <div className="variant-group">
+              <p className="variant-label">Color</p>
+              <div className="color-options">
+                {colors.map((color) => {
+                  const disabled =
+                    selectedSize && !availableColors.includes(color);
+
+                  return (
+                    <button
+                      key={color}
+                      className={`color-swatch
+                          ${selectedColor === color ? "active" : ""}
+                          ${disabled ? "disabled" : ""}
+                          ${color.toLowerCase() === "white" ? "light" : ""}
+                        `}
+                      style={{ "--swatch-color": color }}
+                      disabled={disabled}
+                      onClick={() => !disabled && setSelectedColor(color)}
+                      aria-label={color}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ACTIONS */}
+          <div className="actions">
+            {!isOutOfStock ? (
+              <>
+                <button className="btn primary">Buy Now</button>
+                <button
+                  className="btn outline"
+                  onClick={handleAddToCart}
+                  disabled={adding}
+                >
+                  Cart
+                </button>
+              </>
+            ) : (
+              <p className="out-stock">Out of stock</p>
+            )}
           </div>
+        </aside>
+      </div>
 
-          {/* ================= RIGHT INFO ================= */}
-          <aside className="info-col">
-            <h1 className="product-title">{product.name}</h1>
-            <p className="subtitle">{product.description}</p>
+      {/* SIMILAR */}
+      {Array.isArray(similar) && similar.length > 0 && (
+        <section className="similar-section">
+          <h2>Similar Products</h2>
 
-            <div className="price-current">
-              $ {formatPrice(priceNow)}
-            </div>
+          <div className="similar-grid">
+            {similar.map((p) => {
+              const img =
+                p.imageUrl ||
+                (Array.isArray(p.gallery) && p.gallery[0]) ||
+                "/placeholder.png"; // fallback
 
-            {/* ✅ ACTIONS — STOCK AWARE */}
-            <div className="actions">
-              {!isOutOfStock ? (
-                <>
-                  <button className="btn primary" onClick={handleBuyNow}>
-                    Buy Now
-                  </button>
-
-                  <button
-                    className="btn outline"
-                    onClick={handleAddToCart}
-                    disabled={adding}
-                  >
-                    Cart
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="btn outline"
-                    onClick={handleNotify}
-                    disabled={subscribed}
-                    style={{
-                      opacity: subscribed ? 0.5 : 1,
-                      cursor: subscribed ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    {subscribed ? "Subscribed" : "Notify Me"}
-                  </button>
-
-                  <p style={{ fontSize: "12px", color: "#999", marginTop: "6px" }}>
-                    This product is currently out of stock
-                  </p>
-                </>
-              )}
-            </div>
-          </aside>
-        </div>
-
-        {/* =================== ✅ SIMILAR PRODUCTS =================== */}
-        {similar.length > 0 && (
-          <section className="similar-section">
-            <h2>Similar Products</h2>
-            <div className="similar-grid">
-              {similar.map((p) => (
+              return (
                 <Link
                   key={p._id}
                   href={`/product/${p._id}`}
                   className="card"
                 >
                   <div className="card-image">
-                    <img
-                      src={p.imageUrl || p.gallery?.[0]}
-                      alt={p.name}
-                    />
+                    <img src={img} alt={p.name || "Product"} />
                   </div>
+
                   <div className="card-body">
                     <div className="card-title">{p.name}</div>
-                    <div className="card-price">${p.price}</div>
+                    <div className="card-price">
+                      $ {formatPrice(p.price)}
+                    </div>
                   </div>
                 </Link>
-              ))}
-            </div>
-          </section>
-        )}
-      </main>
-
-      {/* ✅ LUXURY POPUP */}
-      {popup.show && (
-        <div className="luxury-popup-overlay">
-          <div className={`luxury-popup ${popup.type}`}>
-            <p>{popup.message}</p>
+              );
+            })}
           </div>
-        </div>
+        </section>
       )}
-    </PageLayout>
+
+    </main>
+
   );
 }

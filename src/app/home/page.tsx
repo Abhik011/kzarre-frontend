@@ -11,8 +11,6 @@ import Bannergridwomens from "../components/Bannergridwomens";
 import './home.css';
 import PageLayout from "../components/PageLayout";
 
-
-
 interface BannersData {
   bannerOne?: any;
   bannerTwo?: any;
@@ -72,7 +70,7 @@ export default function Home() {
   if (loading) return <Loading />;
 
   return (
-    <PageLayout>
+ 
     <>
       {/* =============================
           HERO VIDEO
@@ -120,6 +118,7 @@ export default function Home() {
       </div>
    
     </>
-    </PageLayout>
+
+    
   );
 }

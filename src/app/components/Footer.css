@@ -75,6 +75,67 @@ a[href^="tel"] {
   cursor: pointer;
 }
 
+/* ============================
+   FOOTER SUBSCRIBE BUTTON
+============================ */
+.footer-subscribe-btn {
+  margin-top: 14px;
+  width: 30%;
+  height: 44px;
+
+  background-color: #ffffff;      /* deep luxury green */
+  color: #000000;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  border: 1px solid #dddddd;
+  border-radius: 0;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* HOVER */
+.footer-subscribe-btn:hover {
+  background-color: #ffffff;
+  color: #0c2b19;
+  border-color: #0c2b19;
+}
+
+/* ACTIVE */
+.footer-subscribe-btn:active {
+  transform: translateY(1px);
+}
+
+/* DISABLED */
+.footer-subscribe-btn:disabled {
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* ============================
+   STATUS MESSAGES
+============================ */
+.footer-message {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  font-family: "Open Sans", sans-serif;
+}
+
+.footer-message.success {
+  color: #0c2b19;
+}
+
+.footer-message.error {
+  color: #b00020;
+}
+
+
 .footer-input {
   width: 100%;
   background: transparent;

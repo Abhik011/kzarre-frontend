@@ -104,7 +104,7 @@ export default function OrdersPage() {
 
 
   return (
-    <PageLayout>
+
    
       <div className={styles.pageWrap}>
          
@@ -205,6 +205,6 @@ export default function OrdersPage() {
           </main>
         </div>
       </div>
-    </PageLayout>
+ 
   );
 }

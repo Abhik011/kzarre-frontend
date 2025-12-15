@@ -223,16 +223,16 @@ export default function OrderDetailsPage() {
 
   if (loading)
     return (
-      <PageLayout>
+ 
         <p className={styles.loading}>Loading order...</p>
-      </PageLayout>
+  
     );
 
   if (error)
     return (
-      <PageLayout>
+
         <p className={styles.error}>{error}</p>
-      </PageLayout>
+  
     );
 
   if (!order) return null;
@@ -246,7 +246,7 @@ export default function OrderDetailsPage() {
   ======================= */
 
   return (
-    <PageLayout>
+
       <div className={styles.pageWrap}>
         <div className={styles.container}>
           {/* ===== SIDEBAR ===== */}
@@ -551,6 +551,6 @@ export default function OrderDetailsPage() {
           </main>
         </div>
       </div>
-    </PageLayout>
+
   );
 }
