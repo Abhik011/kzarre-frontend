@@ -1,85 +1,77 @@
 "use client";
-import React from "react";
+import { useEffect, useState } from "react";
 import "./about.css";
 import Image from "next/image";
 
-import img2 from "../Assest/men.png";
+type AboutData = {
+  heroVideo?: string;
+  content: {
+    quote: { text: string; highlight: string };
+    intro: string;
+    body: string;
+  };
+  grid: {
+    text?: string;
+    images: string[];
+  }[];
+  footer: {
+    text: string;
+    heading: string;
+  };
+};
 
 export default function AboutPage() {
+  const [about, setAbout] = useState<AboutData | null>(null);
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/about`)
+      .then(res => res.json())
+      .then(data => setAbout(data.about));
+  }, []);
+
+  if (!about) return null;
+
   return (
-
     <div className="about-container">
-      {/* Fullscreen Video Section */}
-      <section className="hero-section">
-        <video className="hero-video" autoPlay loop muted playsInline>
-          <source src="/v1.mp4" typeof="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </section>
+      {/* HERO VIDEO */}
+      {about.heroVideo && (
+        <section className="hero-section">
+          <video className="hero-video" autoPlay loop muted playsInline>
+            <source src={about.heroVideo} type="video/mp4" />
+          </video>
+        </section>
+      )}
 
-      {/* Text Section */}
+      {/* TEXT SECTION */}
       <section className="about-content">
         <p className="quote">
-          Inspired by the sacred wisdom of the Bhagavad Gita,
-          <span> “Karmanye vadhikaraste ma phaleshu kadachana” </span> — our
-          philosophy embraces purposeful creation. switching checking to push  2
+          {about.content.quote.text}
+          <span> “{about.content.quote.highlight}” </span>
         </p>
 
-        <p className="intro">
-          At KZARRÈ, luxury is not merely a statement—it is a soulful journey
-          woven with the threads of India’s rich heritage and timeless artistry.
-        </p>
+        <p className="intro">{about.content.intro}</p>
 
-        <p className="text-block">
-          Every piece we create is born from the hands of passionate artisans,
-          each knot and weave a heartfelt expression of tradition passed down
-          through generations. Rooted deeply in <span>Indian culture</span>, yet
-          seen through a contemporary, global lens—our collections featuring
-          exquisite pashmina shawls, cashmere, silk scarves, and hand-knotted
-          rugs—are more than objects; they are stories waiting to be worn, felt,
-          and cherished.
-        </p>
+        <p className="text-block">{about.content.body}</p>
       </section>
 
-      {/* Image + Text Grid */}
+      {/* IMAGE GRID */}
       <section className="image-grid">
-        <div className="image-text">
-          <p>
-            Inspired by the sacred wisdom of the Bhagavad Gita,
-            <span> “Karmanye vadhikaraste ma phaleshu kadachana” </span> — we
-            focus not on fleeting outcomes but on the devotion embedded in every
-            thread.
-          </p>
-         
-            <Image src={img2} alt="Warrior" />
-            <Image src={img2} alt="Warrior" />
-          
-        </div>
+        {about.grid.map((block, idx) => (
+          <div key={idx} className="image-text">
+            {block.text && <p>{block.text}</p>}
 
-        <div className="image-text">
-         
-            <Image src={img2} alt="Warrior" />
-            <Image src={img2} alt="Warrior" />
-         
-          <p>
-            At KZARRÈ, sustainability and uncompromising quality are commitments
-            that honor the earth and the spirit of true craftsmanship—connecting
-            past and present in soulful luxury.
-          </p>
-        </div>
+            {block.images.map((img, i) => (
+              <Image key={i} src={img} alt="About image" width={400} height={500} />
+            ))}
+          </div>
+        ))}
       </section>
 
-      {/* Closing Text */}
+      {/* FOOTER */}
       <section className="about-footer">
-        <p>
-          With mindful craftsmanship and modern refinement, each KZARRÈ piece
-          invites you to experience beauty beyond form—celebrating the art of
-          slowing down, appreciating texture, simplicity, and the stories that
-          unite us all.
-        </p>
-        <h3>Welcome to KZARRÈ — a legacy of art, heart, and heritage.</h3>
+        <p>{about.footer.text}</p>
+        <h3>{about.footer.heading}</h3>
       </section>
     </div>
-
   );
 }

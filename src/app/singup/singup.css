@@ -12,17 +12,18 @@
 
 /* ---- Left side (Form) ---- */
 .register-left {
-  width: 48%;
+  width: 50%;
   padding: 0 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+
 }
 
 .register-box {
   width: 100%;
-  max-width: 380px;
+  max-width: 480px;
   text-align: center;
 }
 
@@ -85,7 +86,7 @@
 
 /* ---- Right side (Image) ---- */
 .register-right {
-  width: 48%;
+  width: 50%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -104,7 +105,7 @@
 
 .register-image:hover {
   transform: scale(1.02);
-  filter: brightness(103%) contrast(115%);
+  
 }
 
 /* Optional soft divider */
@@ -278,18 +279,12 @@
 /* Login Button */
 .login-btn {
   background: transparent;
-  border: 1px solid #000;
+  border: none;
   color: #000;
   width: 320px;
   height: 42px;
   margin-top: 12px;
   transition: all 0.3s ease;
-}
-
-.login-btn:hover {
-  background: #EFBF04;
-  border-color: #EFBF04;
-  color: #fff;
 }
 
 /* Resend Button */

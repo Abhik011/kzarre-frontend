@@ -139,7 +139,7 @@ const LoginPage = () => {
 
             {/* ✅ Links */}
             <div className="form-links">
-              <a href="/signup">New here? <strong>Create an account</strong></a>
+              <a href="/singup">New here? <strong>Create an account</strong></a>
               <a href="/forgot-password">Forget Password ?</a>
             </div>
 

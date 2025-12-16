@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../Assest/logo.png";
 import Cookies from "js-cookie";
-
+import './header.css'
 // Icons
 import {
   IoSearch,
@@ -14,7 +14,6 @@ import {
   IoClose,
 } from "react-icons/io5";
 
-import "./Header.css";
 
 /* ================================
       PRICE FORMATTER

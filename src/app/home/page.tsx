@@ -1,15 +1,19 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Bannerone from '../components/Bannerone';
-import BannerToggle from '../components/BannerToggle';
-import Bannertwo from '../components/Bannertwo';
-import Stories from '../components/Stories';
+import dynamic from "next/dynamic";
 import Loading from '../loading';
 import Cookies from "js-cookie";
-import Bannergridwomens from "../components/Bannergridwomens";
 import './home.css';
-import PageLayout from "../components/PageLayout";
+
+/* ===========================
+   🔥 LAZY LOAD COMPONENTS
+=========================== */
+const Bannerone = dynamic(() => import('../components/Bannerone'), { ssr: false });
+const BannerToggle = dynamic(() => import('../components/BannerToggle'), { ssr: false });
+const Bannergridwomens = dynamic(() => import('../components/Bannergridwomens'), { ssr: false });
+const Bannertwo = dynamic(() => import('../components/Bannertwo'), { ssr: false });
+const Stories = dynamic(() => import('../components/Stories'), { ssr: false });
 
 interface BannersData {
   bannerOne?: any;
@@ -20,61 +24,56 @@ interface BannersData {
 export default function Home() {
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [banners, setBanners] = useState<BannersData>({});
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  const fetchCMSData = async () => {
-    try {
-      // ✅ 1. Instant load from cookie (fastest)
-      const cachedVideo = Cookies.get("hero_video");
-      const cachedBanners = Cookies.get("home_banners");
+  useEffect(() => {
+    const fetchCMSData = async () => {
+      try {
+        /* ===========================
+           ✅ FAST COOKIE HYDRATION
+        =========================== */
+        const cachedVideo = Cookies.get("hero_video");
+        const cachedBanners = Cookies.get("home_banners");
 
-      if (cachedVideo) setVideoUrl(cachedVideo);
-      if (cachedBanners) setBanners(JSON.parse(cachedBanners));
+        if (cachedVideo) setVideoUrl(cachedVideo);
+        if (cachedBanners) setBanners(JSON.parse(cachedBanners));
 
-      // ✅ 2. Fetch fresh data from CMS (background)
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
-        { cache: "no-store" }
-      );
+        /* ===========================
+           ✅ FETCH (ALLOW CACHE)
+        =========================== */
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
+          { next: { revalidate: 300 } } // 🔥 cache for 5 min
+        );
 
-      const data = await res.json();
+        const data = await res.json();
 
-      console.log("🎥 CMS PUBLIC DATA:", data);
+        if (data?.heroVideoUrl) {
+          setVideoUrl(data.heroVideoUrl);
+          Cookies.set("hero_video", data.heroVideoUrl, { expires: 1 });
+        }
 
-      // ✅ 3. Update state
-      if (data?.heroVideoUrl) {
-        setVideoUrl(data.heroVideoUrl);
-
-        // ✅ Store in cookie for next visit (1 day)
-        Cookies.set("hero_video", data.heroVideoUrl, { expires: 1 });
+        if (data?.banners) {
+          setBanners(data.banners);
+          Cookies.set("home_banners", JSON.stringify(data.banners), { expires: 1 });
+        }
+      } catch (err) {
+        console.error("CMS fetch error:", err);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      if (data?.banners) {
-        setBanners(data.banners);
-        Cookies.set("home_banners", JSON.stringify(data.banners), {
-          expires: 1,
-        });
-      }
-    } catch (err) {
-      console.error("❌ Error fetching CMS public data:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchCMSData();
-}, []);
-
+    fetchCMSData();
+  }, []);
 
   if (loading) return <Loading />;
 
   return (
- 
     <>
-      {/* =============================
-          HERO VIDEO
-      ============================== */}
+      {/* ===========================
+         🎥 HERO VIDEO (OPTIMIZED)
+      =========================== */}
       <section className="hero-section">
         {videoUrl ? (
           <video
@@ -82,43 +81,41 @@ export default function Home() {
             loop
             muted
             playsInline
-            controls={false}
-             preload="auto"        // ✅ NOT metadata
-            fetchPriority="high" 
-            {...({ fetchPriority: "high" } as any)} 
+            preload="metadata"        // ✅ HUGE FIX
+            poster="/video-poster.jpg" // ✅ prevents blank screen
             className="hero-video"
-            key={videoUrl}
           >
             <source src={videoUrl} type="video/mp4" />
           </video>
         ) : (
           <div className="no-video">
-            <p>No approved video is currently available.</p>
+            <p>No approved video available.</p>
           </div>
         )}
       </section>
-        <div className="banner-container banner-1">
-          <Bannerone />
-        </div>
 
-        <div className="banner-container1 banner-toggle">
-          <BannerToggle />
-        </div>
-         <div className="banner-container3 ">
-         <Bannergridwomens/>
-        </div>
+      {/* ===========================
+         🖼 BELOW THE FOLD (LAZY)
+      =========================== */}
+      <div className="banner-container banner-1">
+        <Bannerone />
+      </div>
 
-        <div className="banner-containe4 banner-2">
-          <Bannertwo />
-        </div>
-     
+      <div className="banner-container1 banner-toggle">
+        <BannerToggle />
+      </div>
+
+      <div className="banner-container3">
+        <Bannergridwomens />
+      </div>
+
+      <div className="banner-containe4 banner-2">
+        <Bannertwo />
+      </div>
 
       <div className="stories-section">
         <Stories />
       </div>
-   
     </>
-
-    
   );
 }

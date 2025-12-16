@@ -48,6 +48,8 @@ export default function ProductPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollLock = useRef(false);
   const touchStartY = useRef(0);
+  const [subscribed, setSubscribed] = useState(false);
+
 
   /* ================= FETCH PRODUCT ================= */
   useEffect(() => {
@@ -82,6 +84,12 @@ export default function ProductPage() {
       };
 
       setProduct(normalized);
+
+      const notifyKey = `notify_${normalized._id}_${selectedSize}_${selectedColor}`;
+
+      const alreadySubscribed = localStorage.getItem(notifyKey);
+      setSubscribed(alreadySubscribed === "true");
+
       setCurrentIndex(0);
       setLoading(false);
     }
@@ -89,7 +97,16 @@ export default function ProductPage() {
     load();
   }, [id]);
 
-  /* ================= FETCH SIMILAR ================= */
+  useEffect(() => {
+    if (!product || !selectedSize || !selectedColor) return;
+
+    const notifyKey = `notify_${product._id}_${selectedSize}_${selectedColor}`;
+    const alreadySubscribed = localStorage.getItem(notifyKey);
+
+    setSubscribed(alreadySubscribed === "true");
+  }, [product, selectedSize, selectedColor]);
+
+
   useEffect(() => {
     if (!product?.category) return;
 
@@ -182,6 +199,65 @@ export default function ProductPage() {
     setAdding(false);
   };
 
+  const handleBuyNow = () => {
+    if (!selectedSize) return alert("Please select a size");
+    if (!selectedColor) return alert("Please select a color");
+
+    const url = `/checkout?product=${product._id}&qty=1&size=${encodeURIComponent(
+      selectedSize
+    )}&color=${encodeURIComponent(selectedColor)}`;
+
+    window.location.href = url;
+  };
+
+  const handleNotify = async () => {
+    try {
+      if (!selectedSize) return alert("Please select a size");
+      if (!selectedColor) return alert("Please select a color");
+
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+
+      const userRaw = localStorage.getItem("kzarre_user");
+      const user = userRaw ? JSON.parse(userRaw) : null;
+      const email = user?.email;
+
+      if (!email) {
+        return alert("Please login to get stock notifications.");
+      }
+
+      const notifyKey = `notify_${product._id}_${selectedSize}_${selectedColor}`;
+
+      if (localStorage.getItem(notifyKey) === "true") {
+        return alert("You are already subscribed for this variant.");
+      }
+
+      const res = await fetch(`${API_URL}/api/notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product._id,
+          size: selectedSize,
+          color: selectedColor,
+          email,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Notify failed");
+
+      localStorage.setItem(notifyKey, "true");
+      setSubscribed(true);
+
+      alert(
+        `You will be notified when ${selectedSize} / ${selectedColor} is back in stock.`
+      );
+    } catch (err) {
+      alert(err.message || "Notify failed");
+    }
+  };
+
+
+
   /* ================= IMAGE SWIPE ================= */
   const handleTouchStart = (e) => {
     touchStartY.current = e.touches[0].clientY;
@@ -235,42 +311,40 @@ export default function ProductPage() {
     <main className="product-page">
       <div className="product-top">
         {/* IMAGE */}
-       <div
-  className="main-image"
-  onTouchStart={handleTouchStart}
-  onTouchEnd={handleTouchEnd}
->
-  {/* LEFT ARROW */}
-<button
-  className="img-arrow left"
-  onClick={() =>
-    setCurrentIndex(
-      (i) => (i - 1 + product.gallery.length) % product.gallery.length
-    )
-  }
-  aria-label="Previous image"
->
-  <IoChevronBack />
-</button>
-  <img
-    src={product.gallery[currentIndex]}
-    alt={product.name}
-    className="luxury-img"
-  />
+        <div
+          className="main-image"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* LEFT ARROW */}
+          <button
+            className="img-arrow left"
+            onClick={() =>
+              setCurrentIndex(
+                (i) => (i - 1 + product.gallery.length) % product.gallery.length
+              )
+            }
+            aria-label="Previous image"
+          >
+            <IoChevronBack />
+          </button>
+          <img
+            src={product.gallery[currentIndex]}
+            alt={product.name}
+            className="luxury-img"
+          />
 
-  {/* RIGHT ARROW */}
-<button
-  className="img-arrow right"
-  onClick={() =>
-    setCurrentIndex((i) => (i + 1) % product.gallery.length)
-  }
-  aria-label="Next image"
->
-  <IoChevronForward />
-</button>
-</div>
-
-
+          {/* RIGHT ARROW */}
+          <button
+            className="img-arrow right"
+            onClick={() =>
+              setCurrentIndex((i) => (i + 1) % product.gallery.length)
+            }
+            aria-label="Next image"
+          >
+            <IoChevronForward />
+          </button>
+        </div>
 
         {/* INFO */}
         <aside className="info-col">
@@ -329,7 +403,13 @@ export default function ProductPage() {
           <div className="actions">
             {!isOutOfStock ? (
               <>
-                <button className="btn primary">Buy Now</button>
+                <button
+                  className="btn primary"
+                  onClick={handleBuyNow}
+                >
+                  Buy Now
+                </button>
+
                 <button
                   className="btn outline"
                   onClick={handleAddToCart}
@@ -339,7 +419,45 @@ export default function ProductPage() {
                 </button>
               </>
             ) : (
-              <p className="out-stock">Out of stock</p>
+              <div className="actions">
+                {!isOutOfStock ? (
+                  <>
+                    <button
+                      className="btn primary"
+                      onClick={handleBuyNow}
+                    >
+                      Buy Now
+                    </button>
+
+                    <button
+                      className="btn outline"
+                      onClick={handleAddToCart}
+                      disabled={adding}
+                    >
+                      Cart
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn outline"
+                      onClick={handleNotify}
+                      disabled={subscribed}
+                      style={{
+                        opacity: subscribed ? 0.5 : 1,
+                        cursor: subscribed ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      {subscribed ? "Subscribed" : "Notify Me"}
+                    </button>
+
+                    <p className="out-stock">
+                      This product is currently out of stock
+                    </p>
+                  </>
+                )}
+              </div>
+
             )}
           </div>
         </aside>

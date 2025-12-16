@@ -263,13 +263,21 @@ const SingupPage = () => {
 
               <div className="input-group">
                 <input
-                  type="password"
+                   type={showPassword ? "text" : "password"}
                   name="confirmPassword"
                   placeholder="Confirm Password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required
+                  
                 />
+                <button
+                    type="button"
+                    className="toggle-password-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
               </div>
 
               {error && <p className="error-text">{error}</p>}
@@ -281,7 +289,7 @@ const SingupPage = () => {
 
               <button
                 type="button"
-                className="register-btn login-btn"
+                className="login-btn"
                 onClick={() => router.push("/login")}
               >
                 Already have an account? Login
