@@ -9,13 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy on EC2 (Build happens on EC2)
+      - name: Deploy frontend on EC2
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
+          timeout: 30m
           script: |
             set -e
-            chmod +x /home/ec2-user/deploy-frontend.sh
-            /home/ec2-user/deploy-frontend.sh
+            cd /home/ec2-user/kzarre-frontend
+            git fetch origin
+            git reset --hard origin/main
+            npm install
+            npm run build
+            pm2 restart kzarre-frontend
+            pm2 save
