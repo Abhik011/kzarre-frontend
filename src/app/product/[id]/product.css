@@ -230,7 +230,8 @@
 .subtitle {
   color: var(--muted);
   font-size: 0.9rem;
-  margin-bottom: 15px;
+  margin-bottom: 15px; 
+  width: 600px;
   font-family: "Open Sans";
 }
 

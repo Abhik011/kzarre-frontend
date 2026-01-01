@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./globals.css";
@@ -15,12 +18,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  // ❌ Routes where Header/Footer should NOT appear
+  const hideLayout =
+    pathname === "/maintenance" ||
+    pathname === "/loading";
+
   return (
     <html lang="en">
       <body className={montserrat.variable}>
-        <Header/>
+        {!hideLayout && <Header />}
+
         {children}
-        <Footer/>
+
+        {!hideLayout && <Footer />}
       </body>
     </html>
   );

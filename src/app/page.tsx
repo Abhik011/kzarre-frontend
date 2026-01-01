@@ -3,17 +3,13 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-
-
 export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/home");
+    // Middleware already handled maintenance
+    router.replace("/home");
   }, [router]);
 
-  return (
-    <>
-    </>
-  );
+  return null;
 }

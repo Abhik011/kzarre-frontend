@@ -1,0 +1,129 @@
+/* ===== LOCK PAGE SCROLL ===== */
+.maintenance-lock {
+  overflow: hidden;
+}
+
+/* ===== FULLSCREEN BACKDROP ===== */
+.wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+
+    /* linear-gradient(195deg, #fefefe, #efc00452, #fefefe); */
+    linear-gradient(195deg, #efc0042e, #fefefe, #efc0042a);
+
+
+  color: #ffffff;
+  font-family: var(--font-montserrat);
+}
+
+/* ===== GLASS CARD ===== */
+.card {
+  width: 100%;
+  max-width: 520px;
+  padding: 56px 48px;
+
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  text-align: center;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+/* ===== LOGO ===== */
+.icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+/* ===== TITLE ===== */
+.title {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: #111111;
+}
+
+/* ===== SUBTITLE ===== */
+.subtitle {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgb(38, 38, 38);
+  margin-bottom: 28px;
+}
+
+/* ===== ACCENT DIVIDER ===== */
+.divider {
+  width: 150px;
+  height: 2px;
+  margin: 0 auto 18px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #000000,
+    transparent
+  );
+}
+
+/* ===== COUNTDOWN ===== */
+.countdown {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #000000;
+  margin-bottom: 22px;
+}
+
+/* ===== SPINNER ===== */
+.spinner {
+  width: 42px;
+  height: 42px;
+  margin: 0 auto;
+
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.15);
+  border-top-color: #000000;
+
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  margin-top: 26px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 480px) {
+  .card {
+    padding: 40px 26px;
+    border-radius: 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
