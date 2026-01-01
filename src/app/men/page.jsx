@@ -63,7 +63,7 @@ export default function MenPage() {
     async function refresh() {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/products`
+          "/api/products"
         );
 
         const data = await res.json();
