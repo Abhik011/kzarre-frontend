@@ -35,7 +35,7 @@ interface Story {
  const [story, setStory] = useState<Story | null>(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/stories/${slug}`)
+    fetch(`/api/stories/${slug}`)
       .then((r) => r.json())
       .then((d) => setStory(d.story));
   }, [slug]);

@@ -24,7 +24,7 @@ export default function AboutPage() {
   const [about, setAbout] = useState<AboutData | null>(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/about`)
+    fetch("/api/about")
       .then(res => res.json())
       .then(data => setAbout(data.about));
   }, []);

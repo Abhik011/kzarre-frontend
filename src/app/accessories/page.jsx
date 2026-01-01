@@ -62,7 +62,7 @@ export default function accessoriesProducts() {
     async function refresh() {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/products`
+          "/api/products"
         );
 
         const data = await res.json();
@@ -107,7 +107,7 @@ export default function accessoriesProducts() {
         }
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
+          "/api/cms-content/public",
           { cache: "no-store" }
         );
 
@@ -143,7 +143,7 @@ export default function accessoriesProducts() {
     try {
       const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-      const res = await fetch(`${API_URL}/api/notify`, {
+      const res = await fetch("api/notify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

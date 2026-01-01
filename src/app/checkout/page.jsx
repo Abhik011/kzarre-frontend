@@ -245,7 +245,7 @@ useEffect(() => {
   const price = product.price;
   const subtotal = price * qty;
   const deliveryFee = 15;
-  const total = subtotal + deliveryFee;
+  const total = subtotal;
 
   /* ============================================================
       JSX
@@ -400,10 +400,10 @@ useEffect(() => {
                   <span>${subtotal}</span>
                 </div>
 
-                <div>
+                {/* <div>
                   <span>Delivery</span>
                   <span>${deliveryFee}</span>
-                </div>
+                </div> */}
 
                 <div className={styles.grandTotal}>
                   <strong>Total</strong>

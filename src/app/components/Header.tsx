@@ -2,8 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../Assest/logo.png";
-import Cookies from "js-cookie";
+
 import './header.css'
 // Icons
 import {
@@ -58,9 +57,7 @@ const Header = () => {
       try {
         setSearchLoading(true);
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/search?q=${searchQuery}`
-        );
+    const res = await fetch(`/api/search?q=${searchQuery}`);
 
         const data = await res.json();
 
@@ -138,7 +135,17 @@ const Header = () => {
           {/* CENTER LOGO */}
           <div className="logo">
             <Link href="/home">
-              <Image src={logo} alt="KZARRÈ Logo" className="logo-img" />
+              <Image
+                src="/Asset/logo.png"
+                alt="KZARRÈ Logo"
+                width={160}
+                height={40}
+                loading="eager"
+                priority
+                className="logo-img"
+              />
+
+
             </Link>
           </div>
 
