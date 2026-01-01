@@ -105,7 +105,7 @@ export default function MenPage() {
         }
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
+          "/api/cms-content/public",
           { cache: "no-store" }
         );
 
