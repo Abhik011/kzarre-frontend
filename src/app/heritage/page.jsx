@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import { useSearchParams, useRouter } from "next/navigation";
 
 
-export default function HeritagePage() {
+export default function heritagePage() {
   const [priceRange, setPriceRange] = useState({
     min: 0,
     max: 5000,
@@ -517,6 +517,11 @@ export default function HeritagePage() {
               </div>
             </div>
           )}
+
+
+
+
+
           {/* PRICE RANGE SLIDER */}
           <div className="filter-section">
             <div className="filter-section-title">

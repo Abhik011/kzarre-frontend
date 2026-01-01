@@ -105,7 +105,7 @@ export default function MenPage() {
         }
 
         const res = await fetch(
-          "/api/cms-content/public",
+          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
           { cache: "no-store" }
         );
 
@@ -573,7 +573,7 @@ export default function MenPage() {
   </div>
 )}
 
- {/* 2.0 is working fine */}
+
 
 
 

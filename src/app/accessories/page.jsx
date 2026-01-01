@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import { useSearchParams, useRouter } from "next/navigation";
 
 
-export default function accessoriesProducts() {
+export default function MenPage() {
   const [priceRange, setPriceRange] = useState({
     min: 0,
     max: 5000,
@@ -62,7 +62,7 @@ export default function accessoriesProducts() {
     async function refresh() {
       try {
         const res = await fetch(
-          "/api/products"
+          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/products`
         );
 
         const data = await res.json();
@@ -107,7 +107,7 @@ export default function accessoriesProducts() {
         }
 
         const res = await fetch(
-          "/api/cms-content/public",
+          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/cms-content/public`,
           { cache: "no-store" }
         );
 
@@ -143,7 +143,7 @@ export default function accessoriesProducts() {
     try {
       const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
-      const res = await fetch("api/notify", {
+      const res = await fetch(`${API_URL}/api/notify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
