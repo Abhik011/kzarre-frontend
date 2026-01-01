@@ -18,10 +18,29 @@ jobs:
           timeout: 30m
           script: |
             set -e
+
+            echo "🚀 Starting frontend deployment"
+
             cd /home/ec2-user/kzarre-frontend
+
+            echo "🛑 Stopping frontend (if running)"
+            pm2 stop kzarre-frontend || true
+
+            echo "🧹 Cleaning old Next.js build"
+            rm -rf .next
+
+            echo "📦 Syncing repository"
             git fetch origin
             git reset --hard origin/main
+
+            echo "📦 Installing dependencies"
             npm install
+
+            echo "🏗 Building frontend"
             npm run build
-            pm2 restart kzarre-frontend
+
+            echo "▶️ Starting frontend"
+            pm2 start npm --name kzarre-frontend -- start || pm2 restart kzarre-frontend
             pm2 save
+
+            echo "✅ Frontend deployed successfully"
