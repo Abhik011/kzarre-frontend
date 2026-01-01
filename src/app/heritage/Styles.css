@@ -41,6 +41,66 @@
   color: #555;
 }
 
+/* =========================
+   FILTER FOOTER
+========================= */
+
+.filter-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  border-top: 1px solid #e5e5e5;
+  z-index: 10;
+}
+
+/* COMMON BUTTON STYLES */
+.filter-footer button {
+  flex: 1;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* CLEAR BUTTON */
+.filter-footer button:first-child {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #111;
+}
+
+.filter-footer button:first-child:hover {
+  background: #f5f5f5;
+}
+
+/* APPLY BUTTON */
+.filter-footer button:last-child {
+  background: #111;
+  color: #fff;
+  border: none;
+}
+
+.filter-footer button:last-child:hover {
+  background: #000;
+}
+
+/* MOBILE SAFE */
+@media (max-width: 480px) {
+  .filter-footer {
+    padding: 12px;
+  }
+
+  .filter-footer button {
+    height: 42px;
+    font-size: 13px;
+  }
+}
+
 /* ================= FILTER DRAWER ================= */
 /* ================= COLOR FILTER ================= */
 

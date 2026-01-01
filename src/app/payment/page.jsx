@@ -3,9 +3,9 @@
 import { useSearchParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import styles from "./Payment.module.css";
-import PageLayout from "../components/PageLayout";
 
 export default function PaymentPage() {
+  const [stripeActive, setStripeActive] = useState(false);
   const params = useSearchParams();
   const router = useRouter();
   const orderId = params.get("order");
@@ -66,51 +66,76 @@ export default function PaymentPage() {
     }
   }
 
-  async function startStripePayment() {
-    try {
-      setLoadingStripe(true);
+async function startStripePayment() {
+  try {
+    setStripeActive(true);
+    setLoadingStripe(true);
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/checkout/stripe/pay`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderId }),
-        }
-      );
-
-      const data = await res.json();
-      if (!data.success || !data.url) {
-        showPopup("Stripe failed", "error");
-        return;
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/checkout/stripe/pay`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId }),
       }
+    );
 
-      window.location.href = data.url;
-    } finally {
-      setLoadingStripe(false);
+    const data = await res.json();
+    if (!data.success || !data.url) {
+      showPopup("Stripe failed", "error");
+      setStripeActive(false);
+      return;
     }
+
+    window.location.href = data.url;
+  } finally {
+    setLoadingStripe(false);
   }
+}
+
 
   if (loadingOrder) return <div className={styles.loading}>Loading…</div>;
   if (!order) return <div className={styles.loading}>Order not found</div>;
 
-  return (
+return (
+ <div
+  className={`${styles.pageWrap} ${
+    stripeActive ? styles.stripeActive : ""
+  }`}
+>
+    <div className={styles.container}>
+      <h2>Select Payment Method</h2>
+     <div className={styles.paymentButtonsColumn}>
+  {/* STRIPE */}
+  <button
+    className={`${styles.payButtonBase} ${styles.stripeBtn}`}
+    onClick={startStripePayment}
+    disabled={loadingStripe}
+  >
+    {loadingStripe ? "Processing…" : "Pay with Stripe"}
+  </button>
 
-      <div className={styles.pageWrap}>
-        <div className={styles.container}>
-          <h2>Select Payment Method</h2>
+  {/* COD */}
+  <button
+    className={`${styles.payButtonBase} ${styles.codBtn}`}
+    onClick={placeCodOrder}
+    disabled={loadingCOD}
+  >
+ 
+    {loadingCOD ? "Placing Order…" : "Cash On Delivery"}
+  </button>
+</div>
 
-          <button onClick={startStripePayment} disabled={loadingStripe}>
-            {loadingStripe ? "Processing…" : "Pay with Stripe"}
-          </button>
+    </div>
 
-          <button onClick={placeCodOrder} disabled={loadingCOD}>
-            {loadingCOD ? "Placing Order…" : "Cash On Delivery"}
-          </button>
+    {popup.show && (
+      <div className={styles.popupOverlay}>
+        <div className={`${styles.popupBox} ${styles[popup.type]}`}>
+          {popup.message}
         </div>
-
-        {popup.show && <div>{popup.message}</div>}
       </div>
+    )}
+  </div>
+);
 
-  );
 }

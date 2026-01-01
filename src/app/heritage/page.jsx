@@ -517,11 +517,6 @@ export default function HeritagePage() {
               </div>
             </div>
           )}
-
-
-
-
-
           {/* PRICE RANGE SLIDER */}
           <div className="filter-section">
             <div className="filter-section-title">

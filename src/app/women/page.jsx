@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 import { useSearchParams, useRouter } from "next/navigation";
 
 
-export default function MenPage() {
+export default function WomenPage() {
   const [priceRange, setPriceRange] = useState({
     min: 0,
     max: 5000,
