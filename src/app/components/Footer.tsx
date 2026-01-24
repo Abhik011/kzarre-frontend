@@ -93,8 +93,8 @@ const Footer = () => {
         <div className="footer-column">
           <h3>DO YOU NEED HELP ?</h3>
           <ul>
-            <li>Contacts us</li>
-            <li>FAQ</li>
+           <Link href="/contact"><li>Contacts us</li></Link>
+            <Link href="/faq"><li>FAQ</li></Link>
             
           </ul>
         </div>
@@ -103,8 +103,8 @@ const Footer = () => {
         <div className="footer-column">
           <h3>Orders & Shipping</h3>
           <ul>
-            <li>Start a Return</li>
-            <li>Shipping</li>
+            <Link href="/orders"><li>Start a Return</li></Link>  
+           <Link href="/shipping"><li>Shipping</li></Link>  
           </ul>
         </div>
 
@@ -112,15 +112,15 @@ const Footer = () => {
         <div className="footer-column">
           <h3>LEGAL TERMS AND CONDITIONS</h3>
           <ul>
-            <li>Legal & Privacy</li>
-            <li>Return Policy</li>
+            <Link href="/legal"><li>Legal & Privacy</li></Link>
+              <Link href="/return-policy"><li>Return Policy</li></Link>
           </ul>
         </div>.   <div className="footer-column">
           <h3>About</h3>
           <ul>
-            <li>About the Brand</li>
-            <li>Sustaibility</li>
-            <li>Accessibility</li>
+           <Link href="/about"><li>About the Brand</li></Link>
+             <Link href="/sustainability"><li>Sustainability</li></Link>
+             <Link href="/accessibility"><li>Accessibility</li></Link>
           </ul>
         </div>
       </div>

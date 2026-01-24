@@ -140,8 +140,9 @@ export default function StoriesSection() {
   if (stories.length === 0) return null;
 
   return (
+    <> <h2 className="stories-title">Stories</h2>
     <section className="stories-sectioni">
-      <h2 className="stories-title">Stories</h2>
+      
 
       <div ref={containerRef} className="stories-scroll">
         <div className="stories-grid">
@@ -177,5 +178,6 @@ export default function StoriesSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

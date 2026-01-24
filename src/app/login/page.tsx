@@ -24,7 +24,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // ✅ Handle input change
+  /* ================= INPUT CHANGE ================= */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -32,7 +32,7 @@ const LoginPage = () => {
     });
   };
 
-  // ✅ ✅ ✅ FINAL FIXED LOGIN HANDLER (VERCEL SAFE)
+  /* ================= LOGIN SUBMIT ================= */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -46,53 +46,61 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-     const res = await fetch("/api/auth/login", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  credentials: "include", // ✅ keeps frontend cookie
-  body: JSON.stringify({
-    email: formData.emailOrPhone,
-    password: formData.password,
-  }),
-});
-
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email: formData.emailOrPhone,
+          password: formData.password,
+        }),
+      });
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.message || "Login failed.");
-        setLoading(false);
+      /* 🔥 EMAIL NOT VERIFIED FLOW */
+      if (data.code === "EMAIL_NOT_VERIFIED") {
+        localStorage.setItem("verify_email", data.email);
+        router.replace("/verify-email");
         return;
       }
 
-      // ✅ ✅ ✅ SAVE TOKEN (FOR ALL OLD FUNCTIONS)
+      /* ❌ NORMAL ERROR */
+      if (!res.ok) {
+        setError(data.message || "Login failed.");
+        return;
+      }
+
+      /* ✅ SUCCESS LOGIN */
       if (data.token) {
         localStorage.setItem("kzarre_token", data.token);
       }
 
-      // ✅ ✅ ✅ SAVE USER DATA
       localStorage.setItem("kzarre_user", JSON.stringify(data.user));
       localStorage.setItem("kzarre_user_id", data.user.id);
 
-      // ✅ ✅ ✅ GLOBAL AUTH SYNC (FIXES VERCEL FLASH LOGOUT)
       window.dispatchEvent(new Event("auth-change"));
 
       setSuccess("Login successful! Redirecting...");
-
-      // ✅ ✅ ✅ SAFE REDIRECT (NO setTimeout)
       router.replace("/home");
     } catch (err) {
       console.error(err);
-      setError("Something went wrong.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  /* ================= UI ================= */
   return (
     <div className="login-container">
       <div className="login-left">
-        <Image src={Loginimg} alt="Login Banner" className="login-image" priority />
+        <Image
+          src={Loginimg}
+          alt="Login Banner"
+          className="login-image"
+          priority
+        />
       </div>
 
       <div className="login-right">
@@ -103,18 +111,18 @@ const LoginPage = () => {
           <p>Enter your details below</p>
 
           <form onSubmit={handleSubmit}>
-            {/* ✅ Email / Phone */}
+            {/* EMAIL */}
             <div className="input-group">
               <input
                 type="text"
                 name="emailOrPhone"
-                placeholder="Email or Phone Number"
+                placeholder="Email"
                 value={formData.emailOrPhone}
                 onChange={handleChange}
               />
             </div>
 
-            {/* ✅ Password */}
+            {/* PASSWORD */}
             <div className="input-group" style={{ position: "relative" }}>
               <input
                 type={showPassword ? "text" : "password"}
@@ -125,29 +133,25 @@ const LoginPage = () => {
               />
               <span
                 onClick={() => setShowPassword(!showPassword)}
-                style={{
-                  position: "absolute",
-                  right: 10,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  cursor: "pointer",
-                }}
+                className="password-toggle"
               >
                 {showPassword ? "Hide" : "Show"}
               </span>
             </div>
 
-            {/* ✅ Links */}
+            {/* LINKS */}
             <div className="form-links">
-              <a href="/singup">New here? <strong>Create an account</strong></a>
-              <a href="/forgot-password">Forget Password ?</a>
+              <a href="/signup">
+                New here? <strong>Create an account</strong>
+              </a>
+              <a href="/forgot-password">Forgot Password?</a>
             </div>
 
-            {/* ✅ Messages */}
+            {/* MESSAGES */}
             {error && <p className="error-text">{error}</p>}
             {success && <p className="success-text">{success}</p>}
 
-            {/* ✅ Submit Button */}
+            {/* SUBMIT */}
             <button type="submit" className="login-btn" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>

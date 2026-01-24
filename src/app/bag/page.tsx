@@ -1,30 +1,42 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import styles from "./bagsection.module.css";
-import Link from "next/link";
 import { FiTrash2 } from "react-icons/fi";
-import PageLayout from "../components/PageLayout";
+import { useRouter } from "next/navigation";
 
 const API = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
+interface CartItem {
+  productId: string;
+  name: string;
+  description?: string;
+  image: string;
+  price: number;
+  quantity: number;
+  size?: string;
+}
+
 export default function BagSection() {
-  const [cart, setCart] = useState([]);
+  const router = useRouter();
+
+  const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
 
+  /* =========================
+     FETCH CART
+  ========================= */
   useEffect(() => {
     fetchCart();
   }, []);
 
-  // ✅ Fetch cart (COOKIE AUTH)
   const fetchCart = async () => {
     try {
       const res = await fetch(`${API}/api/cart`, {
-        credentials: "include", // ✅ sends cookie automatically
+        credentials: "include",
       });
 
       if (!res.ok) {
-        console.error("Cart fetch failed");
         setCart([]);
         return;
       }
@@ -38,18 +50,18 @@ export default function BagSection() {
     }
   };
 
-  // ✅ Update quantity (COOKIE AUTH)
-  const updateQty = async (id, qty) => {
+  /* =========================
+     UPDATE QTY
+  ========================= */
+  const updateQty = async (productId: string, qty: number) => {
     if (qty < 1) return;
 
     try {
       await fetch(`${API}/api/cart/update`, {
         method: "PUT",
-        credentials: "include", // ✅ cookie auth
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId: id, quantity: qty }),
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId, quantity: qty }),
       });
 
       fetchCart();
@@ -58,12 +70,14 @@ export default function BagSection() {
     }
   };
 
-  // ✅ Remove item (COOKIE AUTH)
-  const removeItem = async (id) => {
+  /* =========================
+     REMOVE ITEM
+  ========================= */
+  const removeItem = async (productId: string) => {
     try {
-      await fetch(`${API}/api/cart/remove/${id}`, {
+      await fetch(`${API}/api/cart/remove/${productId}`, {
         method: "DELETE",
-        credentials: "include", // ✅ cookie auth
+        credentials: "include",
       });
 
       fetchCart();
@@ -72,28 +86,36 @@ export default function BagSection() {
     }
   };
 
-  // ✅ Calculations
+  /* =========================
+     GO TO CHECKOUT (NO ORDER CREATE)
+  ========================= */
+  const goToCheckout = () => {
+    router.push("/checkout/");
+  };
+
+  /* =========================
+     CALCULATIONS
+  ========================= */
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  const total = subtotal;
-
-  if (loading) return <p style={{ padding: 40 }}>Loading cart...</p>;
+  if (loading) {
+    return <p style={{ padding: 40 }}>Loading cart...</p>;
+  }
 
   return (
-
     <>
       <section className={styles.cartContainer}>
-        {/* ✅ Left Section */}
+        {/* LEFT */}
         <div className={styles.left}>
           {cart.length === 0 && <p>Your cart is empty</p>}
 
           {cart.map((item) => (
             <div
-              className={styles.cartItem}
               key={`${item.productId}-${item.size || "default"}`}
+              className={styles.cartItem}
             >
               <div className={styles.itemImg}>
                 <img
@@ -102,22 +124,21 @@ export default function BagSection() {
                   width={100}
                   height={100}
                 />
-
               </div>
 
               <div className={styles.itemInfo}>
                 <h3>{item.name}</h3>
-                <p>{item.description}</p>
+                {item.description && <p>{item.description}</p>}
 
-                <p className={styles.price}>$ {item.price}</p>
+                <p className={styles.price}>${item.price}</p>
 
                 <div className={styles.details}>
                   <span>Size: {item.size || "M"}</span>
                   <span>
-                    Qty:{" "}
+                    Qty:
                     <input
                       type="number"
-                      min="1"
+                      min={1}
                       value={item.quantity}
                       onChange={(e) =>
                         updateQty(item.productId, Number(e.target.value))
@@ -130,7 +151,6 @@ export default function BagSection() {
               <button
                 className={styles.deleteBtn}
                 onClick={() => removeItem(item.productId)}
-                aria-label="Remove item"
               >
                 <FiTrash2 size={18} />
               </button>
@@ -138,7 +158,7 @@ export default function BagSection() {
           ))}
         </div>
 
-        {/* ✅ Right Section */}
+        {/* RIGHT */}
         <div className={styles.right}>
           <div className={styles.summaryBox}>
             <h3>Order Summary</h3>
@@ -150,28 +170,23 @@ export default function BagSection() {
 
             <div className={`${styles.row} ${styles.totalRow}`}>
               <strong>Total</strong>
-              <strong>${total.toFixed(0)}</strong>
+              <strong>${subtotal.toFixed(0)}</strong>
             </div>
 
-            <div className={styles.promo}>
-              <input type="text" placeholder="Add promo code" />
-              <button>Apply</button>
-            </div>
-
-            <Link href="/checkout">
-              <button className={styles.checkoutBtn}>
-                Go to Checkout →
-              </button>
-            </Link>
+            <button
+              className={styles.checkoutBtn}
+              onClick={goToCheckout}
+              disabled={cart.length === 0}
+            >
+              Go to Checkout →
+            </button>
           </div>
         </div>
       </section>
 
-      {/* ✅ Share */}
       <div className={styles.shareSection}>
         <button className={styles.shareBtn}>Share</button>
       </div>
     </>
-   
   );
 }

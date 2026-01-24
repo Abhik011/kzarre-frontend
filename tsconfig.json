@@ -35,7 +35,7 @@
     ".next/types/**/*.ts",
     "src/app/profile/page.jsx",
     ".next/dev/types/**/*.ts"
-, "src/app/maintenance/page.jsx"  ],
+, "src/app/maintenance/page.jsx", "src/app/checkout/page.tsx"  ],
   "exclude": [
     "node_modules"
   ]

@@ -3,11 +3,11 @@
    ================================ */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 .login-container {
+  margin-top: 4%;
   display: flex;
   width: 100%;
   height: 100vh;
   background-color: #fff;
-  font-family: "Poppins", sans-serif;
   overflow: hidden;
 }
 

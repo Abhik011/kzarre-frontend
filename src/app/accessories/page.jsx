@@ -67,7 +67,7 @@ export default function MenPage() {
 
         const data = await res.json();
 
-        // ✅ ACCESSORIES FILTER
+
        let accessoriesProducts = data.products.filter((p) =>
   p.category?.toLowerCase() === "accessories" ||
   (Array.isArray(p.categories) &&
@@ -75,7 +75,7 @@ export default function MenPage() {
 );
 
 
-        // ✅ ✅ ✅ OUT-OF-STOCK GOES DOWN
+       
         accessoriesProducts = accessoriesProducts.sort((a, b) => {
           const aOut = Number(a.stockQuantity) <= 0;
           const bOut = Number(b.stockQuantity) <= 0;
