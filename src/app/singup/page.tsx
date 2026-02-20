@@ -192,7 +192,7 @@ const SingupPage = () => {
       <div className="register-left">
         <div className="register-box">
           <h2>
-            Register to <span>KZARRÈ</span>
+            Register to <span>KZARRĒ</span>
           </h2>
           <p>Enter your details below</p>
 

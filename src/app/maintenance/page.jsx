@@ -17,7 +17,7 @@ export default function MaintenancePage() {
         <div className={styles.icon}>    
             <Image
           src="/Asset/logo.png"
-          alt="KZARRÈ"
+          alt="KZARRĒ"
           width={300}
           height={50}
           priority
@@ -39,7 +39,7 @@ export default function MaintenancePage() {
         <div className={styles.spinner} />
 
         <div className={styles.footer}>
-          © {new Date().getFullYear()} KZARRÈ
+          © {new Date().getFullYear()} KZARRĒ
         </div>
       </div>
     </div>

@@ -106,7 +106,7 @@ const LoginPage = () => {
       <div className="login-right">
         <div className="login-box">
           <h2>
-            Log in to <span>KZARRÈ</span>
+            Log in to <span>KZARRĒ</span>
           </h2>
           <p>Enter your details below</p>
 

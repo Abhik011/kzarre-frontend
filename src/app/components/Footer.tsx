@@ -47,7 +47,7 @@ const Footer = () => {
       {/* LOGO */}
       <div className="footer-logo logo">
         <Link href="/home">
-          <Image src={logo} alt="KZARRÈ Logo" className="logo-img" />
+          <Image src={logo} alt="KZARRĒ Logo" className="logo-img" />
         </Link>
       </div>
 
@@ -126,7 +126,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <div className="footer-bottom-left">© KZARRÈ. 2025</div>
+        <div className="footer-bottom-left">© KZARRĒ. 2025</div>
         <div className="footer-bottom-center">
           SHIPPING TO: UNITED STATES / ENGLISH
         </div>

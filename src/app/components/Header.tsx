@@ -137,7 +137,7 @@ const Header = () => {
             <Link href="/home">
               <Image
                 src="/Asset/logo.png"
-                alt="KZARRÈ Logo"
+                alt="KZARRĒ Logo"
                 width={160}
                 height={40}
                 loading="eager"

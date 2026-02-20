@@ -42,7 +42,7 @@ export default function OrderConfirmationPage() {
         <div className={styles.iconWrap}>
           <CheckCircle className={styles.bigIcon} size={60} />
           <h2>Order Confirmed!</h2>
-          <p>Thank you for shopping with <strong>KZARRÉ</strong></p>
+          <p>Thank you for shopping with <strong>KZARRĒ</strong></p>
         </div>
 
         {/* Order details */}
