@@ -11,6 +11,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^8.5.3",
     "@vercel/analytics": "^1.5.0",
+    "baseline-browser-mapping": "^2.10.0",
     "bcryptjs": "^3.0.3",
     "cookie": "^1.0.2",
     "css-loader": "^7.1.2",
