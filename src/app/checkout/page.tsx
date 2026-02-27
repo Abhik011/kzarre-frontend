@@ -143,7 +143,8 @@ export default function CheckoutPage() {
     const res = await fetch(`${API}${endpoint}`, {
       method: "POST",
       credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json",  Authorization: `Bearer ${token}`, },
+      
       body: JSON.stringify(body),
     });
 
