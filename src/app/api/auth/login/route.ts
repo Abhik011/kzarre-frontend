@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     // ✅ Call your backend using ENV URL
     const backendRes = await fetch(
-      `${BACKEND_URL}/api/auth/login`,
+      `${BACKEND_URL}/api/api/auth/login`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
