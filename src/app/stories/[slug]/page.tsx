@@ -35,7 +35,7 @@ interface Story {
  const [story, setStory] = useState<Story | null>(null);
 
   useEffect(() => {
-    fetch(`/api/stories/${slug}`)
+    fetch(`/api/api/stories/${slug}`)
       .then((r) => r.json())
       .then((d) => setStory(d.story));
   }, [slug]);
