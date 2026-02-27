@@ -63,9 +63,9 @@ export default function MenPage() {
     async function refresh() {
       try {
         const res = await fetch(
-  `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/products`
-);
-// df
+          `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/products`
+        );
+        // df
         const data = await res.json();
 
         // ✅ MEN FILTER
@@ -448,6 +448,7 @@ export default function MenPage() {
 
   /* ================= ✅ FINAL MEN PAGE ================= */
   return (
+    <PageLayout>
     <section className="gallery">
       <button className="open-filter-btn" onClick={() => setIsFilterOpen(true)}>
         FILTER
@@ -538,40 +539,40 @@ export default function MenPage() {
             </div>
           )}
 
-         {/* ================= SIZE ================= */}
-{dynamicFilters.sizes.length > 0 && (
-  <div className="filter-section">
-    <div className="filter-section-title">SIZE</div>
+          {/* ================= SIZE ================= */}
+          {dynamicFilters.sizes.length > 0 && (
+            <div className="filter-section">
+              <div className="filter-section-title">SIZE</div>
 
-    <div className="filter-size-grid">
-      {dynamicFilters.sizes.map((s) => {
-        const isSelected = searchParams.get("size") === s;
+              <div className="filter-size-grid">
+                {dynamicFilters.sizes.map((s) => {
+                  const isSelected = searchParams.get("size") === s;
 
-        return (
-          <button
-            key={s}
-            type="button"
-            className={`size-box ${isSelected ? "active" : ""}`}
-            onClick={() => {
-              const p = new URLSearchParams(searchParams);
+                  return (
+                    <button
+                      key={s}
+                      type="button"
+                      className={`size-box ${isSelected ? "active" : ""}`}
+                      onClick={() => {
+                        const p = new URLSearchParams(searchParams);
 
-              // 🔁 Toggle behavior
-              if (isSelected) {
-                p.delete("size");
-              } else {
-                p.set("size", s);
-              }
+                        // 🔁 Toggle behavior
+                        if (isSelected) {
+                          p.delete("size");
+                        } else {
+                          p.set("size", s);
+                        }
 
-              router.push(`?${p.toString()}`);
-            }}
-          >
-            {s}
-          </button>
-        );
-      })}
-    </div>
-  </div>
-)}
+                        router.push(`?${p.toString()}`);
+                      }}
+                    >
+                      {s}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
 
 
@@ -725,6 +726,7 @@ export default function MenPage() {
         ))}
       </div>
     </section>
+</PageLayout>
 
   );
 }

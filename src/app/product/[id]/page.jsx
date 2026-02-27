@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import "./product.css";
 import { addToCart } from "../../utils/addToCart";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
-
+import Pagelayout from "../../components/PageLayout";
 /* ==================== HELPERS ==================== */
 function formatPrice(num) {
   return Number(num).toLocaleString("en-US");
@@ -308,6 +308,7 @@ export default function ProductPage() {
 
 
   return (
+    <Pagelayout>
     <main className="product-page">
       <div className="product-top">
         {/* IMAGE */}
@@ -499,6 +500,7 @@ export default function ProductPage() {
       )}
 
     </main>
+    </Pagelayout>
 
   );
 }

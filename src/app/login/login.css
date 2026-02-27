@@ -3,7 +3,7 @@
    ================================ */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 .login-container {
-  margin-top: 4%;
+  margin-top: 0%;
   display: flex;
   width: 100%;
   height: 100vh;
@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  padding-left: 4rem;
+  padding-left: 0rem;
   width: 100%;
   height: 100vh;
 }
@@ -70,13 +70,14 @@
 /* ========== INPUT FIELDS ========== */
 .input-group {
   margin-bottom: 26px;
+   position: relative;
 }
 
 .input-group input {
   width: 100%;
   border: none;
   border-bottom: 1px solid #aaa;
-  padding: 10px 0;
+  padding: 0px 0;
   font-size: 0.95rem;
   color: #000;
   background: transparent;
@@ -87,7 +88,22 @@
 .input-group input:focus {
   border-color: #EFBF04;
 }
+/* ========== PASSWORD TOGGLE ========== */
+.password-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #666;
+  user-select: none;
+  transition: color 0.2s ease;
+}
 
+.password-toggle:hover {
+  color: #EFBF04;
+}
 /* ========== FORM LINKS ========== */
 .form-links {
   display: flex;

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./bagsection.module.css";
 import { FiTrash2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-
+import PageLayout from "../components/PageLayout";
 const API = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 interface CartItem {
@@ -106,6 +106,7 @@ export default function BagSection() {
   }
 
   return (
+    <PageLayout>
     <>
       <section className={styles.cartContainer}>
         {/* LEFT */}
@@ -188,5 +189,6 @@ export default function BagSection() {
         <button className={styles.shareBtn}>Share</button>
       </div>
     </>
+    </PageLayout>
   );
 }

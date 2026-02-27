@@ -107,11 +107,9 @@ export default function OrderDetailsPage() {
   const [successMsg, setSuccessMsg] = useState("");
 
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-
   /* =======================
      ✅ FETCH SINGLE ORDER
   ======================= */
-
   useEffect(() => {
     if (!orderId) return;
 
@@ -138,7 +136,6 @@ export default function OrderDetailsPage() {
   /* =======================
      ✅ RELOAD ORDER
   ======================= */
-
   async function reloadOrder() {
     if (!orderId) return;
     try {
@@ -151,11 +148,9 @@ export default function OrderDetailsPage() {
       console.error("reload error:", e);
     }
   }
-
   /* =======================
      ✅ CANCEL / REFUND
   ======================= */
-
   const handleCancelOrder = async () => {
     if (!order || !orderId) return;
 
@@ -268,7 +263,7 @@ export default function OrderDetailsPage() {
   ======================= */
 
   return (
-
+<PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
         {/* ===== SIDEBAR ===== */}
@@ -601,6 +596,6 @@ export default function OrderDetailsPage() {
         </main>
       </div>
     </div>
-
+</PageLayout>
   );
 }

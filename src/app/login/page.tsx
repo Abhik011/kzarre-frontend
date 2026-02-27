@@ -123,7 +123,7 @@ const LoginPage = () => {
             </div>
 
             {/* PASSWORD */}
-            <div className="input-group" style={{ position: "relative" }}>
+            <div className="input-group password-group">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -141,7 +141,7 @@ const LoginPage = () => {
 
             {/* LINKS */}
             <div className="form-links">
-              <a href="/signup">
+              <a href="/register">
                 New here? <strong>Create an account</strong>
               </a>
               <a href="/forgot-password">Forgot Password?</a>

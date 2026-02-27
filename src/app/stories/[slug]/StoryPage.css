@@ -17,7 +17,7 @@
   --section-spacing: 48px;
 
   --text-align: left;
-  --max-width: 760px;
+  --max-width: 1060px;
 
   --story-bg: #ffffff;
 }
@@ -37,7 +37,7 @@
 ====================================================== */
 .story-hero {
   width: 100%;
-  height: auto;
+  height: 94vh;
   overflow: hidden;
   position: relative;
 }
@@ -56,7 +56,7 @@
   margin: -200px auto 0;
   background: var(--story-bg);
   padding: 56px 72px;
-  border-radius: 28px;
+  border-radius: 8px;
   position: relative;
   z-index: 2;
 

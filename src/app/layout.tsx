@@ -28,11 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.variable}>
-        {!hideLayout && <Header />}
+        {/* {!hideLayout && <Header />} */}
 
         {children}
 
-        {!hideLayout && <Footer />}
+        {/* {!hideLayout && <Footer />} */}
       </body>
     </html>
   );

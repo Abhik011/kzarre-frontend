@@ -5,7 +5,7 @@ import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useSearchParams, useRouter } from "next/navigation";
-
+import PageLayout from "../components/PageLayout";
 
 export default function MenPage() {
   const [priceRange, setPriceRange] = useState({
@@ -393,6 +393,7 @@ export default function MenPage() {
 
   /* ================= ✅ FINAL WOMEN PAGE ================= */
   return (
+    <PageLayout>
     <section className="gallery">
       <button className="open-filter-btn" onClick={() => setIsFilterOpen(true)}>
         FILTER
@@ -670,6 +671,6 @@ export default function MenPage() {
         ))}
       </div>
     </section>
-
+    </PageLayout>
   );
 }

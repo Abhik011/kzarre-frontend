@@ -5,7 +5,7 @@ import "./Styles.css";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useSearchParams, useRouter } from "next/navigation";
-
+import Pagelayout from "../components/PageLayout";
 
 export default function heritagePage() {
   const [priceRange, setPriceRange] = useState({
@@ -68,11 +68,11 @@ export default function heritagePage() {
         const data = await res.json();
 
         // ✅ ACCESSORIES FILTER
-      let heritageProducts = data.products.filter((p) =>
-  p.category?.toLowerCase() === "heritage" ||
-  (Array.isArray(p.categories) &&
-    p.categories.some(c => c.toLowerCase() === "heritage"))
-);
+        let heritageProducts = data.products.filter((p) =>
+          p.category?.toLowerCase() === "heritage" ||
+          (Array.isArray(p.categories) &&
+            p.categories.some(c => c.toLowerCase() === "heritage"))
+        );
 
 
         // ✅ ✅ ✅ OUT-OF-STOCK GOES DOWN
@@ -322,6 +322,7 @@ export default function heritagePage() {
     const isOutOfStock = Number(p.stockQuantity) <= 0;
 
     return (
+
       <div
         className="gallery-item"
         onMouseEnter={() => setHoveredId(p._id)}
@@ -330,8 +331,6 @@ export default function heritagePage() {
         <div className="product-row">
           <Link href={`/product/${p._id}`}>
             <div className="img-wrapper notify-overlay-parent">
-
-
               <img
                 src={url}
                 alt={p.name}
@@ -361,19 +360,15 @@ export default function heritagePage() {
           <p className="gallery-price">$ {formatPrice(p.price)}</p>
         </Link>
       </div>
+
     );
   };
-
   /* ================= ✅ FINAL DATA ================= */
   const firstFour = prioritizedProducts.slice(0, 4);
   const remaining = prioritizedProducts.slice(4);
-
-
-
   /* ================= ✅ SKELETON LOADER ================= */
   if (loading) {
     return (
-
       <section className="gallery">
         <div className="gallery-div reorder-animate">
 
@@ -393,283 +388,277 @@ export default function heritagePage() {
 
   /* ================= ✅ FINAL WOMEN PAGE ================= */
   return (
-    <section className="gallery">
-      <button className="open-filter-btn" onClick={() => setIsFilterOpen(true)}>
-        FILTER
-      </button>
-      {matchedCount > 0 && (
-        <div className="filter-result-count">
-          Showing {matchedCount} matching products first
-        </div>
-      )}
+    <Pagelayout>
+      <section className="gallery">
+        <button className="open-filter-btn" onClick={() => setIsFilterOpen(true)}>
+          FILTER
+        </button>
+        {matchedCount > 0 && (
+          <div className="filter-result-count">
+            Showing {matchedCount} matching products first
+          </div>
+        )}
 
 
-      {isFilterOpen && (
-        <div className="filter-backdrop" onClick={() => setIsFilterOpen(false)} />
-      )}
+        {isFilterOpen && (
+          <div className="filter-backdrop" onClick={() => setIsFilterOpen(false)} />
+        )}
 
-      <div className={`filter-drawer ${isFilterOpen ? "open" : ""}`}>
-        <div className="filter-header">
-          <span>FILTERS</span>
-          <button onClick={() => setIsFilterOpen(false)}>✕</button>
-        </div>
+        <div className={`filter-drawer ${isFilterOpen ? "open" : ""}`}>
+          <div className="filter-header">
+            <span>FILTERS</span>
+            <button onClick={() => setIsFilterOpen(false)}>✕</button>
+          </div>
 
-        <div className="filter-content">
-          {/* CATEGORY */}
+          <div className="filter-content">
+            {/* CATEGORY */}
 
 
-          {/* ================= CATEGORY ================= */}
-          {dynamicFilters.categories.length > 0 && (
-            <div className="filter-section">
-              <div className="filter-section-title">CATEGORY</div>
+            {/* ================= CATEGORY ================= */}
+            {dynamicFilters.categories.length > 0 && (
+              <div className="filter-section">
+                <div className="filter-section-title">CATEGORY</div>
 
-              <div className="filter-options">
-                {dynamicFilters.categories.map((cat) => {
-                  const isChecked =
-                    searchParams.get("category")?.toLowerCase() === cat.toLowerCase();
+                <div className="filter-options">
+                  {dynamicFilters.categories.map((cat) => {
+                    const isChecked =
+                      searchParams.get("category")?.toLowerCase() === cat.toLowerCase();
 
-                  return (
-                    <label key={cat} className="filter-option">
-                      <input
-                        type="radio"
-                        name="category"
-                        checked={isChecked}
-                        onChange={() => {
+                    return (
+                      <label key={cat} className="filter-option">
+                        <input
+                          type="radio"
+                          name="category"
+                          checked={isChecked}
+                          onChange={() => {
+                            const p = new URLSearchParams(searchParams);
+                            p.set("category", cat);
+                            router.push(`?${p.toString()}`);
+                          }}
+                        />
+                        {cat}
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+
+            {dynamicFilters.colors.length > 0 && (
+              <div className="filter-section">
+                <div className="filter-section-title">COLOR</div>
+
+                <div className="color-grid">
+                  {dynamicFilters.colors.map((c) => {
+                    const value = c.toLowerCase();
+                    const isActive = searchParams.get("color") === value;
+
+                    return (
+                      <button
+                        key={value}
+                        className={`color-swatch ${isActive ? "active" : ""}`}
+                        style={{ backgroundColor: value }}
+                        title={c}
+                        onClick={() => {
                           const p = new URLSearchParams(searchParams);
-                          p.set("category", cat);
+
+                          // toggle behavior
+                          if (isActive) {
+                            p.delete("color");
+                          } else {
+                            p.set("color", value);
+                          }
+
                           router.push(`?${p.toString()}`);
                         }}
                       />
-                      {cat}
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-
-          {dynamicFilters.colors.length > 0 && (
-            <div className="filter-section">
-              <div className="filter-section-title">COLOR</div>
-
-              <div className="color-grid">
-                {dynamicFilters.colors.map((c) => {
-                  const value = c.toLowerCase();
-                  const isActive = searchParams.get("color") === value;
-
-                  return (
-                    <button
-                      key={value}
-                      className={`color-swatch ${isActive ? "active" : ""}`}
-                      style={{ backgroundColor: value }}
-                      title={c}
-                      onClick={() => {
-                        const p = new URLSearchParams(searchParams);
-
-                        // toggle behavior
-                        if (isActive) {
-                          p.delete("color");
-                        } else {
-                          p.set("color", value);
-                        }
-
-                        router.push(`?${p.toString()}`);
-                      }}
-                    />
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* ================= SIZE ================= */}
-          {dynamicFilters.sizes.length > 0 && (
-            <div className="filter-section">
-              <div className="filter-section-title">SIZE</div>
-
-              <div className="filter-size-grid">
-                {dynamicFilters.sizes.map((s) => {
-                  const isSelected = searchParams.get("size") === s;
-
-                  return (
-                    <button
-                      key={s}
-                      type="button"
-                      className={`size-box ${isSelected ? "active" : ""}`}
-                      onClick={() => {
-                        const p = new URLSearchParams(searchParams);
-
-                        // 🔁 Toggle behavior
-                        if (isSelected) {
-                          p.delete("size");
-                        } else {
-                          p.set("size", s);
-                        }
-
-                        router.push(`?${p.toString()}`);
-                      }}
-                    >
-                      {s}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-
-
-
-
-          {/* PRICE RANGE SLIDER */}
-          <div className="filter-section">
-            <div className="filter-section-title">
-              <span>PRICE</span>
-            </div>
-
-            <div className="price-slider-wrapper">
-              {/* RANGE TRACK */}
-              <div className="price-track" />
-
-              {/* ACTIVE RANGE */}
-              <div
-                className="price-range-active"
-                style={{
-                  left: `${((priceRange.min - priceLimits.min) /
-                    (priceLimits.max - priceLimits.min)) *
-                    100
-                    }%`,
-                  width: `${((priceRange.max - priceRange.min) /
-                    (priceLimits.max - priceLimits.min)) *
-                    100
-                    }%`,
-                }}
-              />
-
-              {/* MIN SLIDER */}
-              <input
-                type="range"
-                min={priceLimits.min}
-                max={priceLimits.max}
-                value={priceRange.min}
-                onChange={(e) =>
-                  setPriceRange((prev) => ({
-                    ...prev,
-                    min: Math.min(Number(e.target.value), prev.max - 1),
-                  }))
-                }
-                className="price-thumb"
-              />
-
-              {/* MAX SLIDER */}
-              <input
-                type="range"
-                min={priceLimits.min}
-                max={priceLimits.max}
-                value={priceRange.max}
-                onChange={(e) =>
-                  setPriceRange((prev) => ({
-                    ...prev,
-                    max: Math.max(Number(e.target.value), prev.min + 1),
-                  }))
-                }
-                className="price-thumb"
-              />
-
-              {/* LABELS */}
-              <div className="price-labels">
-                <div className="price-label">
-                  <p>Min</p>
-                  <span>${priceRange.min}</span>
-                </div>
-
-                <div className="price-label">
-                  <p>Max</p>
-                  <span>${priceRange.max}</span>
+                    );
+                  })}
                 </div>
               </div>
+            )}
 
+            {/* ================= SIZE ================= */}
+            {dynamicFilters.sizes.length > 0 && (
+              <div className="filter-section">
+                <div className="filter-section-title">SIZE</div>
+
+                <div className="filter-size-grid">
+                  {dynamicFilters.sizes.map((s) => {
+                    const isSelected = searchParams.get("size") === s;
+
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        className={`size-box ${isSelected ? "active" : ""}`}
+                        onClick={() => {
+                          const p = new URLSearchParams(searchParams);
+
+                          // 🔁 Toggle behavior
+                          if (isSelected) {
+                            p.delete("size");
+                          } else {
+                            p.set("size", s);
+                          }
+
+                          router.push(`?${p.toString()}`);
+                        }}
+                      >
+                        {s}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* PRICE RANGE SLIDER */}
+            <div className="filter-section">
+              <div className="filter-section-title">
+                <span>PRICE</span>
+              </div>
+
+              <div className="price-slider-wrapper">
+                {/* RANGE TRACK */}
+                <div className="price-track" />
+
+                {/* ACTIVE RANGE */}
+                <div
+                  className="price-range-active"
+                  style={{
+                    left: `${((priceRange.min - priceLimits.min) /
+                      (priceLimits.max - priceLimits.min)) *
+                      100
+                      }%`,
+                    width: `${((priceRange.max - priceRange.min) /
+                      (priceLimits.max - priceLimits.min)) *
+                      100
+                      }%`,
+                  }}
+                />
+
+                {/* MIN SLIDER */}
+                <input
+                  type="range"
+                  min={priceLimits.min}
+                  max={priceLimits.max}
+                  value={priceRange.min}
+                  onChange={(e) =>
+                    setPriceRange((prev) => ({
+                      ...prev,
+                      min: Math.min(Number(e.target.value), prev.max - 1),
+                    }))
+                  }
+                  className="price-thumb"
+                />
+
+                {/* MAX SLIDER */}
+                <input
+                  type="range"
+                  min={priceLimits.min}
+                  max={priceLimits.max}
+                  value={priceRange.max}
+                  onChange={(e) =>
+                    setPriceRange((prev) => ({
+                      ...prev,
+                      max: Math.max(Number(e.target.value), prev.min + 1),
+                    }))
+                  }
+                  className="price-thumb"
+                />
+
+                {/* LABELS */}
+                <div className="price-labels">
+                  <div className="price-label">
+                    <p>Min</p>
+                    <span>${priceRange.min}</span>
+                  </div>
+
+                  <div className="price-label">
+                    <p>Max</p>
+                    <span>${priceRange.max}</span>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
 
+          <div className="filter-footer">
+            <button
+              onClick={() => {
+                setPriceRange(priceLimits);
+                router.push("/accessories");
+              }}
+            >
+              CLEAR
+            </button>
 
+            <button
+              onClick={() => {
+                const p = new URLSearchParams(searchParams);
+
+                p.set("minPrice", String(priceRange.min));
+                p.set("maxPrice", String(priceRange.max));
+
+                router.push(`?${p.toString()}`);
+                setIsFilterOpen(false);
+              }}
+            >
+              APPLY
+            </button>
+
+          </div>
         </div>
 
-        <div className="filter-footer">
-          <button
-            onClick={() => {
-              setPriceRange(priceLimits);
-              router.push("/accessories");
-            }}
-          >
-            CLEAR
-          </button>
+        <div className="gallery-div reorder-animate">
 
-          <button
-            onClick={() => {
-              const p = new URLSearchParams(searchParams);
+          {firstFour.map((p) => (
+            <ProductCard
+              key={p._id}
+              p={p}
+              isMatched={
+                hasActiveFilters(searchParams) &&
+                doesProductMatchFilters(p, searchParams)
+              }
+            />
 
-              p.set("minPrice", String(priceRange.min));
-              p.set("maxPrice", String(priceRange.max));
-
-              router.push(`?${p.toString()}`);
-              setIsFilterOpen(false);
-            }}
-          >
-            APPLY
-          </button>
-
+          ))}
         </div>
-      </div>
 
+        <div className="gallery-video">
+          {cmsVideo && (
+            <video
+              src={cmsVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              fetchPriority="high"
+              poster="/video-poster-Heritage.jpg"
+              className="heritage-video"
+            />
+          )}
+        </div>
 
-      <div className="gallery-div reorder-animate">
+        <div className="gallery-div reorder-animate section-two">
 
-        {firstFour.map((p) => (
-          <ProductCard
-            key={p._id}
-            p={p}
-            isMatched={
-              hasActiveFilters(searchParams) &&
-              doesProductMatchFilters(p, searchParams)
-            }
-          />
+          {remaining.map((p) => (
+            <ProductCard
+              key={p._id}
+              p={p}
+              isMatched={
+                hasActiveFilters(searchParams) &&
+                doesProductMatchFilters(p, searchParams)
+              }
+            />
 
-        ))}
-      </div>
-
-      <div className="gallery-video">
-        {cmsVideo && (
-          <video
-            src={cmsVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            fetchPriority="high"
-            poster="/video-poster-Heritage.jpg"
-            className="heritage-video"
-          />
-        )}
-      </div>
-
-      <div className="gallery-div reorder-animate section-two">
-
-        {remaining.map((p) => (
-          <ProductCard
-            key={p._id}
-            p={p}
-            isMatched={
-              hasActiveFilters(searchParams) &&
-              doesProductMatchFilters(p, searchParams)
-            }
-          />
-
-        ))}
-      </div>
-    </section>
-
+          ))}
+        </div>
+      </section>
+    </Pagelayout>
   );
 }

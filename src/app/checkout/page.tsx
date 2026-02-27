@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./Checkout.module.css";
 import { useSearchParams, useRouter } from "next/navigation";
-
+import PageLayout from "../components/PageLayout";
 const API = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 export default function CheckoutPage() {
@@ -164,6 +164,7 @@ export default function CheckoutPage() {
 
   /* ================= UI ================= */
   return (
+    <PageLayout>
     <div className={styles.pageWrap}>
       <div className={styles.container}>
         {/* LEFT */}
@@ -229,5 +230,6 @@ export default function CheckoutPage() {
         </aside>
       </div>
     </div>
+    </PageLayout>
   );
 }

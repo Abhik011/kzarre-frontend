@@ -7,7 +7,6 @@ import styles from "./Profile.module.css";
 import PageLayout from "../components/PageLayout";
 import SidebarNav from "../components/SidebarNav";
 import { useAuth } from "../hooks/useAuth";
-
 const API = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 /* ================================
@@ -242,7 +241,7 @@ export default function ProfilePage() {
   ================================= */
 
   return (
-
+ <PageLayout>
       <div className={styles.pageWrap}>
         <Toast toast={toast} onClose={() => setToast(null)} />
 
@@ -380,6 +379,6 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
-
+</PageLayout>
   );
 }

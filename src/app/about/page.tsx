@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import "./about.css";
-
+import PageLayout from "../components/PageLayout";
 type AboutGridItem = {
   text?: string;
   images?: string[];
@@ -42,6 +42,7 @@ export default function AboutPage() {
   const secondBlock = about.grid?.[1];
 
   return (
+    <PageLayout>
     <div className="about-container">
       {/* ========== HERO VIDEO ========== */}
       {about.heroVideo && (
@@ -115,5 +116,6 @@ export default function AboutPage() {
         <h3>{about.footer.heading}</h3>
       </section>
     </div>
+    </PageLayout>
   );
 }

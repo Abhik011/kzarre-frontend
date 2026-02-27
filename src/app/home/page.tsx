@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import Loading from '../loading';
 import Cookies from "js-cookie";
 import './home.css';
-
+import Pagelayout from '../components/PageLayout';
 /* ===========================
    🔥 LAZY LOAD COMPONENTS
 =========================== */
@@ -70,6 +70,7 @@ export default function Home() {
   if (loading) return <Loading />;
 
   return (
+     <Pagelayout>
     <>
       {/* ===========================
          🎥 HERO VIDEO (OPTIMIZED)
@@ -117,5 +118,6 @@ export default function Home() {
         <Stories />
       </div>
     </>
+    </Pagelayout>
   );
 }

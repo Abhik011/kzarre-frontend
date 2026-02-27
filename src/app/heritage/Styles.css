@@ -368,8 +368,7 @@
 }
 
 .gallery {
-  margin-top: 2%;
-
+  margin-top: 1%;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -395,16 +394,11 @@
 .reorder-animate .gallery-item {
   transition: transform 0.35s ease, opacity 0.35s ease;
 }
-
-
 .gallery-item {
-
   /* margin-top: 10%; */
   width: 100%;
   height: 510px;
   scroll-behavior: smooth;
-
-
 }
 
 .section-two{

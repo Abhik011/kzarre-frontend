@@ -105,106 +105,106 @@ export default function OrdersPage() {
 
   return (
 
-   
-      <div className={styles.pageWrap}>
-         
-        <div className={styles.container}>
-          {/* ================= SIDEBAR ================= */}
-   <SidebarNav />
-          {/* ================= MAIN CONTENT ================= */}
-          <main className={styles.content}>
-            <h2 className={styles.sectionTitle}>Orders</h2>
+<PageLayout>
+    <div className={styles.pageWrap}>
 
-            {/* ================= FILTERS (ALWAYS VISIBLE) ================= */}
-            <div className={styles.filterRow}>
-              {["All", "In Progress", "Shipped", "Delivered", "Cancelled"].map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setActiveFilter(f)}
-                  className={`${styles.filterBtn} ${activeFilter === f ? styles.activeFilter : ""
-                    }`}
+      <div className={styles.container}>
+        {/* ================= SIDEBAR ================= */}
+        <SidebarNav />
+        {/* ================= MAIN CONTENT ================= */}
+        <main className={styles.content}>
+          <h2 className={styles.sectionTitle}>Orders</h2>
+
+          {/* ================= FILTERS (ALWAYS VISIBLE) ================= */}
+          <div className={styles.filterRow}>
+            {["All", "In Progress", "Shipped", "Delivered", "Cancelled"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setActiveFilter(f)}
+                className={`${styles.filterBtn} ${activeFilter === f ? styles.activeFilter : ""
+                  }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+
+          {/* ================= STATES ================= */}
+          {loading && <p>Loading orders...</p>}
+          {error && <p className={styles.error}>{error}</p>}
+
+          {!loading && filteredOrders.length === 0 && (
+            <div className={styles.emptyBox}>
+              <p className={styles.emptyTitle}>No orders found</p>
+              <p className={styles.emptyText}>Try changing the filter.</p>
+            </div>
+          )}
+
+          {/* ================= ORDERS LIST ================= */}
+          <div className={styles.ordersList}>
+            {filteredOrders.map((order) => {
+              const firstItem = order.items?.[0];
+
+              return (
+                <Link
+                  key={order._id}
+                  href={`/orders/${order.orderId}`}
+                  className={styles.orderCard}
                 >
-                  {f}
-                </button>
-              ))}
-            </div>
-
-            {/* ================= STATES ================= */}
-            {loading && <p>Loading orders...</p>}
-            {error && <p className={styles.error}>{error}</p>}
-
-            {!loading && filteredOrders.length === 0 && (
-              <div className={styles.emptyBox}>
-                <p className={styles.emptyTitle}>No orders found</p>
-                <p className={styles.emptyText}>Try changing the filter.</p>
-              </div>
-            )}
-
-            {/* ================= ORDERS LIST ================= */}
-            <div className={styles.ordersList}>
-              {filteredOrders.map((order) => {
-                const firstItem = order.items?.[0];
-
-                return (
-                  <Link
-                    key={order._id}
-                    href={`/orders/${order.orderId}`}
-                    className={styles.orderCard}
-                  >
-                    <div className={styles.statusRow}>
-                      <span
-                        className={`${styles.statusTag} ${styles[
-                          normalizeStatus(order.status)?.replace(/\s/g, "")
-                          ]
-                          }`}
-                      >
-                        {normalizeStatus(order.status)}
-                      </span>
+                  <div className={styles.statusRow}>
+                    <span
+                      className={`${styles.statusTag} ${styles[
+                        normalizeStatus(order.status)?.replace(/\s/g, "")
+                      ]
+                        }`}
+                    >
+                      {normalizeStatus(order.status)}
+                    </span>
 
 
-                      <span className={styles.date}>
-                        {new Date(order.createdAt).toDateString()}
-                      </span>
+                    <span className={styles.date}>
+                      {new Date(order.createdAt).toDateString()}
+                    </span>
+                  </div>
+
+                  <div className={styles.orderContent}>
+                    <div className={styles.imageWrap}>
+                      <Image
+                        src={
+                          firstItem?.image ||
+                          "https://via.placeholder.com/100"
+                        }
+                        alt={firstItem?.name || "Product"}
+                        width={80}
+                        height={80}
+                        className={styles.imgs}
+                        unoptimized
+                      />
                     </div>
 
-                    <div className={styles.orderContent}>
-                      <div className={styles.imageWrap}>
-                        <Image
-                          src={
-                            firstItem?.image ||
-                            "https://via.placeholder.com/100"
-                          }
-                          alt={firstItem?.name || "Product"}
-                          width={80}
-                          height={80}
-                          className={styles.imgs}
-                          unoptimized
-                        />
-                      </div>
+                    <div className={styles.orderInfo}>
+                      <p className={styles.orderId}>
+                        Order ID: <span>{order.orderId}</span>
+                      </p>
 
-                      <div className={styles.orderInfo}>
-                        <p className={styles.orderId}>
-                          Order ID: <span>{order.orderId}</span>
-                        </p>
+                      <h4 className={styles.title}>{firstItem?.name}</h4>
 
-                        <h4 className={styles.title}>{firstItem?.name}</h4>
+                      <p className={styles.desc}>
+                        Colour: {firstItem?.color} | Size: {firstItem?.size}
+                      </p>
 
-                        <p className={styles.desc}>
-                          Colour: {firstItem?.color} | Size: {firstItem?.size}
-                        </p>
-
-                        <p className={styles.price}>${order.amount}</p>
-                      </div>
+                      <p className={styles.price}>${order.amount}</p>
                     </div>
+                  </div>
 
-                    <div className={styles.arrow}>›</div>
-                  </Link>
-                );
-              })}
-            </div>
-          </main>
-        </div>
+                  <div className={styles.arrow}>›</div>
+                </Link>
+              );
+            })}
+          </div>
+        </main>
       </div>
- 
+    </div>
+</PageLayout>
   );
 }
